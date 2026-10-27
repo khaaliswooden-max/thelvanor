@@ -1,26 +1,328 @@
 @import "tailwindcss";
+@import "@fontsource-variable/archivo/wdth.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ground: #000000;
+  --surface: #111214;
+  --surface-2: #17191c;
+  --line: #2a2c30;
+  --line-strong: #3b3e44;
+  --ink: #e8e8e6;
+  --ink-muted: #8b9099;
+  --ink-faint: #5a5f67;
+  --keg: #e8650a;
+  --keg-dim: #8a3c06;
+
+  --font-sans: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --measure: 64ch;
+  --gutter: clamp(16px, 4vw, 40px);
+  --maxw: 1280px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-keg: var(--keg);
+  --color-keg-dim: var(--keg-dim);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  color-scheme: dark;
+  background: var(--ground);
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.55;
+  font-feature-settings: "kern", "liga", "tnum";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--keg);
+  color: #000;
+}
+
+:focus-visible {
+  outline: 2px solid var(--keg);
+  outline-offset: 3px;
+}
+
+/* Type scale. Display uses the width axis, not weight, to carry presence. */
+.t-display {
+  font-stretch: 78%;
+  font-weight: 600;
+  font-size: clamp(2.6rem, 8vw, 7rem);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+.t-h1 {
+  font-stretch: 84%;
+  font-weight: 600;
+  font-size: clamp(2.2rem, 5.2vw, 4.25rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+.t-h2 {
+  font-stretch: 88%;
+  font-weight: 600;
+  font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+.t-h3 {
+  font-stretch: 92%;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.t-lede {
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  line-height: 1.4;
+  font-weight: 400;
+  max-width: 34em;
+  color: var(--ink);
+}
+.t-body {
+  max-width: var(--measure);
+}
+.t-small {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.t-meta {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--ink-muted);
+}
+.t-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.wrap {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.rule {
+  border-top: 1px solid var(--line);
+}
+
+/* Measurement tables */
+.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+.data th,
+.data td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.65rem 0.75rem 0.65rem 0;
+  border-top: 1px solid var(--line);
+}
+.data thead th {
+  color: var(--ink-muted);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  border-top: 0;
+  border-bottom: 1px solid var(--line-strong);
+  padding-top: 0;
+}
+.data tbody tr:last-child td {
+  border-bottom: 1px solid var(--line-strong);
+}
+.data td.num,
+.data th.num {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.data td.sub {
+  color: var(--ink-muted);
+}
+
+/* Evidence grades, as the preprint prints them */
+.grade {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  padding: 0.3em 0.45em;
+  border: 1px solid var(--line-strong);
+  color: var(--ink-muted);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.grade[data-g="verified"] {
+  color: var(--ink);
+  border-color: var(--ink-muted);
+}
+.grade[data-g="speculative"] {
+  color: var(--keg);
+  border-color: var(--keg-dim);
+}
+
+/* Prose for log entries */
+.prose {
+  max-width: var(--measure);
+}
+.prose p {
+  margin: 0 0 1em;
+}
+.prose h2 {
+  font-stretch: 90%;
+  font-weight: 600;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  margin: 2em 0 0.6em;
+}
+.prose h3 {
+  font-weight: 600;
+  margin: 1.6em 0 0.4em;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+  margin: 0 0 1em;
+}
+.prose li {
+  margin: 0.25em 0;
+}
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--surface-2);
+  padding: 0.1em 0.35em;
+}
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0 1.5em;
+  font-size: 0.9375rem;
+}
+.prose th,
+.prose td {
+  text-align: left;
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  border-top: 1px solid var(--line);
+}
+.prose a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--ink-faint);
+  text-underline-offset: 3px;
+}
+.prose a:hover {
+  text-decoration-color: var(--keg);
+}
+
+a.link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--ink-faint);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 120ms ease;
+}
+a.link:hover {
+  text-decoration-color: var(--keg);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  line-height: 1;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+}
+.btn:hover {
+  background: var(--ink);
+  color: #000;
+}
+.btn-keg {
+  border-color: var(--keg);
+  color: var(--keg);
+}
+.btn-keg:hover {
+  background: var(--keg);
+  color: #000;
+}
+
+/* One page-load moment: the keg drawing draws itself. */
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.draws path,
+.draws line,
+.draws rect,
+.draws circle,
+.draws polyline {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: draw 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.draws .d1 {
+  animation-delay: 0.1s;
+}
+.draws .d2 {
+  animation-delay: 0.5s;
+}
+.draws .d3 {
+  animation-delay: 0.9s;
+}
+.draws .d4 {
+  animation-delay: 1.2s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .draws path,
+  .draws line,
+  .draws rect,
+  .draws circle,
+  .draws polyline {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    animation: none;
+  }
 }
