@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { KegDrawing } from "@/components/KegDrawing";
+import { KegScene } from "@/components/KegScene";
 import { NightChart } from "@/components/NightChart";
 import { GradeTag, SectionHead, StatusStrip } from "@/components/ui";
 import { energyModel as m, phases, safetyRules, site, status } from "@/content/site";
@@ -36,6 +37,22 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Full-bleed: the deployed cross-section pans slowly behind the headline */}
+      <section className="relative overflow-hidden border-b border-line" aria-label="Keg-1, deployed">
+        <div className="absolute inset-y-0 left-0 w-[190%]">
+          <KegScene className="pan h-full w-full" />
+        </div>
+        <div aria-hidden="true" className="absolute inset-0 bg-ground/60" />
+        <div className="wrap relative flex min-h-[72vh] flex-col justify-end py-24">
+          <p className="t-meta mb-4">The instrument, in place</p>
+          <h2 className="t-h1 max-w-3xl">Built to be measured.</h2>
+          <p className="t-lede mt-6 max-w-xl">
+            Every line of this drawing is a claim with an instrument assigned to it. The panel against its
+            label, the fuses against the wire, the shell against a Texas summer. When the parts are unboxed,
+            the log replaces the drawing.
+          </p>
+        </div>
+      </section>
 
       {/* Status */}
       <section className="border-b border-line">

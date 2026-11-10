@@ -330,3 +330,23 @@ a.link:hover {
     animation: none;
   }
 }
+
+/* The one ambient motion: the Keg-1 cross-section pans slowly behind the
+   headline on /. Everything else is a 120ms transition. */
+@keyframes keg-pan {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-47.368%);
+  }
+}
+.pan {
+  animation: keg-pan 90s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pan {
+    animation: none;
+  }
+}
