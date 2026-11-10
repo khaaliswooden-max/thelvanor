@@ -265,3 +265,43 @@ export const safetyRules = [
   { rule: "Water tests are tethered only.", detail: "A pool, a private pond, or a permitted dock. No open water in v1." },
   { rule: "Orbit is a ground analog.", detail: "Simulated eclipse power cycles and radiation-only cooling. Nothing launches." },
 ];
+
+// Navigation presentation; existing page descriptions, kept beside the site content.
+export const navigation = [
+  {
+    href: "/thesis",
+    label: "Thesis",
+    title: "Infrastructure should be understandable by the people who depend on it.",
+    description:
+      "Thelvanor, PBC is being formed to build a long-term stack of software, hardware, and services around one test: can an ordinary person, a school, or a town council read what the thing does, how much energy it uses, and what it costs, and check the numbers themselves?",
+    detail: site.tagline,
+    related: { href: "/company", label: "Company" },
+  },
+  {
+    href: "/keg-1",
+    label: "Keg-1",
+    title: "Three nodes, one panel, one keg.",
+    description:
+      "The power plant sits outside: panel, MPPT controller, battery, main fuse. One fused 12 V feed enters through a cable gland to a five-slot fuse block. A fault on one node opens one fuse and leaves the other two running. That is the keg-scale version of redundant power distribution in a data hall.",
+    detail: status.nextGate,
+    related: { href: "/keg-1/log", label: "Build log" },
+  },
+  {
+    href: "/research",
+    label: "Research",
+    title: "Falsifiable on purpose.",
+    description:
+      "Every number in the pre-build paper is a prediction with a grade attached. The build log will show which survived. Papers are open access under CC BY 4.0.",
+    detail: site.preprint.title,
+    related: { href: site.preprint.url, label: "Pre-build preprint" },
+  },
+  {
+    href: "/company",
+    label: "Company",
+    title: site.legal,
+    description:
+      "A public benefit corporation forming in Texas. One founder, no employees, no revenue, and a $1,000 build budget. The scale is the point.",
+    detail: site.founder,
+    related: { href: "/thesis", label: "Thesis" },
+  },
+] as const;

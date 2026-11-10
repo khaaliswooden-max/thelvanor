@@ -358,3 +358,32 @@ main {
 .section-heading > *, .section-copy > * { background: var(--ground); }
 .section-copy > p { max-width: var(--measure); }
 section[id], li[id] { scroll-margin-top: 72px; }
+
+/* The header is the positioning context, so every disclosure spans the page. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  height: 56px;
+  border-bottom: 1px solid var(--line);
+  background: rgb(0 0 0 / 92%);
+  backdrop-filter: blur(12px);
+}
+.nav-bar { height: 55px; display: flex; align-items: center; justify-content: space-between; }
+.brand { display: inline-flex; align-items: center; gap: 12px; font-stretch: 80%; font-size: 20px; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-link { display: flex; align-items: center; min-height: 44px; font-size: 15px; color: var(--ink-muted); transition: color 120ms; }
+.nav-link:hover, .nav-link[aria-current], .nav-link[aria-expanded="true"] { color: var(--ink); }
+.nav-link[aria-current] { text-decoration: underline; text-underline-offset: 6px; }
+.nav-panel {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  width: 100%;
+  padding-block: 48px;
+  border-block: 1px solid var(--line);
+  background: var(--ground);
+  max-height: calc(100dvh - 56px);
+  overflow-y: auto;
+}
+.nav-panel .section-copy { border-left: 1px solid var(--line); }
