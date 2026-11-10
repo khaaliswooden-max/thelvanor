@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { navigation, site, status } from "@/content/site";
+import { navigation,site,status } from "@/content/site";
 
 export function Footer() {
   return (

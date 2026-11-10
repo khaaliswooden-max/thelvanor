@@ -4,7 +4,7 @@ import { KegDrawing } from "./KegDrawing";
 
 // Reuses the same section geometry; the backdrop introduces no new hardware claims.
 export function KegSection() {
-  const question = researchQuestions[1];
+  const question=researchQuestions[1];
   return (
     <section className="section keg-section" aria-labelledby="cross-section-title">
       <div className="keg-backdrop" aria-hidden="true">

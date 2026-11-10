@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SectionHead } from "@/components/ui";
 import { site } from "@/content/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata={
   title: "Company",
   description: "Thelvanor, PBC: a public benefit corporation forming in Texas. Founder, structure, and how to reach us.",
 };
@@ -12,26 +12,26 @@ export default function Company() {
     <>
       <section className="section page-intro">
         <div className="wrap">
-        <p className="t-meta mb-4">Company</p>
-        <h1 className="t-h1 max-w-4xl">{site.legal}</h1>
-        <p className="t-lede mt-8">
-          A public benefit corporation forming in Texas. One founder, no employees, no revenue, and a
-          $1,000 build budget. The scale is the point.
-        </p>
-              </div>
+          <p className="t-meta mb-4">Company</p>
+          <h1 className="t-h1 max-w-4xl">{site.legal}</h1>
+          <p className="t-lede mt-8">
+            A public benefit corporation forming in Texas. One founder, no employees, no revenue, and a
+            $1,000 build budget. The scale is the point.
+          </p>
+        </div>
       </section>
 
       <section className="section">
         <div className="wrap">
-        <SectionHead title="Structure.">
-          <p>
-            A public benefit corporation is a for-profit company whose charter names a public benefit and
-            obliges the board to weigh it alongside shareholder return. Thelvanor is choosing the form
-            before it has anything to sell so that the measure-before-claiming rule is written into the
-            charter rather than into a marketing page. Formation budget: $500. Status: forming.
-          </p>
-        </SectionHead>
-              </div>
+          <SectionHead title="Structure.">
+            <p>
+              A public benefit corporation is a for-profit company whose charter names a public benefit and
+              obliges the board to weigh it alongside shareholder return. Thelvanor is choosing the form
+              before it has anything to sell so that the measure-before-claiming rule is written into the
+              charter rather than into a marketing page. Formation budget: $500. Status: forming.
+            </p>
+          </SectionHead>
+        </div>
       </section>
 
       <section className="section">
@@ -61,14 +61,14 @@ export default function Company() {
 
       <section className="section">
         <div className="wrap">
-        <SectionHead title="Contact.">
-          <p>
-            For research correspondence, replication, or partnership on the measurement phases:{" "}
-            <a className="link" href={`mailto:${site.email}`}>{site.email}</a>. For code, issues, and the
-            site itself: <a className="link" href={site.github}>the repository</a>.
-          </p>
-        </SectionHead>
-              </div>
+          <SectionHead title="Contact.">
+            <p>
+              For research correspondence, replication, or partnership on the measurement phases:{" "}
+              <a className="link" href={`mailto:${site.email}`}>{site.email}</a>. For code, issues, and the
+              site itself: <a className="link" href={site.github}>the repository</a>.
+            </p>
+          </SectionHead>
+        </div>
       </section>
     </>
   );

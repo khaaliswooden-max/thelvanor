@@ -1,5 +1,5 @@
 // The mark: a keg in elevation, drawn as two strokes. The navigation mark stays monochrome.
-export function Mark({ className = "" }: { className?: string }) {
+export function Mark({ className="" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
