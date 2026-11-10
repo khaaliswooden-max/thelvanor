@@ -50,15 +50,15 @@ export default function Home() {
       {/* Hero image */}
       <figure className="relative aspect-[2/1] w-full overflow-hidden bg-surface-2">
         <Image
-          src="/images/keg1-field.jpg"
-          alt="Concept rendering of Keg-1: an orange keg under a solar panel in an open field at low sun."
+          src="/images/keg1-cad-exterior.jpg"
+          alt="CAD rendering of Keg-1: an orange stainless keg under a 100 W solar panel on four legs, with the MPPT controller, main fuse, and battery on a stand beside it."
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-[50%_60%]"
         />
         <figcaption className="t-kicker absolute bottom-3 right-4 bg-ground/85 px-2 py-1 text-ink-muted">
-          Concept rendering. Keg-1 has not been built.
+          CAD rendering, rev C. Not yet built.
         </figcaption>
       </figure>
 
@@ -116,18 +116,18 @@ export default function Home() {
           <div className="mt-16 grid gap-12 md:grid-cols-2 md:gap-10">
             <NightChart />
             <figure>
-              <div className="relative aspect-[1216/904] w-full overflow-hidden bg-surface">
+              <div className="relative aspect-square w-full overflow-hidden bg-surface">
                 <Image
-                  src="/images/keg1-blueprint.jpg"
-                  alt="Illustration in blueprint style of three circuit boards, a fuse block, and two small boards inside a cylindrical enclosure."
+                  src="/images/keg1-cad-cutaway.jpg"
+                  alt="CAD cutaway of Keg-1 showing three Raspberry Pi 5 boards on the internal plate, the switch, wiring to the lid, and the power plant outside the keg."
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-cover"
                 />
               </div>
               <figcaption className="t-kicker mt-4">
-                Illustration. Keg-1 has not been built; see the measured drawing on{" "}
-                <Link href="/keg-1" className="link normal-case tracking-normal">
+                CAD cutaway, rev C. Interactive model and exploded drawing on{" "}
+                <Link href="/keg-1#model" className="link normal-case tracking-normal">
                   Keg-1
                 </Link>
                 .

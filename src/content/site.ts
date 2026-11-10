@@ -29,13 +29,13 @@ export const site = {
 export const status = {
   phase: 0,
   phaseName: "Pre-build",
-  asOf: "2026-10-26",
+  asOf: "2026-11-09",
   measurements: 0,
   claimsUnderTest: 10,
   budget: 1000,
   spent: 0,
   nextGate: "Phase 1 gate: node 1 runs from the fused bus; both INA226s report watts.",
-  nextStep: "Keg-1 hardware begins after the move to Seguin, Texas.",
+  nextStep: "Keg-1 hardware begins after the move to Seguin, Texas. Drawing rev C and CAD model posted 2026-11-09.",
 };
 
 export const phases = [

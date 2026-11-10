@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import { ModelViewer } from "@/components/ModelViewer";
 import { KegDrawing } from "@/components/KegDrawing";
 import { GradeTag, SectionHead, StatusStrip } from "@/components/ui";
 import { bom, bomTotals, claims, energyModel as m, phases, safetyRules, site } from "@/content/site";
@@ -109,6 +111,60 @@ export default function Keg1() {
           Pi figures are typical values reported for the platform, not measurements. INA226 #2 replaces them
           at idle and under one through four jobs.
         </p>
+      </section>
+
+      {/* Drawings */}
+      <section id="model" className="scroll-mt-20 border-t border-line">
+        <div className="wrap py-16">
+          <SectionHead kicker="Drawings · rev C" title="Exploded assembly, cutaway, and model.">
+            <p>
+              Drawing K1-SOL-EXP-01 rev C, dated 2026-11-09, is illustrative and not released for
+              fabrication. Its parts list matches the bill of materials except items 4, 5, and 8: the
+              drawing shows the Pi boards on an internal tray with aluminium bosses and curved thermal
+              bridges, while the v1 design, and the BOM, use a 3 mm aluminium plate bolted to the keg wall
+              with thermal pads and standoffs. The plate-on-wall design governs. Rev D will correct the
+              drawing. Dimensions marked VIF are verified in the field; none have been yet.
+            </p>
+          </SectionHead>
+
+          <figure className="mt-12">
+            <div className="relative aspect-[1492/1054] w-full overflow-hidden border border-line bg-ground">
+              <Image
+                src="/images/keg1-exploded-revC.jpg"
+                alt="Exploded assembly drawing of the Keg-1 solar cluster: panel, stand, lid, thermal plate, three Pi 5 boards, switch, keg shell, glands, MPPT, battery, and main fuse, with an 18-item parts list, legend, safety notes, and title block."
+                fill
+                sizes="(min-width: 1280px) 1200px, 100vw"
+                className="object-contain"
+              />
+            </div>
+            <figcaption className="t-kicker mt-4">
+              K1-SOL-EXP-01 rev C · exploded assembly · mm [in] · NTS · illustrative, not released for fabrication
+            </figcaption>
+          </figure>
+
+          <div className="mt-12 grid gap-10 md:grid-cols-2">
+            <figure>
+              <ModelViewer
+                src="/models/keg1-solar-cluster.glb"
+                poster="/images/keg1-cad-exterior.jpg"
+                alt="Interactive 3D model of the Keg-1 solar cluster."
+              />
+              <figcaption className="t-kicker mt-4">Interactive model · rev C · 385 KB, loads on scroll</figcaption>
+            </figure>
+            <figure>
+              <div className="relative aspect-square w-full overflow-hidden bg-surface">
+                <Image
+                  src="/images/keg1-cad-cutaway-2.jpg"
+                  alt="CAD cutaway of Keg-1 from the front-left, showing the three Pi boards, wiring, desiccant, and the power plant stand."
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <figcaption className="t-kicker mt-4">CAD cutaway · rev C</figcaption>
+            </figure>
+          </div>
+        </div>
       </section>
 
       {/* Phases */}
