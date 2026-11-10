@@ -4,16 +4,28 @@
 @import "@fontsource/ibm-plex-mono/500.css";
 
 :root {
-  --ground: #000000;
-  --surface: #111214;
-  --surface-2: #17191c;
-  --line: #2a2c30;
-  --line-strong: #3b3e44;
-  --ink: #e8e8e6;
-  --ink-muted: #8b9099;
-  --ink-faint: #5a5f67;
+  /* Light ground, charcoal bands. Per the thelvanor-home.kui design. */
+  --ground: #ffffff;
+  --surface: #f5f5f7;
+  --surface-2: #ececef;
+  --line: #e4e5e8;
+  --line-strong: #c9cbd0;
+  --ink: #111214;
+  --ink-muted: #5c6168;
+  --ink-faint: #9a9ea6;
+
+  --dark: #1a1c20;
+  --dark-line: #2e3137;
+  --dark-ink: #f2f2f0;
+  --dark-muted: #a9adb4;
+
   --keg: #e8650a;
-  --keg-dim: #8a3c06;
+  --keg-dim: #b84f08;
+  --rule: #3b82f6; /* nav hairline */
+  --gate: #2f6f5e; /* gate / rule-number labels */
+  --g-verified: #2e9e5b;
+  --g-plausible: #d99a1b;
+  --g-speculative: #8a8f98;
 
   --font-sans: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -32,14 +44,19 @@
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-ink-faint: var(--ink-faint);
+  --color-dark: var(--dark);
+  --color-dark-line: var(--dark-line);
+  --color-dark-ink: var(--dark-ink);
+  --color-dark-muted: var(--dark-muted);
   --color-keg: var(--keg);
   --color-keg-dim: var(--keg-dim);
+  --color-gate: var(--gate);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
   background: var(--ground);
   scroll-behavior: smooth;
 }
@@ -70,7 +87,7 @@ body {
 
 ::selection {
   background: var(--keg);
-  color: #000;
+  color: #fff;
 }
 
 :focus-visible {
@@ -78,43 +95,56 @@ body {
   outline-offset: 3px;
 }
 
-/* Type scale. Display uses the width axis, not weight, to carry presence. */
+/* Dark band: sections that invert. Children read these vars. */
+.band-dark {
+  --ground: var(--dark);
+  --surface: #202227;
+  --line: var(--dark-line);
+  --line-strong: #3d4149;
+  --ink: var(--dark-ink);
+  --ink-muted: var(--dark-muted);
+  --ink-faint: #6f737b;
+  background: var(--dark);
+  color: var(--dark-ink);
+}
+.band-grey {
+  background: var(--surface);
+}
+
+/* Type scale. Normal width, as the design sets it. */
 .t-display {
-  font-stretch: 78%;
-  font-weight: 600;
-  font-size: clamp(2.6rem, 8vw, 7rem);
-  line-height: 0.92;
-  letter-spacing: -0.02em;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 6.4vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
 }
 .t-h1 {
-  font-stretch: 84%;
-  font-weight: 600;
-  font-size: clamp(2.2rem, 5.2vw, 4.25rem);
-  line-height: 0.98;
-  letter-spacing: -0.02em;
+  font-weight: 500;
+  font-size: clamp(2.2rem, 4.6vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
 }
 .t-h2 {
-  font-stretch: 88%;
-  font-weight: 600;
-  font-size: clamp(1.6rem, 3.2vw, 2.5rem);
-  line-height: 1.05;
-  letter-spacing: -0.015em;
+  font-weight: 500;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
 }
 .t-h3 {
-  font-stretch: 92%;
-  font-weight: 600;
-  font-size: 1.25rem;
+  font-weight: 500;
+  font-size: 1.3rem;
   line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 .t-lede {
-  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
-  line-height: 1.4;
-  font-weight: 400;
-  max-width: 34em;
-  color: var(--ink);
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.5;
+  max-width: 36em;
+  color: var(--ink-muted);
 }
 .t-body {
   max-width: var(--measure);
+  color: var(--ink-muted);
 }
 .t-small {
   font-size: 0.875rem;
@@ -128,6 +158,22 @@ body {
 .t-num {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+}
+
+/* Tracked uppercase mono kicker, as the design uses it */
+.t-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.t-kicker-gate {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gate);
 }
 
 .wrap {
@@ -175,25 +221,32 @@ body {
   color: var(--ink-muted);
 }
 
-/* Evidence grades, as the preprint prints them */
+/* Evidence grades: colored pills, as the design draws them */
 .grade {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   line-height: 1;
-  padding: 0.3em 0.45em;
-  border: 1px solid var(--line-strong);
-  color: var(--ink-muted);
+  padding: 0.38em 0.7em;
+  border: 1px solid currentColor;
+  border-radius: 999px;
   white-space: nowrap;
   vertical-align: middle;
+  color: var(--g-speculative);
 }
 .grade[data-g="verified"] {
-  color: var(--ink);
-  border-color: var(--ink-muted);
+  color: var(--g-verified);
+}
+.grade[data-g="plausible"] {
+  color: var(--g-plausible);
 }
 .grade[data-g="speculative"] {
+  color: var(--g-speculative);
+}
+.grade[data-g="lesson"] {
   color: var(--keg);
-  border-color: var(--keg-dim);
 }
 
 /* Prose for log entries */
@@ -204,14 +257,13 @@ body {
   margin: 0 0 1em;
 }
 .prose h2 {
-  font-stretch: 90%;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1.35rem;
   line-height: 1.2;
   margin: 2em 0 0.6em;
 }
 .prose h3 {
-  font-weight: 600;
+  font-weight: 500;
   margin: 1.6em 0 0.4em;
 }
 .prose ul,
@@ -240,36 +292,33 @@ body {
   padding: 0.5rem 0.75rem 0.5rem 0;
   border-top: 1px solid var(--line);
 }
-.prose a {
-  color: var(--ink);
-  text-decoration: underline;
-  text-decoration-color: var(--ink-faint);
-  text-underline-offset: 3px;
-}
-.prose a:hover {
-  text-decoration-color: var(--keg);
-}
-
+.prose a,
 a.link {
   color: var(--ink);
   text-decoration: underline;
-  text-decoration-color: var(--ink-faint);
+  text-decoration-color: var(--line-strong);
   text-underline-offset: 3px;
   transition: text-decoration-color 120ms ease;
 }
+.prose a:hover,
 a.link:hover {
   text-decoration-color: var(--keg);
 }
 
+/* Pill buttons, as the design draws them */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-  padding: 0.75rem 1.1rem;
+  padding: 0.8rem 1.4rem;
+  border-radius: 999px;
   border: 1px solid var(--ink);
   color: var(--ink);
-  font-weight: 500;
-  font-size: 0.9375rem;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   line-height: 1;
   transition:
     background 120ms ease,
@@ -277,7 +326,16 @@ a.link:hover {
 }
 .btn:hover {
   background: var(--ink);
-  color: #000;
+  color: var(--ground);
+}
+.btn-solid {
+  background: var(--ink);
+  color: var(--ground);
+}
+.btn-solid:hover {
+  background: var(--keg);
+  border-color: var(--keg);
+  color: #fff;
 }
 .btn-keg {
   border-color: var(--keg);
@@ -285,10 +343,10 @@ a.link:hover {
 }
 .btn-keg:hover {
   background: var(--keg);
-  color: #000;
+  color: #fff;
 }
 
-/* One page-load moment: the keg drawing draws itself. */
+/* Keg drawing self-draws once on load. */
 @keyframes draw {
   to {
     stroke-dashoffset: 0;

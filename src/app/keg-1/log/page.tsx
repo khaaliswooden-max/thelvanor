@@ -13,8 +13,8 @@ export default function LogPage() {
   return (
     <>
       <section className="wrap border-b border-line py-16 md:py-24">
-        <p className="t-meta mb-4">
-          <Link className="link" href="/keg-1">Keg-1</Link>. Build log
+        <p className="t-kicker mb-6">
+          <Link className="link normal-case tracking-normal" href="/keg-1">Keg-1</Link> · build log
         </p>
         <h1 className="t-h1">What the sensors said.</h1>
         <p className="t-lede mt-8">
@@ -35,7 +35,7 @@ export default function LogPage() {
             {entries.map((e) => (
               <li key={e.slug} id={e.slug} className="grid gap-6 border-b border-line py-12 md:grid-cols-12 md:gap-10">
                 <div className="md:col-span-4">
-                  <p className="t-num t-meta">{e.date}</p>
+                  <p className="t-kicker">{e.date}</p>
                   <h2 className="t-h2 mt-2">{e.title}</h2>
                   <p className="t-meta mt-3">
                     Phase {e.phase}

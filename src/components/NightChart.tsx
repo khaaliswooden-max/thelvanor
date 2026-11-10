@@ -11,25 +11,25 @@ export function NightChart({ className = "" }: { className?: string }) {
 
   const series = [
     { name: `3 nodes idle, ${m.idleW} W`, w: m.idleW, color: "var(--ink)", dash: "" },
-    { name: "1 node full, 2 idle, 17.2 W", w: 17.2, color: "var(--ink-muted)", dash: "4 4" },
-    { name: `3 nodes full, ${m.fullW} W`, w: m.fullW, color: "var(--keg)", dash: "" },
+    { name: "1 node full, 2 idle, 17.2 W", w: 17.2, color: "#3b82f6", dash: "" },
+    { name: `3 nodes full, ${m.fullW} W`, w: m.fullW, color: "#e5533c", dash: "" },
   ];
+  const reserveColor = "#d99a1b";
 
   const endHour = (w: number) => Math.min(m.nightHours, m.nominalWh / w);
-  const reserveCross = m.nominalWh - m.reserveWh; // Wh available above reserve
-  const fullCross = reserveCross / m.fullW; // hours
+  const fullCross = (m.nominalWh - m.reserveWh) / m.fullW;
 
   const label = { fontFamily: "var(--font-mono)", fontSize: 11, fill: "var(--ink-muted)" } as const;
 
   return (
     <figure className={className}>
+      <p className="t-kicker mb-4">Battery energy through a 14-hour winter night</p>
       <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="night-t night-d" fill="none">
         <title id="night-t">Battery energy through a 14-hour winter night</title>
         <desc id="night-d">
           Three lines fall from 256 watt-hours. Idle ends the night at about 77 watt-hours, above the 51
           watt-hour reserve. Full load crosses the reserve at about 7.9 hours.
         </desc>
-        {/* grid */}
         {[0, 64, 128, 192, 256].map((v) => (
           <g key={v}>
             <line x1={pad.l} x2={W - pad.r} y1={y(v)} y2={y(v)} stroke="var(--line)" strokeWidth="1" />
@@ -49,19 +49,17 @@ export function NightChart({ className = "" }: { className?: string }) {
         <text x={pad.l - 8} y={12} textAnchor="end" style={label}>
           Wh
         </text>
-        {/* reserve */}
         <line
           x1={pad.l}
           x2={W - pad.r}
           y1={y(m.reserveWh)}
           y2={y(m.reserveWh)}
-          stroke="var(--ink-faint)"
-          strokeDasharray="2 5"
+          stroke={reserveColor}
+          strokeDasharray="3 5"
         />
-        <text x={pad.l + 6} y={y(m.reserveWh) - 6} style={label}>
+        <text x={pad.l + 6} y={y(m.reserveWh) - 6} style={{ ...label, fill: reserveColor }}>
           reserve, {m.reserveWh} Wh
         </text>
-        {/* series */}
         {series.map((s) => {
           const e = endHour(s.w);
           return (
@@ -72,14 +70,12 @@ export function NightChart({ className = "" }: { className?: string }) {
               x2={x(e)}
               y2={y(m.nominalWh - s.w * e)}
               stroke={s.color}
-              strokeWidth={s.color === "var(--keg)" ? 2 : 1.5}
-              strokeDasharray={s.dash || undefined}
+              strokeWidth={1.75}
             />
           );
         })}
-        {/* markers */}
-        <circle cx={x(fullCross)} cy={y(m.reserveWh)} r="3.5" fill="var(--keg)" />
-        <text x={x(fullCross) + 8} y={y(m.reserveWh) + 22} style={{ ...label, fill: "var(--keg)" }}>
+        <circle cx={x(fullCross)} cy={y(m.reserveWh)} r="3.5" fill="#e5533c" />
+        <text x={x(fullCross) + 8} y={y(m.reserveWh) + 22} style={{ ...label, fill: "#e5533c" }}>
           full load crosses the reserve at {fullCross.toFixed(1)} h
         </text>
         <circle cx={x(m.nightHours)} cy={y(m.nominalWh - m.idleW * m.nightHours)} r="3.5" fill="var(--ink)" />
@@ -92,14 +88,10 @@ export function NightChart({ className = "" }: { className?: string }) {
           {Math.round(m.nominalWh - m.idleW * m.nightHours)} Wh at dawn
         </text>
       </svg>
-      <figcaption className="t-meta mt-3 flex flex-wrap gap-x-6 gap-y-1">
+      <figcaption className="t-kicker mt-4 flex flex-wrap gap-x-6 gap-y-2">
         {series.map((s) => (
-          <span key={s.name} className="inline-flex items-center gap-2">
-            <span
-              aria-hidden="true"
-              className="inline-block h-0 w-5 border-t-2"
-              style={{ borderColor: s.color, borderStyle: s.dash ? "dashed" : "solid" }}
-            />
+          <span key={s.name} className="inline-flex items-center gap-2 normal-case tracking-normal">
+            <span aria-hidden="true" className="inline-block h-0 w-5 border-t-2" style={{ borderColor: s.color }} />
             {s.name}
           </span>
         ))}

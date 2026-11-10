@@ -11,7 +11,7 @@ export default function Company() {
   return (
     <>
       <section className="wrap border-b border-line py-16 md:py-24">
-        <p className="t-meta mb-4">Company</p>
+        <p className="t-kicker mb-6">Company</p>
         <h1 className="t-h1 max-w-4xl">{site.legal}</h1>
         <p className="t-lede mt-8">
           A public benefit corporation forming in Texas. One founder, no employees, no revenue, and a
@@ -30,7 +30,7 @@ export default function Company() {
         </SectionHead>
       </section>
 
-      <section className="border-y border-line bg-surface">
+      <section className="band-grey border-y border-line">
         <div className="wrap py-20">
           <SectionHead title="Founder.">
             <p className="font-semibold">{site.founder}</p>

@@ -1,54 +1,79 @@
+import Image from "next/image";
 import Link from "next/link";
-import { KegDrawing } from "@/components/KegDrawing";
 import { NightChart } from "@/components/NightChart";
 import { GradeTag, SectionHead, StatusStrip } from "@/components/ui";
 import { energyModel as m, phases, safetyRules, site, status } from "@/content/site";
+
+const domains = [
+  {
+    k: "Energy",
+    sub: "256 Wh · 12.8 V × 20 Ah LiFePO₄, 80% usable",
+    body: "A 100 W panel that is also the sunshade feeds an MPPT controller, then a fused 12 V bus with five branches, one per node, one for the switch, one spare.",
+    grade: "plausible" as const,
+  },
+  {
+    k: "Compute",
+    sub: "3 × Pi 5 · 1 GB each, wired gigabit, no Wi-Fi",
+    body: "A steel keg is a Faraday cage. Nodes talk over a five-port switch; one outdoor Cat6 leaves through an IP68 bulkhead. Node 1 hosts the sensors and the log.",
+    grade: "verified" as const,
+  },
+  {
+    k: "Hall",
+    sub: "0.50 m² · stainless shell, fanless",
+    body: "Each SoC conducts into a 3 mm aluminum plate bolted to the keg wall. The shell is the radiator. The bet is that passive conduction is enough for three nodes.",
+    grade: "speculative" as const,
+  },
+];
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative border-b border-line">
-        <div className="wrap relative grid items-end gap-10 py-16 md:min-h-[82vh] md:grid-cols-12 md:py-20">
-          {/* column rules, hero only */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px bg-line md:block" />
-          <div className="md:col-span-6">
-            <h1 className="t-display">
-              A data center
-              <br />
-              the size of a keg.
-            </h1>
-            <p className="t-lede mt-8">
-              Three Raspberry Pi 5 nodes, one 100 W solar panel, one 256 Wh battery, sealed in a stainless
-              keg painted safety orange. Built for under $1,000. Instrumented so every design claim becomes a
-              measurement, then published.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link href="/keg-1" className="btn btn-keg">
-                See Keg-1
-              </Link>
-              <a href={site.preprint.url} className="btn">
-                Read the preprint
-              </a>
-            </div>
-          </div>
-          <div className="md:col-span-6 md:pl-10">
-            <KegDrawing className="mx-auto w-full max-w-[560px]" />
-          </div>
+      <section className="wrap pt-20 pb-14 md:pt-28">
+        <p className="t-kicker mb-6">Thelvanor, PBC · forming in Texas</p>
+        <h1 className="t-display max-w-4xl">A data center the size of a keg.</h1>
+        <p className="t-lede mt-8">
+          Three Raspberry Pi 5 nodes, one 100 W solar panel, one 256 Wh battery, sealed in a stainless keg
+          painted safety orange. Built for under $1,000. Instrumented so every design claim becomes a
+          measurement, then published.
+        </p>
+        <div className="mt-10 flex flex-wrap gap-3">
+          <Link href="/keg-1" className="btn btn-solid">
+            See Keg-1
+          </Link>
+          <a href={site.preprint.url} className="btn">
+            Read the preprint
+          </a>
         </div>
       </section>
 
+      {/* Hero image */}
+      <figure className="relative aspect-[2/1] w-full overflow-hidden bg-surface-2">
+        <Image
+          src="/images/keg1-field.jpg"
+          alt="Concept rendering of Keg-1: an orange keg under a solar panel in an open field at low sun."
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <figcaption className="t-kicker absolute bottom-3 right-4 bg-ground/85 px-2 py-1 text-ink-muted">
+          Concept rendering. Keg-1 has not been built.
+        </figcaption>
+      </figure>
+
       {/* Status */}
-      <section className="wrap py-10">
+      <section className="wrap">
         <StatusStrip />
-        <p className="t-meta mt-4 max-w-2xl">
-          {status.nextStep} Next gate: {status.nextGate}
-        </p>
+        <div className="flex flex-col gap-2 py-4 sm:flex-row sm:justify-between">
+          <span className="t-kicker">As of {status.asOf}</span>
+          <span className="t-kicker">Next gate · node 1 runs from the fused bus</span>
+        </div>
       </section>
 
-      {/* What it is */}
-      <section className="wrap py-20">
-        <SectionHead title="Small on purpose. Cheap on purpose. Instrumented on purpose.">
+      {/* Thesis */}
+      <section className="wrap py-24">
+        <SectionHead kicker="The thesis" title="Small on purpose. Cheap on purpose. Instrumented on purpose.">
           <p>
             The questions that matter about data centers, how energy becomes computation, how heat leaves a
             sealed box, how a shared power budget is split among competing loads, are usually studied at the
@@ -57,105 +82,122 @@ export default function Home() {
             read on a $25 multimeter.
           </p>
         </SectionHead>
+      </section>
 
-        <div className="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">
-          {[
-            {
-              k: "Energy",
-              big: "256 Wh",
-              sub: "12.8 V × 20 Ah LiFePO₄, 80% usable",
-              body: "A 100 W panel that is also the sunshade feeds an MPPT controller, then a fused 12 V bus with five branches, one per node, one for the switch, one spare.",
-              grade: "plausible" as const,
-            },
-            {
-              k: "Compute",
-              big: "3 × Pi 5",
-              sub: "1 GB each, wired gigabit, no Wi-Fi",
-              body: "A steel keg is a Faraday cage. Nodes talk over a five-port switch; one outdoor Cat6 leaves through an IP68 bulkhead. Node 1 hosts the sensors and the log.",
-              grade: "verified" as const,
-            },
-            {
-              k: "Hall",
-              big: "0.50 m²",
-              sub: "stainless shell, fanless",
-              body: "Each SoC conducts into a 3 mm aluminum plate bolted to the keg wall. The shell is the radiator. The bet is that passive conduction is enough for three nodes.",
-              grade: "speculative" as const,
-            },
-          ].map((c) => (
-            <div key={c.k} className="bg-ground p-6 md:p-8">
-              <div className="flex items-center justify-between">
-                <p className="t-meta">{c.k}</p>
+      {/* Three domains */}
+      <section className="border-t border-line">
+        <div className="wrap py-24">
+          <SectionHead kicker="Vol. I–III · the system" title="Three domains, each one measured." />
+          <ul className="mt-14 grid gap-10 md:grid-cols-3 md:gap-0 md:divide-x md:divide-line">
+            {domains.map((c, i) => (
+              <li key={c.k} className={i === 0 ? "" : "md:pl-10"}>
                 <GradeTag g={c.grade} />
-              </div>
-              <p className="t-num mt-6 text-4xl leading-none">{c.big}</p>
-              <p className="t-meta mt-2">{c.sub}</p>
-              <p className="mt-6 text-[15px] text-ink-muted">{c.body}</p>
-            </div>
-          ))}
+                <h3 className="t-h3 mt-4">{c.k}</h3>
+                <p className="t-kicker mt-2">{c.sub}</p>
+                <p className="t-small mt-5 text-ink-muted">{c.body}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* Governing problem */}
-      <section className="border-y border-line bg-surface">
-        <div className="wrap py-20">
-          <SectionHead kicker="The governing problem" title="The scheduler, not the panel, is the design.">
-            <p>
-              Over a 14-hour winter night three idle nodes draw about {m.nightIdleWh} Wh and finish the night
-              with roughly {m.marginWh} Wh above the reserve. Three nodes at full load would need {m.nightFullWh}{" "}
-              Wh, which the battery does not hold. Night compute must be scheduled against a {m.marginWh} Wh
-              margin, about six node-hours of full load. Every input here is a pre-build estimate. The first
-              overnight log redraws the lines.
-            </p>
-          </SectionHead>
-          <NightChart className="mt-12 max-w-3xl" />
+      {/* Governing problem, dark band */}
+      <section className="band-dark">
+        <div className="wrap py-28">
+          <p className="t-kicker mb-6">The governing problem</p>
+          <h2 className="t-h1 max-w-3xl">The scheduler, not the panel, is the design.</h2>
+          <p className="t-body mt-8">
+            Over a 14-hour winter night three idle nodes draw about {m.nightIdleWh} Wh and finish the night
+            with roughly {m.marginWh} Wh above the reserve. Three nodes at full load would need {m.nightFullWh}{" "}
+            Wh, which the battery does not hold. Night compute must be scheduled against a {m.marginWh} Wh
+            margin, about six node-hours of full load. Every input here is a pre-build estimate. The first
+            overnight log redraws the lines.
+          </p>
+          <div className="mt-16 grid gap-12 md:grid-cols-2 md:gap-10">
+            <NightChart />
+            <figure>
+              <div className="relative aspect-[1216/904] w-full overflow-hidden bg-surface">
+                <Image
+                  src="/images/keg1-blueprint.jpg"
+                  alt="Illustration in blueprint style of three circuit boards, a fuse block, and two small boards inside a cylindrical enclosure."
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <figcaption className="t-kicker mt-4">
+                Illustration. Keg-1 has not been built; see the measured drawing on{" "}
+                <Link href="/keg-1" className="link normal-case tracking-normal">
+                  Keg-1
+                </Link>
+                .
+              </figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
       {/* Phases */}
-      <section className="wrap py-20">
-        <SectionHead title="Four phases. Four volumes. One gate each.">
+      <section className="wrap py-24">
+        <SectionHead kicker="The build" title="Four phases. Four volumes. One gate each.">
           <p>
             Parts are bought when their chapter is being studied. A phase ends only when its bench test
             passes. The curriculum, <em>Poles, Chips, and Halls</em>, climbs five rungs in each domain, from
             sixth grade to doctoral research questions, and each rung ends on the bench.
           </p>
         </SectionHead>
-        <ol className="mt-12 border-t border-line">
-          {phases.map((p) => (
-            <li key={p.n} className="grid gap-3 border-b border-line py-6 md:grid-cols-12 md:gap-8">
-              <div className="flex items-baseline gap-4 md:col-span-4">
-                <span className="t-num text-ink-faint">0{p.n}</span>
-                <div>
-                  <h3 className="t-h3">{p.name}</h3>
-                  <p className="t-meta mt-1">
-                    {p.weeks}. {p.volumeN}, <em>{p.volume}</em>. ${p.budget}
-                  </p>
-                </div>
-              </div>
-              <p className="text-[15px] text-ink-muted md:col-span-4">{p.summary}</p>
-              <p className="text-[15px] md:col-span-4">
-                <span className="t-meta">Gate. </span>
-                {p.gate}
+        <ol className="mt-14 grid gap-10 md:grid-cols-4 md:gap-0 md:divide-x md:divide-line">
+          {phases.map((p, i) => (
+            <li key={p.n} className={i === 0 ? "" : "md:pl-8"}>
+              <p className="t-kicker">
+                0{p.n} · {p.name}
               </p>
+              <p className="t-kicker mt-2 text-ink-faint">
+                {p.weeks} · {p.volumeN}, {p.volume}
+              </p>
+              <p className="t-num mt-5 text-3xl">${p.budget}</p>
+              <p className="t-small mt-3 text-ink-muted">{p.summary}</p>
+              <div className="mt-6 border-t border-line pt-5">
+                <p className="t-kicker-gate">Gate</p>
+                <p className="t-small mt-3">{p.gate}</p>
+              </div>
             </li>
           ))}
         </ol>
       </section>
 
-      {/* Safety */}
-      <section className="wrap pb-20">
-        <div className="border border-keg-dim p-6 md:p-8">
-          <p className="t-meta mb-4" style={{ color: "var(--keg)" }}>
-            Four rules on every week
-          </p>
-          <ul className="grid gap-4 md:grid-cols-4">
-            {safetyRules.map((r) => (
-              <li key={r.rule}>
-                <p className="font-semibold">{r.rule}</p>
-                <p className="t-small mt-1 text-ink-muted">{r.detail}</p>
+      {/* Rules, grey band */}
+      <section className="band-grey">
+        <div className="wrap py-24">
+          <SectionHead kicker="Field rules" title="Four rules on every week." />
+          <ul className="mt-12 grid border border-line bg-ground sm:grid-cols-2">
+            {safetyRules.map((r, i) => (
+              <li
+                key={r.rule}
+                className={`p-8 ${i % 2 === 1 ? "sm:border-l sm:border-line" : ""} ${i >= 2 ? "border-t border-line" : i === 1 ? "border-t border-line sm:border-t-0" : ""}`}
+              >
+                <p className="t-kicker-gate">R.{i + 1}</p>
+                <p className="t-h3 mt-4">{r.rule}</p>
+                <p className="t-small mt-3 text-ink-muted">{r.detail}</p>
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* Closing band */}
+      <section className="band-dark">
+        <div className="wrap py-32 text-center">
+          <p className="t-kicker mb-8">Thelvanor, PBC</p>
+          <h2 className="t-h1 mx-auto max-w-3xl">Built as an instrument. Published as it is measured.</h2>
+          <p className="t-lede mx-auto mt-8 text-center">
+            A public benefit corporation forming in Texas. A sub-$1,000 solar data center in a stainless keg.
+          </p>
+          <div className="mt-12">
+            <a href={site.preprint.url} className="btn" style={{ background: "var(--dark-ink)", color: "var(--dark)", borderColor: "var(--dark-ink)" }}>
+              Read the preprint
+            </a>
+          </div>
         </div>
       </section>
     </>

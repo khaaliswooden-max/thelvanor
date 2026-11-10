@@ -12,7 +12,7 @@ export default function Thesis() {
   return (
     <>
       <section className="wrap border-b border-line py-16 md:py-24">
-        <p className="t-meta mb-4">Thesis. Draft public benefit statement, v0.1</p>
+        <p className="t-kicker mb-6">Thesis · draft public benefit statement, v0.1</p>
         <h1 className="t-h1 max-w-4xl">
           Infrastructure should be understandable by the people who depend on it.
         </h1>
@@ -35,7 +35,7 @@ export default function Thesis() {
         </SectionHead>
       </section>
 
-      <section className="border-y border-line bg-surface">
+      <section className="band-grey border-y border-line">
         <div className="wrap py-20">
           <SectionHead title="Three commitments.">
             <p>
@@ -58,8 +58,8 @@ export default function Thesis() {
                 b: "The first product is a data center that costs less than a used laptop, runs on one solar panel, and can be opened with a wrench. What a community can afford, it can also inspect.",
               },
             ].map((c, i) => (
-              <li key={c.t} className="bg-surface p-6 md:p-8">
-                <span className="t-num text-ink-faint">0{i + 1}</span>
+              <li key={c.t} className="bg-ground p-6 md:p-8">
+                <span className="t-kicker-gate">0{i + 1}</span>
                 <h3 className="t-h3 mt-4">{c.t}</h3>
                 <p className="mt-3 text-[15px] text-ink-muted">{c.b}</p>
               </li>

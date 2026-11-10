@@ -22,7 +22,7 @@ export default function Keg1() {
       <section className="wrap border-b border-line py-16 md:py-24">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-7">
-            <p className="t-meta mb-4">Keg-1. Version 1</p>
+            <p className="t-kicker mb-6">Keg-1 · version 1</p>
             <h1 className="t-h1">
               Three nodes, one panel, one keg.
             </h1>
@@ -53,7 +53,7 @@ export default function Keg1() {
 
       {/* Power path */}
       <section className="wrap py-16">
-        <SectionHead title="Power path.">
+        <SectionHead kicker="Architecture" title="Power path.">
           <p>
             100 W monocrystalline panel, doubling as the sunshade, into an MPPT controller with a LiFePO₄
             profile, into a 12.8 V nominal, 20 Ah battery with integrated BMS. The main fuse sits within 7
@@ -112,15 +112,15 @@ export default function Keg1() {
       </section>
 
       {/* Phases */}
-      <section className="border-y border-line bg-surface">
+      <section className="band-grey border-y border-line">
         <div className="wrap py-16">
-          <SectionHead title="Sixteen weeks, four gates." />
+          <SectionHead kicker="Schedule" title="Sixteen weeks, four gates." />
           <ol className="mt-10 grid gap-px border border-line bg-line md:grid-cols-4">
             {phases.map((p) => (
-              <li key={p.n} className="bg-surface p-6">
+              <li key={p.n} className="bg-ground p-6">
                 <div className="flex items-baseline justify-between">
-                  <span className="t-num text-ink-faint">0{p.n}</span>
-                  <span className="t-meta">{p.weeks}</span>
+                  <span className="t-kicker">0{p.n}</span>
+                  <span className="t-kicker">{p.weeks}</span>
                 </div>
                 <h3 className="t-h3 mt-4">{p.name}</h3>
                 <p className="t-meta mt-1">
@@ -139,7 +139,7 @@ export default function Keg1() {
 
       {/* BOM */}
       <section className="wrap py-16">
-        <SectionHead title="Bill of materials, estimate against actual.">
+        <SectionHead kicker="Cost plan" title="Bill of materials, estimate against actual.">
           <p>
             Prepared September 30, 2026. Only two lines were checked against live listings: the Pi 5 boards
             and the keg. The rest are estimates. Actual prices are written beside each estimate at purchase,
@@ -197,9 +197,9 @@ export default function Keg1() {
       </section>
 
       {/* Claims */}
-      <section className="border-y border-line bg-surface">
+      <section className="band-grey border-y border-line">
         <div className="wrap py-16">
-          <SectionHead title="Ten claims under test.">
+          <SectionHead kicker="Measurement plan" title="Ten claims under test.">
             <p>
               Each design claim is paired with the instrument that will test it and the expectation it must
               beat or replace. Where a value is withheld as a lesson, the builder produces the number before
@@ -237,14 +237,14 @@ export default function Keg1() {
 
       {/* Safety */}
       <section className="wrap py-16">
-        <SectionHead title="Rules that gate every step.">
+        <SectionHead kicker="Safety" title="Rules that gate every step.">
           <p>
             Two further constraints follow from the hardware. Pi GPIO pins operate at 3.3 V and are not 5 V
             tolerant, so the sensor rail is 3.3 V only. Every load test stays above the BMS low-voltage
             cutoff; a node that browns out has already reset, and there is no recovery step to prove.
           </p>
         </SectionHead>
-        <ul className="mt-10 grid gap-px border border-keg-dim bg-keg-dim md:grid-cols-4">
+        <ul className="mt-10 grid gap-px border border-line bg-line md:grid-cols-4">
           {safetyRules.map((r) => (
             <li key={r.rule} className="bg-ground p-6">
               <p className="font-semibold">{r.rule}</p>
@@ -272,9 +272,8 @@ function PhaseRows({
     <>
       <tr>
         <td colSpan={6} className="pt-6">
-          <span className="t-num text-ink-faint">0{n}</span>
-          <span className="ml-3 font-semibold">{name}</span>
-          <span className="t-meta ml-3">{money(subtotal)}</span>
+          <span className="t-kicker">0{n} · {name}</span>
+          <span className="t-kicker ml-3">{money(subtotal)}</span>
         </td>
       </tr>
       {rows.map((r) => {

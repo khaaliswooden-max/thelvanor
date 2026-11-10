@@ -11,8 +11,8 @@ export default function OG() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#000",
-          color: "#E8E8E6",
+          background: "#ffffff",
+          color: "#111214",
           display: "flex",
           flexDirection: "row",
           alignItems: "stretch",
@@ -20,13 +20,13 @@ export default function OG() {
         }}
       >
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72 }}>
-          <div style={{ fontSize: 26, color: "#8B9099" }}>Thelvanor, PBC</div>
-          <div style={{ fontSize: 84, lineHeight: 0.98, letterSpacing: -3, fontWeight: 700 }}>
+          <div style={{ fontSize: 26, color: "#5c6168" }}>Thelvanor, PBC</div>
+          <div style={{ fontSize: 84, lineHeight: 0.98, letterSpacing: -3, fontWeight: 500 }}>
             A data center the size of a keg.
           </div>
-          <div style={{ fontSize: 24, color: "#8B9099" }}>Three nodes. One panel. Under $1,000. Measured, then published.</div>
+          <div style={{ fontSize: 24, color: "#5c6168" }}>Three nodes. One panel. Under $1,000. Measured, then published.</div>
         </div>
-        <div style={{ width: 380, display: "flex", alignItems: "center", justifyContent: "center", borderLeft: "1px solid #2A2C30" }}>
+        <div style={{ width: 380, display: "flex", alignItems: "center", justifyContent: "center", borderLeft: "1px solid #e4e5e8" }}>
           <svg width="220" height="420" viewBox="0 0 24 44" fill="none" stroke="#E8650A" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="4" y="5" width="16" height="36" rx="3" />
             <path d="M7.5 5V2.5h9V5" />

@@ -3,7 +3,7 @@ import { status } from "@/content/site";
 
 export function GradeTag({ g }: { g: Grade }) {
   const text =
-    g === "verified" ? "VERIFIED" : g === "plausible" ? "PLAUSIBLE" : g === "speculative" ? "SPECULATIVE" : "LESSON";
+    g === "verified" ? "Verified" : g === "plausible" ? "Plausible" : g === "speculative" ? "Speculative" : "Lesson";
   return (
     <span className="grade" data-g={g} title={gradeHelp[g]}>
       {text}
@@ -18,6 +18,7 @@ const gradeHelp: Record<Grade, string> = {
   lesson: "Withheld by design; the builder produces the number before buying the part.",
 };
 
+/** Kicker in the left column, headline and body in the right. The design's section rhythm. */
 export function SectionHead({
   title,
   kicker,
@@ -29,38 +30,31 @@ export function SectionHead({
 }) {
   return (
     <div className="grid gap-4 md:grid-cols-12 md:gap-8">
-      <div className="md:col-span-5">
-        {kicker ? <p className="t-meta mb-2">{kicker}</p> : null}
+      <div className="md:col-span-3">{kicker ? <p className="t-kicker md:pt-3">{kicker}</p> : null}</div>
+      <div className="md:col-span-8">
         <h2 className="t-h2">{title}</h2>
+        {children ? <div className="t-body mt-6 space-y-4">{children}</div> : null}
       </div>
-      {children ? <div className="t-body md:col-span-7 md:pt-1">{children}</div> : null}
     </div>
   );
 }
 
-export function StatusStrip({ compact = false }: { compact?: boolean }) {
+export function StatusStrip() {
   const cells = [
-    { k: "Phase", v: `${status.phase}`, sub: status.phaseName },
-    { k: "Measurements", v: `${status.measurements}`, sub: "logged" },
-    { k: "Claims under test", v: `${status.claimsUnderTest}`, sub: "graded" },
-    { k: "Budget", v: `$${status.budget.toLocaleString()}`, sub: `$${status.spent} spent` },
-    { k: "As of", v: status.asOf, sub: "" },
+    { k: "Phase, pre-build", v: `${status.phase}` },
+    { k: "Measurements logged", v: `${status.measurements}` },
+    { k: "Claims under test, graded", v: `${status.claimsUnderTest}` },
+    { k: `Budget, $${status.spent} spent`, v: `$${status.budget.toLocaleString()}` },
   ];
   return (
-    <dl
-      className={`grid grid-cols-2 border-y border-line sm:grid-cols-5 ${compact ? "" : ""}`}
-      aria-label="Build status"
-    >
+    <dl className="grid grid-cols-2 border-y border-line md:grid-cols-4" aria-label="Build status">
       {cells.map((c, i) => (
         <div
           key={c.k}
-          className={`px-0 py-4 sm:px-5 ${i === cells.length - 1 ? "col-span-2 sm:col-span-1" : ""} ${i === 0 ? "sm:pl-0" : ""} ${i < cells.length - 1 ? "sm:border-r sm:border-line" : ""}`}
+          className={`py-7 pr-4 ${i % 2 === 1 ? "pl-6 border-l border-line" : ""} ${i >= 2 ? "border-t border-line md:border-t-0" : ""} ${i === 2 ? "md:border-l md:pl-6" : ""}`}
         >
-          <dt className="t-meta">{c.k}</dt>
-          <dd className="mt-1 flex items-baseline gap-2">
-            <span className="t-num text-xl leading-none">{c.v}</span>
-            {c.sub ? <span className="t-meta">{c.sub}</span> : null}
-          </dd>
+          <dd className="t-num text-4xl leading-none">{c.v}</dd>
+          <dt className="t-kicker mt-3">{c.k}</dt>
         </div>
       ))}
     </dl>
