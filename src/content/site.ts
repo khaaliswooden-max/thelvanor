@@ -7,258 +7,309 @@ export type Grade = "verified" | "plausible" | "speculative" | "lesson";
 export const site = {
   name: "Thelvanor",
   legal: "Thelvanor, PBC",
-  tagline: "A data center the size of a beer keg",
-  email: "thelcobot@gmail.com",
+  tagline: "A data center the size of a keg, built to be measured.",
+  url: "https://thelvanor.com",
+  founder: "Aldrich K. Wooden, Sr.",
+  founderShort: "Khaalis Wooden",
+  orcid: "0009-0004-7679-5142",
+  email: "khaaliswooden@gmail.com",
   github: "https://github.com/khaaliswooden-max/thelvanor",
   preprint: {
-    title: "The Keg-1 Approach to Ultra-Micro Edge AI Inference",
-    doi: "10.5281/zenodo.17945615",
-    url: "https://doi.org/10.5281/zenodo.17945615",
+    title:
+      "Thelvanor Keg-1: Pre-Build Design of a Sub-$1,000 Solar-Powered Three-Node Data Center in a Stainless Keg",
+    venue: "SSRN preprint, v1.0",
+    date: "October 2026",
+    url: "https://ssrn.com/abstract=7631278",
+    id: "SSRN 7631278",
+    license: "CC BY 4.0",
   },
-  formspree: "https://formspree.io/f/xjglkkkl",
 };
 
+// Live state of the build. Update this when the state changes; the home page reads it.
 export const status = {
-  asOf: "2026-11-08",
-  phase: 1,
-  phaseName: "Ready to build",
+  phase: 0,
+  phaseName: "Pre-build",
+  asOf: "2026-10-26",
   measurements: 0,
+  claimsUnderTest: 10,
+  budget: 1000,
+  spent: 0,
+  nextGate: "Phase 1 gate: node 1 runs from the fused bus; both INA226s report watts.",
+  nextStep: "Keg-1 hardware begins after the move to Seguin, Texas.",
 };
 
-export type Stat = { value: string; label: string; grade: Grade; note?: string };
-
-export const heroStats: Stat[] = [
+export const phases = [
   {
-    value: "$165",
-    label: "Total parts cost",
-    grade: "verified",
-    note: "BOM with links",
+    n: 1,
+    name: "Energy",
+    weeks: "Weeks 1–4",
+    volume: "Poles",
+    volumeN: "Vol. I",
+    budget: 315,
+    summary:
+      "Panel, MPPT controller, LiFePO₄ battery, the main fuse, the fused 12 V bus, and the first node as sensor host.",
+    gate: "Node 1 runs from the fused bus; both INA226 monitors report sensible watts in and watts out.",
   },
   {
-    value: "8.5 in",
-    label: "Interior diameter",
-    grade: "verified",
-    note: "Five-gallon keg",
+    n: 2,
+    name: "Compute",
+    weeks: "Weeks 5–8",
+    volume: "Chips",
+    volumeN: "Vol. II",
+    budget: 185,
+    summary:
+      "Nodes 2 and 3, the gigabit switch, wired network, and a three-node load test under a stop rule set in advance.",
+    gate: "Three-node load test completes under the pre-set stop rule without a brownout.",
   },
   {
-    value: "3",
-    label: "Raspberry Pi 5 nodes",
-    grade: "verified",
+    n: 3,
+    name: "Keg",
+    weeks: "Weeks 9–12",
+    volume: "Halls",
+    volumeN: "Vol. III",
+    budget: 265,
+    summary:
+      "Primer and safety-orange paint, IP68 gland and RJ45 bulkhead, the passive heat path to the keg wall, sensors, desiccant.",
+    gate: "Water-only leak test of the empty keg, then a seven-day sealed soak with a flat humidity trend.",
   },
   {
-    value: "~17 W",
-    label: "Estimated running draw",
-    grade: "plausible",
-    note: "Sum of node and network estimates",
-  },
-  {
-    value: "100 W",
-    label: "Solar panel, tilted",
-    grade: "verified",
-    note: "Doubles as a sunshade",
-  },
-];
-
-export type Claim = {
-  claim: string;
-  estimate: string;
-  measured: string;
-  basis: string;
-  grade: Grade;
-};
-
-export const claims: Claim[] = [
-  {
-    claim: "A three-node AI inference cluster fits in a five-gallon cornelius keg.",
-    estimate: "Layout drawing",
-    measured: "\u2014",
-    basis: "Keg interior dimensions; board and cable-bend clearances.",
-    grade: "plausible",
-  },
-  {
-    claim: "It runs entirely off-grid through a Texas summer.",
-    estimate: "1.19\u00d7 autonomy",
-    measured: "\u2014",
-    basis:
-      "Energy balance: 406 Wh/day load against 430 Wh/day worst-month harvest at Dallas\u2019s 4.3 peak sun hours.",
-    grade: "speculative",
-  },
-  {
-    claim: "It serves useful AI inference.",
-    estimate: "3\u20135 tok/s per node",
-    measured: "\u2014",
-    basis:
-      "Published benchmarks for quantized 3B-class models on Pi 5 at this power budget.",
-    grade: "plausible",
-  },
-  {
-    claim: "The enclosure survives weather without active cooling.",
-    estimate: "\u2264 71 \u00b0C board",
-    measured: "\u2014",
-    basis:
-      "Keg as heatsink and sunshade; soak tests at summer ambient, May\u2013June 2026.",
-    grade: "speculative",
-  },
-  {
-    claim: "The whole thing costs less than one month of a mid-size cloud GPU.",
-    estimate: "$165 vs ~$700/mo",
-    measured: "$165 (parts in hand)",
-    basis: "BOM receipts versus published cloud instance pricing.",
-    grade: "verified",
-  },
-];
-
-export type Phase = {
-  id: number;
-  name: string;
-  window: string;
-  exit: string;
-  state: "done" | "active" | "next";
-};
-
-export const phases: Phase[] = [
-  {
-    id: 1,
-    name: "Build and bench",
-    window: "Sep 2026",
-    exit: "Cluster posts; power and thermal baselines logged.",
-    state: "active",
-  },
-  {
-    id: 2,
-    name: "Outdoor deployment",
-    window: "Oct 2026",
-    exit: "30 consecutive days of uptime, solar-only.",
-    state: "next",
-  },
-  {
-    id: 3,
-    name: "Heat soak",
-    window: "May\u2013Jun 2026",
-    exit: "No thermal throttle events across ten hottest days.",
-    state: "next",
-  },
-  {
-    id: 4,
-    name: "Replication",
-    window: "2027",
-    exit: "A second builder reproduces from the public BOM.",
-    state: "next",
+    n: 4,
+    name: "Deploy",
+    weeks: "Weeks 13–16",
+    volume: "Deployed",
+    volumeN: "Vol. IV",
+    budget: 65,
+    summary:
+      "Land, tethered water, and a ground-based orbit analog: simulated eclipse power cycles and radiation-only cooling.",
+    gate: "Eclipse cycles logged; radiation-only cooling run completes with SoC below throttle.",
   },
 ];
 
 export type BomRow = {
-  part: string;
-  spec: string;
+  phase: 1 | 2 | 3 | 4;
+  item: string;
   qty: number;
-  unit: number;
-  note?: string;
+  est: number;
+  status: "checked" | "estimate";
+  actual: number | null;
 };
 
 export const bom: BomRow[] = [
-  { part: "Cornelius keg, 5 gal", spec: "Reconditioned, ball-lock", qty: 1, unit: 38 },
-  { part: "Raspberry Pi 5, 8 GB", spec: "BCM2712, 2.4 GHz", qty: 3, unit: 27 },
-  { part: "MicroSD, 64 GB A2", spec: "Boot volume per node", qty: 3, unit: 4 },
-  { part: "Gigabit switch, 5-port", spec: "Unmanaged, 5 V", qty: 1, unit: 10 },
-  { part: "Buck converter, 5.1 V 5 A", spec: "Per-node regulator", qty: 3, unit: 3 },
-  { part: "Solar panel, 100 W", spec: "Monocrystalline, 18 V", qty: 1, unit: 22, note: "Salvage" },
-  { part: "MPPT controller, 20 A", spec: "LiFePO\u2084 profile", qty: 1, unit: 9, note: "Salvage" },
-  { part: "LiFePO\u2084 battery, 12.8 V 30 Ah", spec: "384 Wh reserve", qty: 1, unit: 21, note: "Salvage" },
-  { part: "Cable glands, M12/M16", spec: "IP68, RJ45 pass-through", qty: 4, unit: 1.5 },
-  { part: "Fuse block + wire + fasteners", spec: "Assorted", qty: 1, unit: 6 },
-  { part: "Silica gel, indicating", spec: "500 g, rechargeable", qty: 1, unit: 2 },
+  { phase: 1, item: "Digital multimeter", qty: 1, est: 25, status: "estimate", actual: null },
+  { phase: 1, item: "LiFePO₄ battery, 12 V 20 Ah, BMS", qty: 1, est: 80, status: "estimate", actual: null },
+  { phase: 1, item: "Solar panel, 100 W 12 V mono", qty: 1, est: 80, status: "estimate", actual: null },
+  { phase: 1, item: "MPPT charge controller, 10–20 A", qty: 1, est: 40, status: "estimate", actual: null },
+  { phase: 1, item: "Buck converters, 12 V to 5.1 V 5 A", qty: 4, est: 25, status: "estimate", actual: null },
+  { phase: 1, item: "Fuses, holders, Powerpole, wire", qty: 1, est: 35, status: "estimate", actual: null },
+  { phase: 1, item: "Sensors: 2× INA226, 4× DS18B20, BME280", qty: 1, est: 30, status: "estimate", actual: null },
+  { phase: 2, item: "Raspberry Pi 5, 1 GB", qty: 3, est: 135, status: "checked", actual: null },
+  { phase: 2, item: "microSD, 32 GB high endurance", qty: 3, est: 30, status: "estimate", actual: null },
+  { phase: 2, item: "5-port gigabit switch", qty: 1, est: 20, status: "estimate", actual: null },
+  { phase: 3, item: "5-gallon ball-lock keg, 304 stainless, new", qty: 1, est: 130, status: "checked", actual: null },
+  { phase: 3, item: "Self-etching primer, safety-orange enamel", qty: 1, est: 30, status: "estimate", actual: null },
+  { phase: 3, item: "Heat path: heatsinks, 3 mm Al plate, pads", qty: 1, est: 35, status: "estimate", actual: null },
+  { phase: 3, item: "IP68 gland, RJ45 bulkhead, sealant, step bit", qty: 1, est: 30, status: "estimate", actual: null },
+  { phase: 3, item: "Outdoor Cat6 and patch cables", qty: 1, est: 30, status: "estimate", actual: null },
+  { phase: 3, item: "Desiccant and humidity cards", qty: 1, est: 10, status: "estimate", actual: null },
+  { phase: 4, item: "Water tether kit", qty: 1, est: 25, status: "estimate", actual: null },
+  { phase: 4, item: "Panel stand / canopy", qty: 1, est: 40, status: "estimate", actual: null },
 ];
 
-export const bomTotal = bom.reduce((s, r) => s + r.qty * r.unit, 0); // 165
+export const bomTotals = {
+  parts: 830,
+  contingency: 170,
+  budget: 1000,
+};
 
-export type PowerRow = {
-  stage: string;
-  watts: number;
+export type Claim = {
+  claim: string;
   grade: Grade;
-  basis: string;
+  instrument: string;
+  test: string;
+  expectation: string;
 };
 
-export const powerPath: PowerRow[] = [
-  { stage: "Solar harvest, worst month", watts: 17.9, grade: "plausible", basis: "100 W \u00d7 4.3 PSH \u00d7 0.72 derate \u00f7 24 h" },
-  { stage: "MPPT + wiring losses", watts: -1.8, grade: "plausible", basis: "\u2248 90% end-to-end" },
-  { stage: "Three Pi 5 nodes, inference", watts: -12.6, grade: "plausible", basis: "4.2 W each at 3B Q4 load" },
-  { stage: "Switch + converters", watts: -4.4, grade: "plausible", basis: "Switch 2 W; bucks at 90%" },
-  { stage: "Margin to battery", watts: 0.9, grade: "speculative", basis: "What the autonomy ratio rests on" },
+export const claims: Claim[] = [
+  {
+    claim: "Panel open-circuit voltage matches its label",
+    grade: "plausible",
+    instrument: "Multimeter, DC V",
+    test: "Full sun, then half-shaded",
+    expectation: "Near label Vₒₑ; shading moves voltage little, current a lot",
+  },
+  {
+    claim: "Main fuse is sized to the wire",
+    grade: "lesson",
+    instrument: "Multimeter, continuity",
+    test: "Continuity across installed fuse; fused-lead V equals battery V",
+    expectation: "Rating per I_wire ≥ I_fuse ≥ 1.25 × I_cont,max; value recorded in log",
+  },
+  {
+    claim: "Buck holds 5.1 V under load",
+    grade: "plausible",
+    instrument: "USB-C inline meter",
+    test: "Output before any Pi, then under load",
+    expectation: "≥ 5.0 V at 3 A; no Pi under-voltage flag",
+  },
+  {
+    claim: "Per-node idle and full-load watts",
+    grade: "plausible",
+    instrument: "INA226 #2",
+    test: "Idle, then 1–4 jobs on one node",
+    expectation: "2.5–3.5 W idle; 6–8 W full; second job costs less than the first",
+  },
+  {
+    claim: "Three-node full load at the bus",
+    grade: "plausible",
+    instrument: "INA226 #2",
+    test: "Three-node stress under stop rule",
+    expectation: "About 26 W, ±20%",
+  },
+  {
+    claim: "Night idle fits usable battery energy",
+    grade: "plausible",
+    instrument: "INA226 #2, MPPT SoC",
+    test: "One overnight log, sunset to sunrise",
+    expectation: "≥ 26 Wh above the 51 Wh reserve at dawn in winter; more in summer",
+  },
+  {
+    claim: "INA226 range covers bus current",
+    grade: "lesson",
+    instrument: "INA226 #2 vs multimeter",
+    test: "Compare at 1–5 A",
+    expectation: "Agreement within shunt tolerance; range per 81.92 mV / R_shunt",
+  },
+  {
+    claim: "Shell rise is small; the SoC-to-plate interface dominates",
+    grade: "speculative",
+    instrument: "4× DS18B20",
+    test: "Three-node load, 60 min, sealed",
+    expectation: "Shell 5–10 K above ambient; SoC under 80 °C",
+  },
+  {
+    claim: "Keg stays dry when sealed",
+    grade: "plausible",
+    instrument: "BME280",
+    test: "Seven-day sealed soak, then tethered water",
+    expectation: "Flat humidity trend; any rise is a leak",
+  },
+  {
+    claim: "Daily harvest scales with peak sun hours",
+    grade: "plausible",
+    instrument: "INA226 #1",
+    test: "Seven clear and seven cloudy days",
+    expectation: "About 70 Wh per PSH; derate 0.6–0.8",
+  },
 ];
 
-export const links = {
-  email: site.email,
-  github: site.github,
-  preprint: site.preprint.url,
+export const energyModel = {
+  nominalWh: 256,
+  usableWh: 205,
+  reserveWh: 51,
+  idleW: 12.8,
+  fullW: 26.1,
+  nightHours: 14,
+  nightIdleWh: 179,
+  nightFullWh: 366,
+  marginWh: 26,
+  breakEvenPSH: 4.4,
 };
 
-export const elsewhere = [
-  { label: "GitHub", href: site.github },
-  { label: "Preprint (Zenodo)", href: site.preprint.url },
-  { label: "Email", href: `mailto:${site.email}` },
+export const researchQuestions = [
+  {
+    id: "RQ1",
+    title: "Energy-aware scheduling as a mechanism",
+    body: "What is the measured price of anarchy of selfish scheduling in a solar micro cluster, and which lightweight mechanism, a state-of-charge price, a quota, or proportional allocation, recovers most of the gap at the least compute overhead?",
+  },
+  {
+    id: "RQ2",
+    title: "Thermal behavior of a sealed passive enclosure",
+    body: "How do watts per node and SoC temperature scale with ambient temperature in a fanless stainless enclosure, and where in the pad, plate, wall, and air chain does the dominant thermal resistance sit?",
+  },
+  {
+    id: "RQ3",
+    title: "The Landauer gap in the field",
+    body: "How far above the Landauer limit does a small solar edge node operate, and how does the gap move with temperature, workload type, and clock speed?",
+  },
 ];
 
-export const footerStatus = {
-  phase: status.phase,
-  phaseName: status.phaseName,
-  asOf: status.asOf,
-  measurements: status.measurements,
-};
+export const volumes = [
+  {
+    series: "Poles, Chips, and Halls",
+    items: [
+      { n: "Vol. I", title: "Poles", sub: "Energy from first principles to the Keg-1 bus", phase: 1 },
+      { n: "Vol. II", title: "Chips", sub: "Compute from first principles to the Keg-1 cluster", phase: 2 },
+      { n: "Vol. III", title: "Halls", sub: "Data centers from first principles to the Keg-1 enclosure", phase: 3 },
+      { n: "Vol. IV", title: "Deployed", sub: "Synthesis from first principles to Keg-1 in the field", phase: 4 },
+    ],
+  },
+  {
+    series: "Proofs, Games, and Minds",
+    items: [
+      { n: "Vol. I", title: "Proofs", sub: "Mathematics and computers", phase: null },
+      { n: "Vol. II", title: "Games", sub: "Microeconomics and game theory", phase: null },
+      { n: "Vol. III", title: "Minds", sub: "Psychology, persuasion, and ethics", phase: null },
+    ],
+  },
+  {
+    series: "Bets, Curves, and Flags",
+    items: [
+      { n: "v1.1", title: "Bets, Curves, and Flags", sub: "For investors, builders, and strategists of the intelligence age", phase: null },
+    ],
+  },
+];
 
-// ---------------------------------------------------------------------------
-// Navigation model for the header mega-panels. Rendered, never hardcoded.
+export const safetyRules = [
+  { rule: "Fuse first.", detail: "The main fuse goes on the battery's positive terminal before anything else is connected." },
+  { rule: "Never pressurize the keg with electronics inside.", detail: "The pressure-relief valve is never disabled or painted over. Leak tests use water on the empty keg, never gas." },
+  { rule: "Water tests are tethered only.", detail: "A pool, a private pond, or a permitted dock. No open water in v1." },
+  { rule: "Orbit is a ground analog.", detail: "Simulated eclipse power cycles and radiation-only cooling. Nothing launches." },
+];
 
-export type NavLink = { href: string; label: string; note: string };
-export type NavItem = {
-  href: string;
-  label: string;
-  blurb: string;
-  links: NavLink[];
-};
-
-export const nav: NavItem[] = [
+// Primary navigation. The header mega-panel renders from this structure:
+// one blurb and one link list per section, two columns below the bar.
+export const nav = [
   {
     href: "/thesis",
     label: "Thesis",
     blurb:
-      "Compute is shrinking faster than infrastructure is. The thesis page makes the case, with the arithmetic attached.",
+      "The reason the company exists. A draft public benefit statement arguing that infrastructure should be understandable by the people who depend on it, and three commitments written to be checked, not admired.",
     links: [
-      { href: "/thesis", label: "The argument", note: "Why a keg, why now" },
-      { href: "/thesis#claims", label: "Claims table", note: "Every claim, graded" },
-      { href: "/research", label: "Research", note: "The preprint behind it" },
+      { href: "/thesis", label: "The thesis", note: "The problem, in one paragraph" },
+      { href: "/thesis", label: "Three commitments", note: "Measure, publish, build at ownable scale" },
+      { href: "/company", label: "The company", note: "Structure, founder, contact" },
     ],
   },
   {
     href: "/keg-1",
     label: "Keg-1",
     blurb:
-      "The first unit: three Pi 5 nodes, solar-only, sealed in a five-gallon cornelius keg. Built to be measured.",
+      "The first instrument. The architecture and power path, a bill of materials kept as estimate against actual, and the ten pre-build claims paired with the instruments that will test them.",
     links: [
-      { href: "/keg-1", label: "The instrument", note: "Power path, BOM, phases" },
-      { href: "/keg-1#bom", label: "Bill of materials", note: "$165, parts in hand" },
-      { href: "/keg-1/log", label: "Build log", note: "Measurements as they land" },
+      { href: "/keg-1", label: "The design", note: "Power path, BOM, claims under test" },
+      { href: "/keg-1/log", label: "Build log", note: "What the sensors said" },
     ],
   },
   {
     href: "/research",
     label: "Research",
     blurb:
-      "A public preprint, an open repo, and a measurement log. Everything cited; nothing taken on faith.",
+      "What the build is for. The pre-build preprint, three candidate research questions stated before the first measurement, and learning ladders that climb from sixth grade to doctoral work.",
     links: [
-      { href: "/research", label: "Preprint", note: "Zenodo, DOI 10.5281/zenodo.17945615" },
-      { href: site.preprint.url, label: "Read on Zenodo", note: "doi.org redirect" },
-      { href: "/keg-1/log", label: "Field data", note: "The log, updated" },
+      { href: site.preprint.url, label: "Preprint on SSRN", note: "Open access, CC BY 4.0" },
+      { href: "/research", label: "Research questions", note: "Stated now, tested later" },
+      { href: "/research", label: "Learning ladders", note: "Poles, Chips, and Halls" },
     ],
   },
   {
     href: "/company",
     label: "Company",
     blurb:
-      "Thelvanor, PBC \u2014 a public benefit corporation for ultra-micro infrastructure. Small on purpose.",
+      "Thelvanor, PBC is a public benefit corporation forming in Texas. The scale is the point: one founder, a small budget, and a charter that names the public benefit before there is anything to sell.",
     links: [
-      { href: "/company", label: "About", note: "What the company is for" },
-      { href: `mailto:${site.email}`, label: "Contact", note: site.email },
-      { href: site.github, label: "GitHub", note: "khaaliswooden-max/thelvanor" },
+      { href: "/company", label: "Structure", note: "A PBC, chosen before revenue" },
+      { href: "/company", label: "Founder", note: "Background and intent" },
+      { href: `mailto:${site.email}`, label: "Contact", note: "Research correspondence" },
     ],
   },
 ];
