@@ -51,7 +51,7 @@ export function Nav() {
       }}
     >
       <div className="wrap flex h-14 items-center justify-between">
-        <Link href="/" className="flex items-center gap-3" aria-label="Thelvanor home" onFocus={hide}>
+        <Link href="/" className="flex items-center gap-2 sm:gap-3" aria-label="Thelvanor home" onFocus={hide}>
           <Mark className="h-5 w-5" />
           <span
             className="hidden text-[15px] font-semibold tracking-tight sm:inline"
@@ -61,7 +61,7 @@ export function Nav() {
           </span>
         </Link>
         <nav aria-label="Primary">
-          <ul className="flex items-center gap-4 text-[13px] sm:gap-8 sm:text-[14px]">
+          <ul className="flex items-center gap-3 text-[12px] sm:gap-8 sm:text-[14px]">
             {nav.map((item) => {
               const current =
                 pathname === item.href ||

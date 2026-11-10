@@ -16,7 +16,7 @@ export function KegScene({ className = "" }: { className?: string }) {
 
   return (
     <svg
-      viewBox="0 0 1600 640"
+      viewBox="0 0 3400 640"
       className={className}
       role="img"
       aria-labelledby="scene-title scene-desc"
@@ -35,8 +35,8 @@ export function KegScene({ className = "" }: { className?: string }) {
 
       {/* ground */}
       <g stroke={line} strokeWidth="1">
-        <line x1="0" y1="520" x2="1600" y2="520" />
-        {Array.from({ length: 40 }, (_, i) => (
+        <line x1="0" y1="520" x2="3400" y2="520" />
+        {Array.from({ length: 84 }, (_, i) => (
           <line key={i} x1={i * 41} y1="520" x2={i * 41 - 8} y2="532" strokeOpacity="0.5" />
         ))}
       </g>
@@ -148,12 +148,19 @@ export function KegScene({ className = "" }: { className?: string }) {
 
       {/* a second unit, farther out, fainter */}
       <g stroke={faint} strokeWidth="1">
-        <rect x="1290" y="360" width="120" height="160" rx="14" />
-        <path d="M1306 360v-10h88v10" />
-        <path d="M1250 344 L1440 328 L1452 350 L1262 366 Z" />
-        <line x1="1350" y1="336" x2="1350" y2="350" />
+        <rect x="1750" y="360" width="120" height="160" rx="14" />
+        <path d="M1766 360v-10h88v10" />
+        <path d="M1710 344 L1900 328 L1912 350 L1722 366 Z" />
+        <line x1="1810" y1="336" x2="1810" y2="350" />
       </g>
 
+      {/* a third, only a panel on the horizon */}
+      <g stroke={faint} strokeWidth="1" strokeOpacity="0.6">
+        <path d="M2560 420 L2740 408 L2750 428 L2570 440 Z" />
+        <line x1="2650" y1="414" x2="2650" y2="520" />
+        <rect x="3010" y="420" width="80" height="100" rx="10" />
+        <path d="M3022 420v-8h56v8" />
+      </g>
 
       {/* site label */}
       <text x="20" y="620" style={label}>
