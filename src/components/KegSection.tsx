@@ -8,10 +8,16 @@ export function KegSection() {
   return (
     <section className="section keg-section" aria-labelledby="cross-section-title">
       <div className="keg-backdrop" aria-hidden="true">
-        <KegDrawing animate={false} detail className="keg-pan" />
+        <div className="keg-pan"><KegDrawing animate={false} detail className="h-full w-full" /></div>
       </div>
       <div className="wrap keg-section-content">
-        <p className="t-meta">Keg-1 / Cross-section / Not to scale</p>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <p className="t-meta">Keg-1 / Cross-section / Not to scale</p>
+          <label className="motion-control t-meta">
+            <input type="checkbox" className="motion-toggle" />
+            Pause drawing
+          </label>
+        </div>
         <div className="section-head">
           <div className="section-heading">
             <h2 id="cross-section-title" className="t-h2">{question.title}.</h2>
