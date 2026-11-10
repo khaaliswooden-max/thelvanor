@@ -12,17 +12,20 @@ export const metadata: Metadata = {
 export default function Research() {
   return (
     <>
-      <section className="wrap border-b border-line py-16 md:py-24">
+      <section className="section page-intro">
+        <div className="wrap">
         <p className="t-meta mb-4">Research</p>
         <h1 className="t-h1 max-w-4xl">Falsifiable on purpose.</h1>
         <p className="t-lede mt-8">
           Every number in the pre-build paper is a prediction with a grade attached. The build log will show
           which survived. Papers are open access under CC BY 4.0.
         </p>
+              </div>
       </section>
 
       {/* Preprint */}
-      <section className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
         <SectionHead kicker="Preprint" title={site.preprint.title}>
           <p className="t-meta">
             {site.founder}. {site.preprint.venue}, {site.preprint.date}. {site.preprint.id}. {site.preprint.license}.
@@ -43,11 +46,12 @@ export default function Research() {
             </Link>
           </div>
         </SectionHead>
+              </div>
       </section>
 
       {/* RQs */}
-      <section className="border-y border-line bg-surface">
-        <div className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
           <SectionHead title="Three candidate research questions.">
             <p>
               Stated now so the measurement phases are designed to answer them, not merely to finish the
@@ -56,12 +60,12 @@ export default function Research() {
               mechanically checked, and then falsified or confirmed against a week of logged data.
             </p>
           </SectionHead>
-          <ol className="mt-12 grid gap-px border border-line bg-line md:grid-cols-3">
+          <ol className="editorial-list mt-12">
             {researchQuestions.map((q) => (
-              <li key={q.id} className="bg-surface p-6 md:p-8">
-                <span className="t-num text-ink-faint">{q.id}</span>
-                <h3 className="t-h3 mt-4">{q.title}</h3>
-                <p className="mt-3 text-[15px] text-ink-muted">{q.body}</p>
+              <li key={q.id} className="spec-row">
+                <div className="section-heading"><span className="t-meta">{q.id}</span>
+                <h3 className="t-h3 mt-4">{q.title}</h3></div>
+                <p className="section-copy">{q.body}</p>
               </li>
             ))}
           </ol>
@@ -69,7 +73,8 @@ export default function Research() {
       </section>
 
       {/* Ladders */}
-      <section className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
         <SectionHead title="The learning ladders.">
           <p>
             Each volume climbs five rungs, sixth grade to doctoral, and each rung ends on the bench with a
@@ -87,7 +92,7 @@ export default function Research() {
                   <li key={v.n + v.title} className="grid gap-1 py-4 sm:grid-cols-12 sm:gap-6">
                     <span className="t-num t-meta sm:col-span-2">{v.n}</span>
                     <span className="font-semibold sm:col-span-3">{v.title}</span>
-                    <span className="text-[15px] text-ink-muted sm:col-span-5">{v.sub}</span>
+                    <span className="text-[17px] text-ink-muted sm:col-span-5">{v.sub}</span>
                     <span className="t-meta sm:col-span-2 sm:text-right">
                       {v.phase ? `Phase ${v.phase}` : "Companion"}
                     </span>
@@ -97,6 +102,7 @@ export default function Research() {
             </div>
           ))}
         </div>
+              </div>
       </section>
     </>
   );

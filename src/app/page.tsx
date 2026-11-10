@@ -40,15 +40,18 @@ export default function Home() {
       </section>
 
       {/* Status */}
-      <section className="wrap py-10">
+      <section className="section status-section">
+        <div className="wrap">
         <StatusStrip />
         <p className="t-meta mt-4 max-w-2xl">
           {status.nextStep} Next gate: {status.nextGate}
         </p>
+              </div>
       </section>
 
       {/* What it is */}
-      <section className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
         <SectionHead title="Small on purpose. Cheap on purpose. Instrumented on purpose.">
           <p>
             The questions that matter about data centers, how energy becomes computation, how heat leaves a
@@ -59,7 +62,7 @@ export default function Home() {
           </p>
         </SectionHead>
 
-        <div className="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">
+        <div className="spec-list mt-14">
           {[
             {
               k: "Energy",
@@ -83,24 +86,27 @@ export default function Home() {
               grade: "speculative" as const,
             },
           ].map((c) => (
-            <div key={c.k} className="bg-ground p-6 md:p-8">
-              <div className="flex items-center justify-between">
+            <div key={c.k} className="spec-row">
+              <div className="section-heading">
                 <p className="t-meta">{c.k}</p>
-                <GradeTag g={c.grade} />
+                <h3 className="t-h2 mt-4">{c.big}</h3>
+                <p className="t-meta mt-3">{c.sub}</p>
               </div>
-              <p className="t-num mt-6 text-4xl leading-none">{c.big}</p>
-              <p className="t-meta mt-2">{c.sub}</p>
-              <p className="mt-6 text-[15px] text-ink-muted">{c.body}</p>
+              <div className="section-copy">
+                <GradeTag g={c.grade} />
+                <p className="mt-5">{c.body}</p>
+              </div>
             </div>
           ))}
         </div>
+              </div>
       </section>
 
       <KegSection />
 
       {/* Governing problem */}
-      <section className="border-y border-line bg-surface">
-        <div className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
           <SectionHead kicker="The governing problem" title="The scheduler, not the panel, is the design.">
             <p>
               Over a 14-hour winter night three idle nodes draw about {m.nightIdleWh} Wh and finish the night
@@ -110,12 +116,13 @@ export default function Home() {
               overnight log redraws the lines.
             </p>
           </SectionHead>
-          <NightChart className="mt-12 max-w-3xl" />
+          <NightChart className="night-chart mt-12" />
         </div>
       </section>
 
       {/* Phases */}
-      <section className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
         <SectionHead title="Four phases. Four volumes. One gate each.">
           <p>
             Parts are bought when their chapter is being studied. A phase ends only when its bench test
@@ -125,8 +132,8 @@ export default function Home() {
         </SectionHead>
         <ol className="mt-12 border-t border-line">
           {phases.map((p) => (
-            <li key={p.n} className="grid gap-3 border-b border-line py-6 md:grid-cols-12 md:gap-8">
-              <div className="flex items-baseline gap-4 md:col-span-4">
+            <li key={p.n} className="spec-row">
+              <div className="section-heading flex items-baseline gap-4">
                 <span className="t-num text-ink-faint">0{p.n}</span>
                 <div>
                   <h3 className="t-h3">{p.name}</h3>
@@ -135,31 +142,36 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <p className="text-[15px] text-ink-muted md:col-span-4">{p.summary}</p>
-              <p className="text-[15px] md:col-span-4">
+              <div className="section-copy">
+              <p>{p.summary}</p>
+              <p className="mt-4">
                 <span className="t-meta">Gate. </span>
                 {p.gate}
               </p>
+              </div>
             </li>
           ))}
         </ol>
+              </div>
       </section>
 
       {/* Safety */}
-      <section className="wrap pb-20">
-        <div className="border border-keg-dim p-6 md:p-8">
-          <p className="t-meta mb-4" style={{ color: "var(--keg)" }}>
+      <section className="section">
+        <div className="wrap">
+        <div className="safety">
+          <p className="t-meta mb-4">
             Four rules on every week
           </p>
-          <ul className="grid gap-4 md:grid-cols-4">
+          <ul className="editorial-list">
             {safetyRules.map((r) => (
-              <li key={r.rule}>
-                <p className="font-semibold">{r.rule}</p>
-                <p className="t-small mt-1 text-ink-muted">{r.detail}</p>
+              <li key={r.rule} className="spec-row">
+                <h3 className="t-h3 section-heading">{r.rule}</h3>
+                <p className="section-copy">{r.detail}</p>
               </li>
             ))}
           </ul>
         </div>
+              </div>
       </section>
     </>
   );

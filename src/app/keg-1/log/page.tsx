@@ -12,7 +12,8 @@ export default function LogPage() {
   const entries = getLogEntries();
   return (
     <>
-      <section className="wrap border-b border-line py-16 md:py-24">
+      <section className="section page-intro">
+        <div className="wrap">
         <p className="t-meta mb-4">
           <Link className="link" href="/keg-1">Keg-1</Link>. Build log
         </p>
@@ -21,33 +22,38 @@ export default function LogPage() {
           Entries are written when something is measured, bought, or decided. A datasheet is a claim; a
           multimeter reading is evidence. The two never share a column.
         </p>
+              </div>
       </section>
 
-      <section className="wrap py-10">
+      <section className="section status-section">
+        <div className="wrap">
         <StatusStrip />
+              </div>
       </section>
 
-      <section className="wrap pb-20">
+      <section className="section">
+        <div className="wrap">
         {entries.length === 0 ? (
           <p className="t-meta">No entries yet.</p>
         ) : (
           <ol className="border-t border-line">
             {entries.map((e) => (
-              <li key={e.slug} id={e.slug} className="grid gap-6 border-b border-line py-12 md:grid-cols-12 md:gap-10">
-                <div className="md:col-span-4">
+              <li key={e.slug} id={e.slug} className="spec-row">
+                <div className="section-heading">
                   <p className="t-num t-meta">{e.date}</p>
                   <h2 className="t-h2 mt-2">{e.title}</h2>
                   <p className="t-meta mt-3">
                     Phase {e.phase}
                     {e.step ? `, step ${e.step}` : ""}
                   </p>
-                  <p className="mt-4 text-[15px] text-ink-muted">{e.summary}</p>
+                  <p className="mt-4 text-[17px] text-ink-muted">{e.summary}</p>
                 </div>
-                <div className="prose md:col-span-8" dangerouslySetInnerHTML={{ __html: e.html }} />
+                <div className="prose section-copy" dangerouslySetInnerHTML={{ __html: e.html }} />
               </li>
             ))}
           </ol>
         )}
+              </div>
       </section>
     </>
   );

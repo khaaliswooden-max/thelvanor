@@ -12,14 +12,14 @@ export function NightChart({ className = "" }: { className?: string }) {
   const series = [
     { name: `3 nodes idle, ${m.idleW} W`, w: m.idleW, color: "var(--ink)", dash: "" },
     { name: "1 node full, 2 idle, 17.2 W", w: 17.2, color: "var(--ink-muted)", dash: "4 4" },
-    { name: `3 nodes full, ${m.fullW} W`, w: m.fullW, color: "var(--keg)", dash: "" },
+    { name: `3 nodes full, ${m.fullW} W`, w: m.fullW, color: "var(--ink)", dash: "1 5" },
   ];
 
   const endHour = (w: number) => Math.min(m.nightHours, m.nominalWh / w);
   const reserveCross = m.nominalWh - m.reserveWh; // Wh available above reserve
   const fullCross = reserveCross / m.fullW; // hours
 
-  const label = { fontFamily: "var(--font-mono)", fontSize: 11, fill: "var(--ink-muted)" } as const;
+  const label = { fontFamily: "var(--font-mono)", fontSize: 13, fill: "var(--ink-muted)" } as const;
 
   return (
     <figure className={className}>
@@ -72,14 +72,14 @@ export function NightChart({ className = "" }: { className?: string }) {
               x2={x(e)}
               y2={y(m.nominalWh - s.w * e)}
               stroke={s.color}
-              strokeWidth={s.color === "var(--keg)" ? 2 : 1.5}
+              strokeWidth="1"
               strokeDasharray={s.dash || undefined}
             />
           );
         })}
         {/* markers */}
-        <circle cx={x(fullCross)} cy={y(m.reserveWh)} r="3.5" fill="var(--keg)" />
-        <text x={x(fullCross) + 8} y={y(m.reserveWh) + 22} style={{ ...label, fill: "var(--keg)" }}>
+        <circle cx={x(fullCross)} cy={y(m.reserveWh)} r="3.5" fill="var(--ink)" />
+        <text x={x(fullCross) + 8} y={y(m.reserveWh) + 22} style={{ ...label, fill: "var(--ink)" }}>
           full load crosses the reserve at {fullCross.toFixed(1)} h
         </text>
         <circle cx={x(m.nightHours)} cy={y(m.nominalWh - m.idleW * m.nightHours)} r="3.5" fill="var(--ink)" />

@@ -402,3 +402,27 @@ section[id], li[id] { scroll-margin-top: 72px; }
 .keg-section-content { min-height: 640px; display: flex; flex-direction: column; justify-content: space-between; gap: 160px; }
 .keg-section .section-heading > *, .keg-section .section-copy > * { background: rgb(0 0 0 / 94%); }
 .keg-section .section-head { align-items: end; }
+
+.page-intro h1 { background: var(--ground); max-width: 12ch; }
+.page-intro .t-lede { margin-left: calc(100% * 5 / 12); padding-left: 32px; background: var(--ground); }
+.spec-list, .editorial-list { border-top: 1px solid var(--line); }
+.spec-row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); padding-block: 32px; border-bottom: 1px solid var(--line); }
+.spec-row:last-child { border-bottom: 0; }
+.spec-row .section-heading { background: var(--ground); }
+.spec-row .section-copy { background: var(--ground); border-left: 1px solid var(--line); }
+.night-chart { background: var(--ground); padding: 24px 0; border-block: 1px solid var(--line); }
+.night-chart svg { width: 100%; }
+.status-section > .wrap { padding-block: 0; }
+.status-section > .wrap > p { max-width: none; margin: 0; padding-block: 20px; background: var(--ground); }
+.status-strip { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); background: var(--ground); }
+.status-strip > div { grid-column: span 2; padding: 24px 20px; border-right: 1px solid var(--line); }
+.status-strip > div:first-child { padding-left: 0; }
+.status-strip > div:last-child { grid-column: span 4; border-right: 0; }
+.status-strip dd { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-top: 12px; }
+.status-value { font-size: 32px; font-stretch: 75%; line-height: 1; }
+.data { background: var(--ground); }
+.data thead th { font-family: var(--font-mono); font-weight: 400; }
+.data th, .data td { padding: 16px; border-right: 1px solid var(--line); }
+.data th:first-child, .data td:first-child { padding-left: 0; }
+.data th:last-child, .data td:last-child { border-right: 0; }
+.prose { background: var(--ground); }

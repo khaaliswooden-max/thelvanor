@@ -10,16 +10,19 @@ export const metadata: Metadata = {
 export default function Company() {
   return (
     <>
-      <section className="wrap border-b border-line py-16 md:py-24">
+      <section className="section page-intro">
+        <div className="wrap">
         <p className="t-meta mb-4">Company</p>
         <h1 className="t-h1 max-w-4xl">{site.legal}</h1>
         <p className="t-lede mt-8">
           A public benefit corporation forming in Texas. One founder, no employees, no revenue, and a
           $1,000 build budget. The scale is the point.
         </p>
+              </div>
       </section>
 
-      <section className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
         <SectionHead title="Structure.">
           <p>
             A public benefit corporation is a for-profit company whose charter names a public benefit and
@@ -28,10 +31,11 @@ export default function Company() {
             charter rather than into a marketing page. Formation budget: $500. Status: forming.
           </p>
         </SectionHead>
+              </div>
       </section>
 
-      <section className="border-y border-line bg-surface">
-        <div className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
           <SectionHead title="Founder.">
             <p className="font-semibold">{site.founder}</p>
             <p className="mt-2">
@@ -40,7 +44,7 @@ export default function Company() {
               doctoral study in engineering management. About two years into the technical domain, and
               building Keg-1 to learn energy, compute, and data centers from first principles, in public.
             </p>
-            <ul className="mt-6 space-y-2 text-[15px]">
+            <ul className="mt-6 space-y-2 text-[17px]">
               <li>
                 <a className="link" href={`https://orcid.org/${site.orcid}`}>ORCID {site.orcid}</a>
               </li>
@@ -55,7 +59,8 @@ export default function Company() {
         </div>
       </section>
 
-      <section className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
         <SectionHead title="Contact.">
           <p>
             For research correspondence, replication, or partnership on the measurement phases:{" "}
@@ -63,6 +68,7 @@ export default function Company() {
             site itself: <a className="link" href={site.github}>the repository</a>.
           </p>
         </SectionHead>
+              </div>
       </section>
     </>
   );

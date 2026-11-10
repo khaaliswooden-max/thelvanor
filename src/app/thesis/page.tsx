@@ -11,7 +11,8 @@ export const metadata: Metadata = {
 export default function Thesis() {
   return (
     <>
-      <section className="wrap border-b border-line py-16 md:py-24">
+      <section className="section page-intro">
+        <div className="wrap">
         <p className="t-meta mb-4">Thesis. Draft public benefit statement, v0.1</p>
         <h1 className="t-h1 max-w-4xl">
           Infrastructure should be understandable by the people who depend on it.
@@ -21,9 +22,11 @@ export default function Thesis() {
           around one test: can an ordinary person, a school, or a town council read what the thing does, how
           much energy it uses, and what it costs, and check the numbers themselves?
         </p>
+              </div>
       </section>
 
-      <section className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
         <SectionHead title="The problem, in one paragraph.">
           <p>
             Data centers have become the industrial plants of the intelligence age, and their electricity
@@ -33,17 +36,18 @@ export default function Thesis() {
             audit. That gap is a governance problem before it is an engineering one.
           </p>
         </SectionHead>
+              </div>
       </section>
 
-      <section className="border-y border-line bg-surface">
-        <div className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
           <SectionHead title="Three commitments.">
             <p>
               These are the public benefits the corporation will be chartered to pursue. They are written to
               be checked, not admired.
             </p>
           </SectionHead>
-          <ol className="mt-12 grid gap-px border border-line bg-line md:grid-cols-3">
+          <ol className="editorial-list mt-12">
             {[
               {
                 t: "Measure before claiming.",
@@ -58,17 +62,18 @@ export default function Thesis() {
                 b: "The first product is a data center that costs less than a used laptop, runs on one solar panel, and can be opened with a wrench. What a community can afford, it can also inspect.",
               },
             ].map((c, i) => (
-              <li key={c.t} className="bg-surface p-6 md:p-8">
-                <span className="t-num text-ink-faint">0{i + 1}</span>
-                <h3 className="t-h3 mt-4">{c.t}</h3>
-                <p className="mt-3 text-[15px] text-ink-muted">{c.b}</p>
+              <li key={c.t} className="spec-row">
+                <div className="section-heading"><span className="t-meta">0{i + 1}</span>
+                <h3 className="t-h3 mt-4">{c.t}</h3></div>
+                <p className="section-copy">{c.b}</p>
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      <section className="wrap py-20">
+      <section className="section">
+        <div className="wrap">
         <SectionHead title="Why a keg.">
           <p>
             Because it is the smallest sealed, weather-tight, thermally conductive enclosure that costs about
@@ -81,9 +86,11 @@ export default function Thesis() {
             candidate research questions are on the <Link className="link" href="/research">research page</Link>.
           </p>
         </SectionHead>
+              </div>
       </section>
 
-      <section className="wrap pb-20">
+      <section className="section">
+        <div className="wrap">
         <SectionHead title="What this page is not.">
           <p>
             It is not a product roadmap, a fundraising deck, or a forecast. Thelvanor has no revenue, no
@@ -96,6 +103,7 @@ export default function Thesis() {
             .
           </p>
         </SectionHead>
+              </div>
       </section>
     </>
   );
