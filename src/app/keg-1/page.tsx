@@ -1,29 +1,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { KegDrawing } from "@/components/KegDrawing";
-import { GradeTag,SectionHead,StatusStrip } from "@/components/ui";
-import { bom,bomTotals,claims,energyModel as m,phases,safetyRules,site } from "@/content/site";
+import { GradeTag, SectionHead, StatusStrip } from "@/components/ui";
+import { bom, bomTotals, claims, energyModel as m, phases, safetyRules, site } from "@/content/site";
 
-export const metadata: Metadata={
+export const metadata: Metadata = {
   title: "Keg-1",
   description:
     "Keg-1: architecture, power path, bill of materials with estimate versus actual, and the ten pre-build claims under test.",
 };
 
-const money=(n: number) => `$${n.toLocaleString()}`;
+const money = (n: number) => `$${n.toLocaleString()}`;
 
 export default function Keg1() {
-  const byPhase=(p: number) => bom.filter((r) => r.phase===p);
-  const sum=(rows: typeof bom) => rows.reduce((a,r) => a+r.est,0);
-  const actualSum=bom.reduce((a,r) => a+(r.actual??0),0);
+  const byPhase = (p: number) => bom.filter((r) => r.phase === p);
+  const sum = (rows: typeof bom) => rows.reduce((a, r) => a + r.est, 0);
+  const actualSum = bom.reduce((a, r) => a + (r.actual ?? 0), 0);
 
   return (
     <>
-      <section className="section hero">
-        <div className="wrap hero-grid">
-          <div className="hero-copy">
+      <section className="wrap border-b border-line py-16 md:py-24">
+        <div className="grid gap-10 md:grid-cols-12">
+          <div className="md:col-span-7">
             <p className="t-meta mb-4">Keg-1. Version 1</p>
-            <h1 className="t-display">
+            <h1 className="t-h1">
               Three nodes, one panel, one keg.
             </h1>
             <p className="t-lede mt-8">
@@ -41,101 +41,100 @@ export default function Keg1() {
               </a>
             </div>
           </div>
-          <figure className="hero-figure">
-            <KegDrawing className="w-full" />
-            <figcaption className="t-meta">Keg-1 / Cross-section / Not to scale</figcaption>
-          </figure>
+          <div className="md:col-span-5">
+            <KegDrawing animate={false} className="w-full" />
+          </div>
         </div>
       </section>
 
-      <section className="section status-section">
-        <div className="wrap">
+      <section className="border-b border-line">
+        <div className="wrap py-10">
           <StatusStrip />
         </div>
       </section>
 
       {/* Power path */}
-      <section className="section">
-        <div className="wrap">
-          <SectionHead title="Power path.">
-            <p>
-              100 W monocrystalline panel, doubling as the sunshade, into an MPPT controller with a LiFePO₄
-              profile, into a 12.8 V nominal, 20 Ah battery with integrated BMS. The main fuse sits within 7
-              inches of the positive post, per marine wiring convention. Inside the keg, slots B1 to B3 feed
-              three 12 V to 5.1 V buck converters, one per node; B4 feeds the switch; B5 feeds the 3.3 V sensor
-              rail and is the spare.
-            </p>
-          </SectionHead>
-          <div className="mt-10 min-w-0">
-            <table role="table" className="data responsive-data">
-              <caption className="sr-only">Pre-build power estimates</caption>
-              <colgroup>
-                {[5, 2, 2, 3].map((span, i) => <col key={i} style={{ width: `${span / 12 * 100}%` }} />)}
-              </colgroup>
-              <thead role="rowgroup">
-                <tr role="row">
-                  <th role="columnheader" scope="col">Load at the 12 V bus</th>
-                  <th role="columnheader" scope="col" className="num">Idle W</th>
-                  <th role="columnheader" scope="col" className="num">Full W</th>
-                  <th role="columnheader" scope="col">Grade</th>
-                </tr>
-              </thead>
-              <tbody role="rowgroup">
-                <tr role="row">
-                  <td role="cell" data-label="Load at the 12 V bus">Raspberry Pi 5, per node, ×3</td>
-                  <td role="cell" className="num" data-label="Idle W">3.0</td>
-                  <td role="cell" className="num" data-label="Full W">7.0</td>
-                  <td role="cell" data-label="Grade"><GradeTag g="plausible" /></td>
-                </tr>
-                <tr role="row">
-                  <td role="cell" data-label="Load at the 12 V bus">5-port gigabit switch</td>
-                  <td role="cell" className="num" data-label="Idle W">2.0</td>
-                  <td role="cell" className="num" data-label="Full W">2.0</td>
-                  <td role="cell" data-label="Grade"><GradeTag g="plausible" /></td>
-                </tr>
-                <tr role="row">
-                  <td role="cell" data-label="Load at the 12 V bus">Sensor rail and MPPT self-use</td>
-                  <td role="cell" className="num" data-label="Idle W">0.5</td>
-                  <td role="cell" className="num" data-label="Full W">0.5</td>
-                  <td role="cell" data-label="Grade"><GradeTag g="plausible" /></td>
-                </tr>
-                <tr role="row">
-                  <td role="cell" data-label="Load at the 12 V bus">Buck conversion efficiency</td>
-                  <td role="cell" className="num" colSpan={2} data-label="Idle / full">0.90</td>
-                  <td role="cell" data-label="Grade"><GradeTag g="plausible" /></td>
-                </tr>
-                <tr role="row">
-                  <td role="cell" className="font-semibold" data-label="Load at the 12 V bus">Cluster total at bus</td>
-                  <td role="cell" className="num font-semibold" data-label="Idle W">{m.idleW}</td>
-                  <td role="cell" className="num font-semibold" data-label="Full W">{m.fullW}</td>
-                  <td role="cell" className="sub" data-label="Grade">derived</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="t-meta mt-3">
-            Pi figures are typical values reported for the platform, not measurements. INA226 #2 replaces them
-            at idle and under one through four jobs.
+      <section className="border-b border-line">
+        <div className="wrap py-24">
+        <SectionHead title="Power path.">
+          <p>
+            100 W monocrystalline panel, doubling as the sunshade, into an MPPT controller with a LiFePO₄
+            profile, into a 12.8 V nominal, 20 Ah battery with integrated BMS. The main fuse sits within 7
+            inches of the positive post, per marine wiring convention. Inside the keg, slots B1 to B3 feed
+            three 12 V to 5.1 V buck converters, one per node; B4 feeds the switch; B5 feeds the 3.3 V sensor
+            rail and is the spare.
           </p>
+        </SectionHead>
+        <div className="mt-10 overflow-x-auto">
+          <table className="data min-w-[640px]">
+            <thead>
+              <tr>
+                <th>Load at the 12 V bus</th>
+                <th className="num">Idle W</th>
+                <th className="num">Full W</th>
+                <th>Grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Raspberry Pi 5, per node, ×3</td>
+                <td className="num">3.0</td>
+                <td className="num">7.0</td>
+                <td><GradeTag g="plausible" /></td>
+              </tr>
+              <tr>
+                <td>5-port gigabit switch</td>
+                <td className="num">2.0</td>
+                <td className="num">2.0</td>
+                <td><GradeTag g="plausible" /></td>
+              </tr>
+              <tr>
+                <td>Sensor rail and MPPT self-use</td>
+                <td className="num">0.5</td>
+                <td className="num">0.5</td>
+                <td><GradeTag g="plausible" /></td>
+              </tr>
+              <tr>
+                <td>Buck conversion efficiency</td>
+                <td className="num" colSpan={2}>0.90</td>
+                <td><GradeTag g="plausible" /></td>
+              </tr>
+              <tr>
+                <td className="font-semibold">Cluster total at bus</td>
+                <td className="num font-semibold">{m.idleW}</td>
+                <td className="num font-semibold">{m.fullW}</td>
+                <td className="sub">derived</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="t-meta mt-3">
+          Pi figures are typical values reported for the platform, not measurements. INA226 #2 replaces them
+          at idle and under one through four jobs.
+        </p>
         </div>
       </section>
 
       {/* Phases */}
-      <section className="section">
-        <div className="wrap">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
           <SectionHead title="Sixteen weeks, four gates." />
-          <ol className="editorial-list mt-10">
+          <ol className="mt-10 grid gap-px border border-line bg-line md:grid-cols-4">
             {phases.map((p) => (
-              <li key={p.n} className="spec-row">
-                <div className="section-heading">
-                  <p className="t-meta">{p.weeks} / {p.volumeN}, <em>{p.volume}</em></p>
-                  <h3 className="t-h3 mt-4">{p.name}</h3>
-                  <p className="t-meta mt-3">{money(p.budget)}</p>
+              <li key={p.n} className="bg-ground p-6">
+                <div className="flex items-baseline justify-between">
+                  <span className="t-num text-ink-faint">0{p.n}</span>
+                  <span className="t-meta">{p.weeks}</span>
                 </div>
-                <div className="section-copy">
-                  <p>{p.summary}</p>
-                  <p className="mt-4"><span className="t-meta">Gate. </span>{p.gate}</p>
-                </div>
+                <h3 className="t-h3 mt-4">{p.name}</h3>
+                <p className="t-meta mt-1">
+                  {p.volumeN}, <em>{p.volume}</em>. {money(p.budget)}
+                </p>
+                <p className="mt-4 text-[15px] text-ink-muted">{p.summary}</p>
+                <p className="mt-4 text-[15px]">
+                  <span className="t-meta">Gate. </span>
+                  {p.gate}
+                </p>
               </li>
             ))}
           </ol>
@@ -143,73 +142,69 @@ export default function Keg1() {
       </section>
 
       {/* BOM */}
-      <section className="section">
-        <div className="wrap">
-          <SectionHead title="Bill of materials, estimate against actual.">
-            <p>
-              Prepared September 30, 2026. Only two lines were checked against live listings: the Pi 5 boards
-              and the keg. The rest are estimates. Actual prices are written beside each estimate at purchase,
-              and the gap is the project&rsquo;s first cost-variance dataset. Assumed on hand: a laptop, a drill,
-              hand tools.
-            </p>
-          </SectionHead>
-          <div className="mt-10 min-w-0">
-            <table role="table" className="data responsive-data">
-              <caption className="sr-only">Bill of materials</caption>
-              <colgroup>
-                {[5, 1, 1, 2, 1, 2].map((span, i) => <col key={i} style={{ width: `${span / 12 * 100}%` }} />)}
-              </colgroup>
-              <thead role="rowgroup">
-                <tr role="row">
-                  <th role="columnheader" scope="col">Item</th>
-                  <th role="columnheader" scope="col" className="num">Qty</th>
-                  <th role="columnheader" scope="col" className="num">Estimate</th>
-                  <th role="columnheader" scope="col">Price status</th>
-                  <th role="columnheader" scope="col" className="num">Actual</th>
-                  <th role="columnheader" scope="col" className="num">Variance</th>
-                </tr>
-              </thead>
-              <tbody role="rowgroup">
-                {phases.map((p) => (
-                  <PhaseRows key={p.n} n={p.n} name={p.name} rows={byPhase(p.n)} subtotal={sum(byPhase(p.n))} />
-                ))}
-                <tr role="row">
-                  <td role="cell" className="font-semibold" data-label="Item">Parts subtotal</td>
-                  <td role="cell" className="num" data-label="Qty" />
-                  <td role="cell" className="num font-semibold" data-label="Estimate">{money(bomTotals.parts)}</td>
-                  <td role="cell" data-label="Price status" />
-                  <td role="cell" className="num" data-label="Actual">{actualSum? money(actualSum):"—"}</td>
-                  <td role="cell" className="num" data-label="Variance">—</td>
-                </tr>
-                <tr role="row">
-                  <td role="cell" className="sub" data-label="Item">Contingency, 20.5%: price swings, shipping, tax, mistakes</td>
-                  <td role="cell" className="num" data-label="Qty" />
-                  <td role="cell" className="num" data-label="Estimate">{money(bomTotals.contingency)}</td>
-                  <td role="cell" data-label="Price status" />
-                  <td role="cell" className="num" data-label="Actual">—</td>
-                  <td role="cell" className="num" data-label="Variance">—</td>
-                </tr>
-                <tr role="row">
-                  <td role="cell" className="font-semibold" data-label="Item">Project budget</td>
-                  <td role="cell" className="num" data-label="Qty" />
-                  <td role="cell" className="num font-semibold" data-label="Estimate">{money(bomTotals.budget)}</td>
-                  <td role="cell" data-label="Price status" />
-                  <td role="cell" className="num" data-label="Actual">—</td>
-                  <td role="cell" className="num" data-label="Variance">—</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="t-meta mt-3">
-            Energy and the enclosure are 70% of parts cost. Compute is under a fifth. That is the keg-scale
-            version of the warehouse observation that power and cooling, not servers, set the capital shape.
+      <section className="border-b border-line">
+        <div className="wrap py-24">
+        <SectionHead title="Bill of materials, estimate against actual.">
+          <p>
+            Prepared September 30, 2026. Only two lines were checked against live listings: the Pi 5 boards
+            and the keg. The rest are estimates. Actual prices are written beside each estimate at purchase,
+            and the gap is the project&rsquo;s first cost-variance dataset. Assumed on hand: a laptop, a drill,
+            hand tools.
           </p>
+        </SectionHead>
+        <div className="mt-10 overflow-x-auto">
+          <table className="data min-w-[720px]">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th className="num">Qty</th>
+                <th className="num">Estimate</th>
+                <th>Price status</th>
+                <th className="num">Actual</th>
+                <th className="num">Variance</th>
+              </tr>
+            </thead>
+            <tbody>
+              {phases.map((p) => (
+                <PhaseRows key={p.n} n={p.n} name={p.name} rows={byPhase(p.n)} subtotal={sum(byPhase(p.n))} />
+              ))}
+              <tr>
+                <td className="font-semibold">Parts subtotal</td>
+                <td className="num" />
+                <td className="num font-semibold">{money(bomTotals.parts)}</td>
+                <td />
+                <td className="num">{actualSum ? money(actualSum) : "—"}</td>
+                <td className="num">—</td>
+              </tr>
+              <tr>
+                <td className="sub">Contingency, 20.5%: price swings, shipping, tax, mistakes</td>
+                <td className="num" />
+                <td className="num">{money(bomTotals.contingency)}</td>
+                <td />
+                <td className="num">—</td>
+                <td className="num">—</td>
+              </tr>
+              <tr>
+                <td className="font-semibold">Project budget</td>
+                <td className="num" />
+                <td className="num font-semibold">{money(bomTotals.budget)}</td>
+                <td />
+                <td className="num">—</td>
+                <td className="num">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="t-meta mt-3">
+          Energy and the enclosure are 70% of parts cost. Compute is under a fifth. That is the keg-scale
+          version of the warehouse observation that power and cooling, not servers, set the capital shape.
+        </p>
         </div>
       </section>
 
       {/* Claims */}
-      <section className="section">
-        <div className="wrap">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
           <SectionHead title="Ten claims under test.">
             <p>
               Each design claim is paired with the instrument that will test it and the expectation it must
@@ -217,31 +212,27 @@ export default function Keg1() {
               buying the part. Results land in the build log and replace these rows one at a time.
             </p>
           </SectionHead>
-          <div className="mt-10 min-w-0">
-            <table role="table" className="data responsive-data claims-table">
-              <caption className="sr-only">Claims under test</caption>
-              <colgroup>
-                {[3, 2, 2, 2, 2, 1].map((span, i) => <col key={i} style={{ width: `${span / 12 * 100}%` }} />)}
-              </colgroup>
-              <thead role="rowgroup">
-                <tr role="row">
-                  <th role="columnheader" scope="col">Claim</th>
-                  <th role="columnheader" scope="col">Grade</th>
-                  <th role="columnheader" scope="col">Instrument</th>
-                  <th role="columnheader" scope="col">Test</th>
-                  <th role="columnheader" scope="col">Pre-build expectation</th>
-                  <th role="columnheader" scope="col">Measured</th>
+          <div className="mt-10 overflow-x-auto">
+            <table className="data min-w-[880px]">
+              <thead>
+                <tr>
+                  <th>Claim</th>
+                  <th>Grade</th>
+                  <th>Instrument</th>
+                  <th>Test</th>
+                  <th>Pre-build expectation</th>
+                  <th>Measured</th>
                 </tr>
               </thead>
-              <tbody role="rowgroup">
+              <tbody>
                 {claims.map((c) => (
-                  <tr role="row" key={c.claim}>
-                    <td role="cell" data-label="Claim">{c.claim}</td>
-                    <td role="cell" data-label="Grade"><GradeTag g={c.grade} /></td>
-                    <td role="cell" className="sub" data-label="Instrument">{c.instrument}</td>
-                    <td role="cell" className="sub" data-label="Test">{c.test}</td>
-                    <td role="cell" data-label="Pre-build expectation">{c.expectation}</td>
-                    <td role="cell" aria-label="No measurement recorded" data-label="Measured" />
+                  <tr key={c.claim}>
+                    <td>{c.claim}</td>
+                    <td><GradeTag g={c.grade} /></td>
+                    <td className="sub">{c.instrument}</td>
+                    <td className="sub">{c.test}</td>
+                    <td>{c.expectation}</td>
+                    <td className="sub">not yet</td>
                   </tr>
                 ))}
               </tbody>
@@ -251,23 +242,23 @@ export default function Keg1() {
       </section>
 
       {/* Safety */}
-      <section className="section">
-        <div className="wrap">
-          <SectionHead title="Rules that gate every step.">
-            <p>
-              Two further constraints follow from the hardware. Pi GPIO pins operate at 3.3 V and are not 5 V
-              tolerant, so the sensor rail is 3.3 V only. Every load test stays above the BMS low-voltage
-              cutoff; a node that browns out has already reset, and there is no recovery step to prove.
-            </p>
-          </SectionHead>
-          <ul className="editorial-list mt-10">
-            {safetyRules.map((r) => (
-              <li key={r.rule} className="spec-row">
-                <h3 className="t-h3 section-heading">{r.rule}</h3>
-                <p className="section-copy">{r.detail}</p>
-              </li>
-            ))}
-          </ul>
+      <section>
+        <div className="wrap py-24">
+        <SectionHead title="Rules that gate every step.">
+          <p>
+            Two further constraints follow from the hardware. Pi GPIO pins operate at 3.3 V and are not 5 V
+            tolerant, so the sensor rail is 3.3 V only. Every load test stays above the BMS low-voltage
+            cutoff; a node that browns out has already reset, and there is no recovery step to prove.
+          </p>
+        </SectionHead>
+        <ul className="mt-10 grid gap-px border border-line bg-line md:grid-cols-4">
+          {safetyRules.map((r) => (
+            <li key={r.rule} className="bg-ground p-6">
+              <p className="font-semibold">{r.rule}</p>
+              <p className="t-small mt-1 text-ink-muted">{r.detail}</p>
+            </li>
+          ))}
+        </ul>
         </div>
       </section>
     </>
@@ -287,24 +278,24 @@ function PhaseRows({
 }) {
   return (
     <>
-      <tr role="row">
-        <td role="cell" colSpan={6} className="pt-6" data-section="true">
+      <tr>
+        <td colSpan={6} className="pt-6">
           <span className="t-num text-ink-faint">0{n}</span>
           <span className="ml-3 font-semibold">{name}</span>
           <span className="t-meta ml-3">{money(subtotal)}</span>
         </td>
       </tr>
       {rows.map((r) => {
-        const v=r.actual==null? null:r.actual-r.est;
+        const v = r.actual == null ? null : r.actual - r.est;
         return (
-          <tr role="row" key={r.item}>
-            <td role="cell" data-label="Item">{r.item}</td>
-            <td role="cell" className="num" data-label="Qty">{r.qty}</td>
-            <td role="cell" className="num" data-label="Estimate">{money(r.est)}</td>
-            <td role="cell" className="sub" data-label="Price status">{r.status==="checked"? "Checked 9/2026":"Estimate"}</td>
-            <td role="cell" className="num" data-label="Actual">{r.actual==null? "—":money(r.actual)}</td>
-            <td role="cell" className="num" data-label="Variance">
-              {v==null? "—":`${v>=0? "+":"−"}${money(Math.abs(v))}`}
+          <tr key={r.item}>
+            <td>{r.item}</td>
+            <td className="num">{r.qty}</td>
+            <td className="num">{money(r.est)}</td>
+            <td className="sub">{r.status === "checked" ? "Checked 9/2026" : "Estimate"}</td>
+            <td className="num">{r.actual == null ? "—" : money(r.actual)}</td>
+            <td className="num">
+              {v == null ? "—" : `${v >= 0 ? "+" : "−"}${money(Math.abs(v))}`}
             </td>
           </tr>
         );
