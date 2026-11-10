@@ -19,7 +19,8 @@ export default function Company() {
         </p>
       </section>
 
-      <section className="wrap py-20">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
         <SectionHead title="Structure.">
           <p>
             A public benefit corporation is a for-profit company whose charter names a public benefit and
@@ -28,10 +29,11 @@ export default function Company() {
             charter rather than into a marketing page. Formation budget: $500. Status: forming.
           </p>
         </SectionHead>
+        </div>
       </section>
 
-      <section className="border-y border-line bg-surface">
-        <div className="wrap py-20">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
           <SectionHead title="Founder.">
             <p className="font-semibold">{site.founder}</p>
             <p className="mt-2">
@@ -55,7 +57,8 @@ export default function Company() {
         </div>
       </section>
 
-      <section className="wrap py-20">
+      <section>
+        <div className="wrap py-24">
         <SectionHead title="Contact.">
           <p>
             For research correspondence, replication, or partnership on the measurement phases:{" "}
@@ -63,6 +66,7 @@ export default function Company() {
             site itself: <a className="link" href={site.github}>the repository</a>.
           </p>
         </SectionHead>
+        </div>
       </section>
     </>
   );

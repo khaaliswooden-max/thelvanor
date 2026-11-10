@@ -47,12 +47,15 @@ export default function Keg1() {
         </div>
       </section>
 
-      <section className="wrap py-10">
-        <StatusStrip />
+      <section className="border-b border-line">
+        <div className="wrap py-10">
+          <StatusStrip />
+        </div>
       </section>
 
       {/* Power path */}
-      <section className="wrap py-16">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
         <SectionHead title="Power path.">
           <p>
             100 W monocrystalline panel, doubling as the sunshade, into an MPPT controller with a LiFePO₄
@@ -109,15 +112,16 @@ export default function Keg1() {
           Pi figures are typical values reported for the platform, not measurements. INA226 #2 replaces them
           at idle and under one through four jobs.
         </p>
+        </div>
       </section>
 
       {/* Phases */}
-      <section className="border-y border-line bg-surface">
-        <div className="wrap py-16">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
           <SectionHead title="Sixteen weeks, four gates." />
           <ol className="mt-10 grid gap-px border border-line bg-line md:grid-cols-4">
             {phases.map((p) => (
-              <li key={p.n} className="bg-surface p-6">
+              <li key={p.n} className="bg-ground p-6">
                 <div className="flex items-baseline justify-between">
                   <span className="t-num text-ink-faint">0{p.n}</span>
                   <span className="t-meta">{p.weeks}</span>
@@ -138,7 +142,8 @@ export default function Keg1() {
       </section>
 
       {/* BOM */}
-      <section className="wrap py-16">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
         <SectionHead title="Bill of materials, estimate against actual.">
           <p>
             Prepared September 30, 2026. Only two lines were checked against live listings: the Pi 5 boards
@@ -194,11 +199,12 @@ export default function Keg1() {
           Energy and the enclosure are 70% of parts cost. Compute is under a fifth. That is the keg-scale
           version of the warehouse observation that power and cooling, not servers, set the capital shape.
         </p>
+        </div>
       </section>
 
       {/* Claims */}
-      <section className="border-y border-line bg-surface">
-        <div className="wrap py-16">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
           <SectionHead title="Ten claims under test.">
             <p>
               Each design claim is paired with the instrument that will test it and the expectation it must
@@ -236,7 +242,8 @@ export default function Keg1() {
       </section>
 
       {/* Safety */}
-      <section className="wrap py-16">
+      <section>
+        <div className="wrap py-24">
         <SectionHead title="Rules that gate every step.">
           <p>
             Two further constraints follow from the hardware. Pi GPIO pins operate at 3.3 V and are not 5 V
@@ -244,7 +251,7 @@ export default function Keg1() {
             cutoff; a node that browns out has already reset, and there is no recovery step to prove.
           </p>
         </SectionHead>
-        <ul className="mt-10 grid gap-px border border-keg-dim bg-keg-dim md:grid-cols-4">
+        <ul className="mt-10 grid gap-px border border-line bg-line md:grid-cols-4">
           {safetyRules.map((r) => (
             <li key={r.rule} className="bg-ground p-6">
               <p className="font-semibold">{r.rule}</p>
@@ -252,6 +259,7 @@ export default function Keg1() {
             </li>
           ))}
         </ul>
+        </div>
       </section>
     </>
   );
@@ -286,7 +294,7 @@ function PhaseRows({
             <td className="num">{money(r.est)}</td>
             <td className="sub">{r.status === "checked" ? "Checked 9/2026" : "Estimate"}</td>
             <td className="num">{r.actual == null ? "—" : money(r.actual)}</td>
-            <td className="num" style={v != null && v > 0 ? { color: "var(--keg)" } : undefined}>
+            <td className="num">
               {v == null ? "—" : `${v >= 0 ? "+" : "−"}${money(Math.abs(v))}`}
             </td>
           </tr>

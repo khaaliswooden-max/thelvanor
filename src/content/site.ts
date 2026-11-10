@@ -265,3 +265,51 @@ export const safetyRules = [
   { rule: "Water tests are tethered only.", detail: "A pool, a private pond, or a permitted dock. No open water in v1." },
   { rule: "Orbit is a ground analog.", detail: "Simulated eclipse power cycles and radiation-only cooling. Nothing launches." },
 ];
+
+// Primary navigation. The header mega-panel renders from this structure:
+// one blurb and one link list per section, two columns below the bar.
+export const nav = [
+  {
+    href: "/thesis",
+    label: "Thesis",
+    blurb:
+      "The reason the company exists. A draft public benefit statement arguing that infrastructure should be understandable by the people who depend on it, and three commitments written to be checked, not admired.",
+    links: [
+      { href: "/thesis", label: "The thesis", note: "The problem, in one paragraph" },
+      { href: "/thesis", label: "Three commitments", note: "Measure, publish, build at ownable scale" },
+      { href: "/company", label: "The company", note: "Structure, founder, contact" },
+    ],
+  },
+  {
+    href: "/keg-1",
+    label: "Keg-1",
+    blurb:
+      "The first instrument. The architecture and power path, a bill of materials kept as estimate against actual, and the ten pre-build claims paired with the instruments that will test them.",
+    links: [
+      { href: "/keg-1", label: "The design", note: "Power path, BOM, claims under test" },
+      { href: "/keg-1/log", label: "Build log", note: "What the sensors said" },
+    ],
+  },
+  {
+    href: "/research",
+    label: "Research",
+    blurb:
+      "What the build is for. The pre-build preprint, three candidate research questions stated before the first measurement, and learning ladders that climb from sixth grade to doctoral work.",
+    links: [
+      { href: site.preprint.url, label: "Preprint on SSRN", note: "Open access, CC BY 4.0" },
+      { href: "/research", label: "Research questions", note: "Stated now, tested later" },
+      { href: "/research", label: "Learning ladders", note: "Poles, Chips, and Halls" },
+    ],
+  },
+  {
+    href: "/company",
+    label: "Company",
+    blurb:
+      "Thelvanor, PBC is a public benefit corporation forming in Texas. The scale is the point: one founder, a small budget, and a charter that names the public benefit before there is anything to sell.",
+    links: [
+      { href: "/company", label: "Structure", note: "A PBC, chosen before revenue" },
+      { href: "/company", label: "Founder", note: "Background and intent" },
+      { href: `mailto:${site.email}`, label: "Contact", note: "Research correspondence" },
+    ],
+  },
+];

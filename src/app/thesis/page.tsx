@@ -23,7 +23,8 @@ export default function Thesis() {
         </p>
       </section>
 
-      <section className="wrap py-20">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
         <SectionHead title="The problem, in one paragraph.">
           <p>
             Data centers have become the industrial plants of the intelligence age, and their electricity
@@ -33,10 +34,11 @@ export default function Thesis() {
             audit. That gap is a governance problem before it is an engineering one.
           </p>
         </SectionHead>
+        </div>
       </section>
 
-      <section className="border-y border-line bg-surface">
-        <div className="wrap py-20">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
           <SectionHead title="Three commitments.">
             <p>
               These are the public benefits the corporation will be chartered to pursue. They are written to
@@ -58,7 +60,7 @@ export default function Thesis() {
                 b: "The first product is a data center that costs less than a used laptop, runs on one solar panel, and can be opened with a wrench. What a community can afford, it can also inspect.",
               },
             ].map((c, i) => (
-              <li key={c.t} className="bg-surface p-6 md:p-8">
+              <li key={c.t} className="bg-ground p-6 md:p-8">
                 <span className="t-num text-ink-faint">0{i + 1}</span>
                 <h3 className="t-h3 mt-4">{c.t}</h3>
                 <p className="mt-3 text-[15px] text-ink-muted">{c.b}</p>
@@ -68,7 +70,8 @@ export default function Thesis() {
         </div>
       </section>
 
-      <section className="wrap py-20">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
         <SectionHead title="Why a keg.">
           <p>
             Because it is the smallest sealed, weather-tight, thermally conductive enclosure that costs about
@@ -81,9 +84,11 @@ export default function Thesis() {
             candidate research questions are on the <Link className="link" href="/research">research page</Link>.
           </p>
         </SectionHead>
+        </div>
       </section>
 
-      <section className="wrap pb-20">
+      <section>
+        <div className="wrap py-24">
         <SectionHead title="What this page is not.">
           <p>
             It is not a product roadmap, a fundraising deck, or a forecast. Thelvanor has no revenue, no
@@ -96,6 +101,7 @@ export default function Thesis() {
             .
           </p>
         </SectionHead>
+        </div>
       </section>
     </>
   );

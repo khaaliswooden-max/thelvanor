@@ -22,7 +22,8 @@ export default function Research() {
       </section>
 
       {/* Preprint */}
-      <section className="wrap py-20">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
         <SectionHead kicker="Preprint" title={site.preprint.title}>
           <p className="t-meta">
             {site.founder}. {site.preprint.venue}, {site.preprint.date}. {site.preprint.id}. {site.preprint.license}.
@@ -43,11 +44,12 @@ export default function Research() {
             </Link>
           </div>
         </SectionHead>
+        </div>
       </section>
 
       {/* RQs */}
-      <section className="border-y border-line bg-surface">
-        <div className="wrap py-20">
+      <section className="border-b border-line">
+        <div className="wrap py-24">
           <SectionHead title="Three candidate research questions.">
             <p>
               Stated now so the measurement phases are designed to answer them, not merely to finish the
@@ -58,7 +60,7 @@ export default function Research() {
           </SectionHead>
           <ol className="mt-12 grid gap-px border border-line bg-line md:grid-cols-3">
             {researchQuestions.map((q) => (
-              <li key={q.id} className="bg-surface p-6 md:p-8">
+              <li key={q.id} className="bg-ground p-6 md:p-8">
                 <span className="t-num text-ink-faint">{q.id}</span>
                 <h3 className="t-h3 mt-4">{q.title}</h3>
                 <p className="mt-3 text-[15px] text-ink-muted">{q.body}</p>
@@ -69,7 +71,8 @@ export default function Research() {
       </section>
 
       {/* Ladders */}
-      <section className="wrap py-20">
+      <section>
+        <div className="wrap py-24">
         <SectionHead title="The learning ladders.">
           <p>
             Each volume climbs five rungs, sixth grade to doctoral, and each rung ends on the bench with a
@@ -96,6 +99,7 @@ export default function Research() {
               </ul>
             </div>
           ))}
+        </div>
         </div>
       </section>
     </>

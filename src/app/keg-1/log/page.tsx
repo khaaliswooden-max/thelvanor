@@ -23,11 +23,14 @@ export default function LogPage() {
         </p>
       </section>
 
-      <section className="wrap py-10">
-        <StatusStrip />
+      <section className="border-b border-line">
+        <div className="wrap py-10">
+          <StatusStrip />
+        </div>
       </section>
 
-      <section className="wrap pb-20">
+      <section>
+        <div className="wrap py-16 pb-24">
         {entries.length === 0 ? (
           <p className="t-meta">No entries yet.</p>
         ) : (
@@ -48,6 +51,7 @@ export default function LogPage() {
             ))}
           </ol>
         )}
+        </div>
       </section>
     </>
   );
