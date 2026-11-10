@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Grid } from "@/components/Grid";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
-import { navigation,site } from "@/content/site";
+import { site } from "@/content/site";
 
-export const metadata: Metadata={
+export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
     default: `${site.name}. ${site.tagline}`,
@@ -31,11 +32,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
-        <Nav items={navigation} name={site.name} />
-        <main id="main" tabIndex={-1} className="flex-1">
-          <div className="page-grid wrap" aria-hidden="true">
-            {Array.from({ length: 12 },(_,i) => <span key={i} />)}
-          </div>
+        <Grid />
+        <Nav />
+        <main id="main" className="flex-1">
           {children}
         </main>
         <Footer />
