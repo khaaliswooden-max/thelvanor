@@ -1,42 +1,44 @@
 import Link from "next/link";
-import { site, status } from "@/content/site";
+import { navigation, site, status } from "@/content/site";
 
 export function Footer() {
   return (
-    <footer className="mt-32 border-t border-line">
-      <div className="wrap grid gap-10 py-12 md:grid-cols-12">
-        <div className="md:col-span-5">
+    <footer className="site-footer">
+      <div className="wrap footer-grid">
+        <div>
+          <h2 className="t-meta mb-6">Company</h2>
           <p className="t-h3">{site.legal}</p>
-          <p className="t-meta mt-2 max-w-sm">
-            A public benefit corporation forming in Texas. A sub-$1,000 solar data center in a
-            stainless keg, built as an instrument and published as it is measured.
-          </p>
+          <p className="mt-4">{site.tagline}</p>
+          <Link className="link mt-6 inline-block" href="/company">About the company</Link>
         </div>
-        <div className="md:col-span-3">
-          <p className="t-meta mb-3">Site</p>
-          <ul className="space-y-2 text-[15px]">
-            <li><Link className="link" href="/thesis">Thesis</Link></li>
-            <li><Link className="link" href="/keg-1">Keg-1</Link></li>
+        <nav aria-label="Footer">
+          <h2 className="t-meta mb-6">Site</h2>
+          <ul className="space-y-3">
+            {navigation.map((item) => (
+              <li key={item.href}><Link className="link" href={item.href}>{item.label}</Link></li>
+            ))}
             <li><Link className="link" href="/keg-1/log">Build log</Link></li>
-            <li><Link className="link" href="/research">Research</Link></li>
-            <li><Link className="link" href="/company">Company</Link></li>
           </ul>
-        </div>
-        <div className="md:col-span-4">
-          <p className="t-meta mb-3">Elsewhere</p>
-          <ul className="space-y-2 text-[15px]">
+        </nav>
+        <div>
+          <h2 className="t-meta mb-6">Elsewhere</h2>
+          <ul className="space-y-3">
             <li><a className="link" href={site.preprint.url}>Preprint on SSRN</a></li>
             <li><a className="link" href={site.github}>Source on GitHub</a></li>
             <li><a className="link" href={`https://orcid.org/${site.orcid}`}>ORCID {site.orcid}</a></li>
             <li><a className="link" href={`mailto:${site.email}`}>{site.email}</a></li>
           </ul>
         </div>
+        <div>
+          <h2 className="t-meta mb-6">Status</h2>
+          <p className="t-h3">Phase {status.phase}</p>
+          <p className="mt-3">{status.phaseName}</p>
+          <p className="t-meta mt-6">As of <time dateTime={status.asOf}>{status.asOf}</time></p>
+          <p className="t-meta mt-3">{status.measurements} measurements logged</p>
+        </div>
       </div>
-      <div className="wrap flex flex-col gap-2 border-t border-line py-5 text-[13px] text-ink-faint sm:flex-row sm:justify-between">
-        <span>© 2026 {site.legal}. Papers CC BY 4.0. Code MIT.</span>
-        <span className="t-num">
-          Phase {status.phase} as of {status.asOf}
-        </span>
+      <div className="footer-bottom">
+        <p className="wrap t-meta">© 2026 {site.legal}. Papers {site.preprint.license}. Code MIT.</p>
       </div>
     </footer>
   );
