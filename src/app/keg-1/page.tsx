@@ -19,11 +19,11 @@ export default function Keg1() {
 
   return (
     <>
-      <section className="wrap border-b border-line py-16 md:py-24">
-        <div className="grid gap-10 md:grid-cols-12">
-          <div className="md:col-span-7">
+      <section className="section hero">
+        <div className="wrap hero-grid">
+          <div className="hero-copy">
             <p className="t-meta mb-4">Keg-1. Version 1</p>
-            <h1 className="t-h1">
+            <h1 className="t-display">
               Three nodes, one panel, one keg.
             </h1>
             <p className="t-lede mt-8">
@@ -41,9 +41,10 @@ export default function Keg1() {
               </a>
             </div>
           </div>
-          <div className="md:col-span-5">
-            <KegDrawing animate={false} className="w-full" />
-          </div>
+          <figure className="hero-figure">
+            <KegDrawing className="w-full" />
+            <figcaption className="t-meta">Keg-1 / Cross-section / Not to scale</figcaption>
+          </figure>
         </div>
       </section>
 

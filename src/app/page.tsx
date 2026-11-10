@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { KegSection } from "@/components/KegSection";
 import { KegDrawing } from "@/components/KegDrawing";
 import { NightChart } from "@/components/NightChart";
 import { GradeTag, SectionHead, StatusStrip } from "@/components/ui";
@@ -8,11 +9,10 @@ export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative border-b border-line">
-        <div className="wrap relative grid items-end gap-10 py-16 md:min-h-[82vh] md:grid-cols-12 md:py-20">
-          {/* column rules, hero only */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px bg-line md:block" />
-          <div className="md:col-span-6">
+      <section className="section hero">
+        <div className="wrap hero-grid">
+          <div className="hero-copy">
+            <p className="t-meta mb-8">{site.name} / Keg-1 / {status.phaseName}</p>
             <h1 className="t-display">
               A data center
               <br />
@@ -32,9 +32,10 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="md:col-span-6 md:pl-10">
-            <KegDrawing className="mx-auto w-full max-w-[560px]" />
-          </div>
+          <figure className="hero-figure">
+            <KegDrawing className="w-full" />
+            <figcaption className="t-meta">Keg-1 / Cross-section / Not to scale</figcaption>
+          </figure>
         </div>
       </section>
 
@@ -94,6 +95,8 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <KegSection />
 
       {/* Governing problem */}
       <section className="border-y border-line bg-surface">

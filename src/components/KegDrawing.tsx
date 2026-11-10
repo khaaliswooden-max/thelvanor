@@ -1,30 +1,33 @@
+import { useId } from "react";
+
 // Keg-1 cross-section as a hairline technical drawing. Not to scale.
 // Follows Fig. 2 of the pre-build preprint. The only color is the keg itself.
 
-type Props = { className?: string; animate?: boolean };
+type Props = { className?: string; animate?: boolean; detail?: boolean };
 
-export function KegDrawing({ className = "", animate = true }: Props) {
+export function KegDrawing({ className = "", animate = true, detail = false }: Props) {
+  const id = useId();
   const line = "var(--line-strong)";
   const ink = "var(--ink-muted)";
   const keg = "var(--keg)";
   const label = {
     fontFamily: "var(--font-mono)",
-    fontSize: 11,
+    fontSize: 13,
     fill: ink,
   } as const;
 
   return (
     <svg
-      viewBox="0 0 640 760"
+      viewBox={detail ? "110 80 360 600" : "-60 0 820 760"}
       className={`${className} ${animate ? "draws" : ""}`}
       role="img"
-      aria-labelledby="keg-title keg-desc"
+      aria-labelledby={`${id}-title ${id}-desc`}
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <title id="keg-title">Keg-1 cross-section</title>
-      <desc id="keg-desc">
+      <title id={`${id}-title`}>Keg-1 cross-section</title>
+      <desc id={`${id}-desc`}>
         A five-gallon stainless keg in section. Three Raspberry Pi 5 nodes on the left wall conduct heat
         through a 3 mm aluminum plate to the keg shell. A fuse block, three buck converters, and a gigabit
         switch sit on the right. Sealed penetrations are on the upper sidewall. Four temperature probes, a
@@ -32,8 +35,10 @@ export function KegDrawing({ className = "", animate = true }: Props) {
       </desc>
 
       {/* Keg shell */}
-      <g className="d1" stroke={keg} strokeWidth="2">
-        <rect x="140" y="80" width="300" height="600" rx="26" />
+      <g className="d1" stroke={keg} strokeWidth="1">
+        <path d="M182 80H398C424 80 440 108 440 140V636C440 664 422 680 394 680H186C158 680 140 664 140 636V140C140 108 156 80 182 80Z" />
+        <path d="M140 154H440M140 166H440M140 546H440M140 558H440M146 650H434" />
+        <path d="M166 94H414M166 106H414" />
         {/* lid lip and PRV */}
         <path d="M168 80v-18h244v18" />
         <path d="M300 62v-16h40v16" />
@@ -43,7 +48,7 @@ export function KegDrawing({ className = "", animate = true }: Props) {
       <line className="d1" x1="290" y1="40" x2="290" y2="710" stroke={line} strokeDasharray="2 6" strokeWidth="1" />
 
       {/* Aluminum plate on left wall */}
-      <g className="d2" stroke={ink} strokeWidth="1.25">
+      <g className="d2" stroke={ink} strokeWidth="1">
         <rect x="144" y="180" width="14" height="330" />
         {/* Pi nodes with thermal pads */}
         {[200, 310, 420].map((y) => (
@@ -66,7 +71,7 @@ export function KegDrawing({ className = "", animate = true }: Props) {
       </g>
 
       {/* Penetrations on the upper right wall */}
-      <g className="d3" stroke={ink} strokeWidth="1.25">
+      <g className="d3" stroke={ink} strokeWidth="1">
         <circle cx="440" cy="130" r="9" />
         <circle cx="440" cy="160" r="9" />
         <line x1="449" y1="130" x2="500" y2="130" />
@@ -96,7 +101,7 @@ export function KegDrawing({ className = "", animate = true }: Props) {
       </g>
 
       {/* Labels */}
-      <g style={label}>
+      <g style={label} className={detail ? "keg-labels-hidden" : ""}>
         <text x="256" y="100">DS18B20, air</text>
         <text x="240" y="170" textAnchor="middle">DS18B20, SoC</text>
         <text x="88" y="296" textAnchor="end">DS18B20, outside</text>
