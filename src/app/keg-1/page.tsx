@@ -66,45 +66,46 @@ export default function Keg1() {
             rail and is the spare.
           </p>
         </SectionHead>
-        <div className="mt-10 overflow-x-auto">
-          <table className="data min-w-[640px]">
-            <thead>
-              <tr>
-                <th>Load at the 12 V bus</th>
-                <th className="num">Idle W</th>
-                <th className="num">Full W</th>
-                <th>Grade</th>
+        <div className="mt-10 min-w-0">
+          <table role="table" className="data responsive-data">
+            <caption className="sr-only">Pre-build power estimates</caption>
+            <thead role="rowgroup">
+              <tr role="row">
+                <th role="columnheader" scope="col">Load at the 12 V bus</th>
+                <th role="columnheader" scope="col" className="num">Idle W</th>
+                <th role="columnheader" scope="col" className="num">Full W</th>
+                <th role="columnheader" scope="col">Grade</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>Raspberry Pi 5, per node, ×3</td>
-                <td className="num">3.0</td>
-                <td className="num">7.0</td>
-                <td><GradeTag g="plausible" /></td>
+            <tbody role="rowgroup">
+              <tr role="row">
+                <td role="cell" data-label="Load at the 12 V bus">Raspberry Pi 5, per node, ×3</td>
+                <td role="cell" className="num" data-label="Idle W">3.0</td>
+                <td role="cell" className="num" data-label="Full W">7.0</td>
+                <td role="cell" data-label="Grade"><GradeTag g="plausible" /></td>
               </tr>
-              <tr>
-                <td>5-port gigabit switch</td>
-                <td className="num">2.0</td>
-                <td className="num">2.0</td>
-                <td><GradeTag g="plausible" /></td>
+              <tr role="row">
+                <td role="cell" data-label="Load at the 12 V bus">5-port gigabit switch</td>
+                <td role="cell" className="num" data-label="Idle W">2.0</td>
+                <td role="cell" className="num" data-label="Full W">2.0</td>
+                <td role="cell" data-label="Grade"><GradeTag g="plausible" /></td>
               </tr>
-              <tr>
-                <td>Sensor rail and MPPT self-use</td>
-                <td className="num">0.5</td>
-                <td className="num">0.5</td>
-                <td><GradeTag g="plausible" /></td>
+              <tr role="row">
+                <td role="cell" data-label="Load at the 12 V bus">Sensor rail and MPPT self-use</td>
+                <td role="cell" className="num" data-label="Idle W">0.5</td>
+                <td role="cell" className="num" data-label="Full W">0.5</td>
+                <td role="cell" data-label="Grade"><GradeTag g="plausible" /></td>
               </tr>
-              <tr>
-                <td>Buck conversion efficiency</td>
-                <td className="num" colSpan={2}>0.90</td>
-                <td><GradeTag g="plausible" /></td>
+              <tr role="row">
+                <td role="cell" data-label="Load at the 12 V bus">Buck conversion efficiency</td>
+                <td role="cell" className="num" colSpan={2} data-label="Idle / full">0.90</td>
+                <td role="cell" data-label="Grade"><GradeTag g="plausible" /></td>
               </tr>
-              <tr>
-                <td className="font-semibold">Cluster total at bus</td>
-                <td className="num font-semibold">{m.idleW}</td>
-                <td className="num font-semibold">{m.fullW}</td>
-                <td className="sub">derived</td>
+              <tr role="row">
+                <td role="cell" className="font-semibold" data-label="Load at the 12 V bus">Cluster total at bus</td>
+                <td role="cell" className="num font-semibold" data-label="Idle W">{m.idleW}</td>
+                <td role="cell" className="num font-semibold" data-label="Full W">{m.fullW}</td>
+                <td role="cell" className="sub" data-label="Grade">derived</td>
               </tr>
             </tbody>
           </table>
@@ -149,45 +150,46 @@ export default function Keg1() {
             hand tools.
           </p>
         </SectionHead>
-        <div className="mt-10 overflow-x-auto">
-          <table className="data min-w-[720px]">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th className="num">Qty</th>
-                <th className="num">Estimate</th>
-                <th>Price status</th>
-                <th className="num">Actual</th>
-                <th className="num">Variance</th>
+        <div className="mt-10 min-w-0">
+          <table role="table" className="data responsive-data">
+            <caption className="sr-only">Bill of materials</caption>
+            <thead role="rowgroup">
+              <tr role="row">
+                <th role="columnheader" scope="col">Item</th>
+                <th role="columnheader" scope="col" className="num">Qty</th>
+                <th role="columnheader" scope="col" className="num">Estimate</th>
+                <th role="columnheader" scope="col">Price status</th>
+                <th role="columnheader" scope="col" className="num">Actual</th>
+                <th role="columnheader" scope="col" className="num">Variance</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody role="rowgroup">
               {phases.map((p) => (
                 <PhaseRows key={p.n} n={p.n} name={p.name} rows={byPhase(p.n)} subtotal={sum(byPhase(p.n))} />
               ))}
-              <tr>
-                <td className="font-semibold">Parts subtotal</td>
-                <td className="num" />
-                <td className="num font-semibold">{money(bomTotals.parts)}</td>
-                <td />
-                <td className="num">{actualSum ? money(actualSum) : "—"}</td>
-                <td className="num">—</td>
+              <tr role="row">
+                <td role="cell" className="font-semibold" data-label="Item">Parts subtotal</td>
+                <td role="cell" className="num" data-label="Qty" />
+                <td role="cell" className="num font-semibold" data-label="Estimate">{money(bomTotals.parts)}</td>
+                <td role="cell" data-label="Price status" />
+                <td role="cell" className="num" data-label="Actual">{actualSum ? money(actualSum) : "—"}</td>
+                <td role="cell" className="num" data-label="Variance">—</td>
               </tr>
-              <tr>
-                <td className="sub">Contingency, 20.5%: price swings, shipping, tax, mistakes</td>
-                <td className="num" />
-                <td className="num">{money(bomTotals.contingency)}</td>
-                <td />
-                <td className="num">—</td>
-                <td className="num">—</td>
+              <tr role="row">
+                <td role="cell" className="sub" data-label="Item">Contingency, 20.5%: price swings, shipping, tax, mistakes</td>
+                <td role="cell" className="num" data-label="Qty" />
+                <td role="cell" className="num" data-label="Estimate">{money(bomTotals.contingency)}</td>
+                <td role="cell" data-label="Price status" />
+                <td role="cell" className="num" data-label="Actual">—</td>
+                <td role="cell" className="num" data-label="Variance">—</td>
               </tr>
-              <tr>
-                <td className="font-semibold">Project budget</td>
-                <td className="num" />
-                <td className="num font-semibold">{money(bomTotals.budget)}</td>
-                <td />
-                <td className="num">—</td>
-                <td className="num">—</td>
+              <tr role="row">
+                <td role="cell" className="font-semibold" data-label="Item">Project budget</td>
+                <td role="cell" className="num" data-label="Qty" />
+                <td role="cell" className="num font-semibold" data-label="Estimate">{money(bomTotals.budget)}</td>
+                <td role="cell" data-label="Price status" />
+                <td role="cell" className="num" data-label="Actual">—</td>
+                <td role="cell" className="num" data-label="Variance">—</td>
               </tr>
             </tbody>
           </table>
@@ -209,27 +211,28 @@ export default function Keg1() {
               buying the part. Results land in the build log and replace these rows one at a time.
             </p>
           </SectionHead>
-          <div className="mt-10 overflow-x-auto">
-            <table className="data min-w-[880px]">
-              <thead>
-                <tr>
-                  <th>Claim</th>
-                  <th>Grade</th>
-                  <th>Instrument</th>
-                  <th>Test</th>
-                  <th>Pre-build expectation</th>
-                  <th>Measured</th>
+          <div className="mt-10 min-w-0">
+            <table role="table" className="data responsive-data claims-table">
+            <caption className="sr-only">Claims under test</caption>
+              <thead role="rowgroup">
+                <tr role="row">
+                  <th role="columnheader" scope="col">Claim</th>
+                  <th role="columnheader" scope="col">Grade</th>
+                  <th role="columnheader" scope="col">Instrument</th>
+                  <th role="columnheader" scope="col">Test</th>
+                  <th role="columnheader" scope="col">Pre-build expectation</th>
+                  <th role="columnheader" scope="col">Measured</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody role="rowgroup">
                 {claims.map((c) => (
-                  <tr key={c.claim}>
-                    <td>{c.claim}</td>
-                    <td><GradeTag g={c.grade} /></td>
-                    <td className="sub">{c.instrument}</td>
-                    <td className="sub">{c.test}</td>
-                    <td>{c.expectation}</td>
-                    <td aria-label="No measurement recorded" />
+                  <tr role="row" key={c.claim}>
+                    <td role="cell" data-label="Claim">{c.claim}</td>
+                    <td role="cell" data-label="Grade"><GradeTag g={c.grade} /></td>
+                    <td role="cell" className="sub" data-label="Instrument">{c.instrument}</td>
+                    <td role="cell" className="sub" data-label="Test">{c.test}</td>
+                    <td role="cell" data-label="Pre-build expectation">{c.expectation}</td>
+                    <td role="cell" aria-label="No measurement recorded" data-label="Measured" />
                   </tr>
                 ))}
               </tbody>
@@ -275,8 +278,8 @@ function PhaseRows({
 }) {
   return (
     <>
-      <tr>
-        <td colSpan={6} className="pt-6">
+      <tr role="row">
+        <td role="cell" colSpan={6} className="pt-6" data-section="true">
           <span className="t-num text-ink-faint">0{n}</span>
           <span className="ml-3 font-semibold">{name}</span>
           <span className="t-meta ml-3">{money(subtotal)}</span>
@@ -285,13 +288,13 @@ function PhaseRows({
       {rows.map((r) => {
         const v = r.actual == null ? null : r.actual - r.est;
         return (
-          <tr key={r.item}>
-            <td>{r.item}</td>
-            <td className="num">{r.qty}</td>
-            <td className="num">{money(r.est)}</td>
-            <td className="sub">{r.status === "checked" ? "Checked 9/2026" : "Estimate"}</td>
-            <td className="num">{r.actual == null ? "—" : money(r.actual)}</td>
-            <td className="num">
+          <tr role="row" key={r.item}>
+            <td role="cell" data-label="Item">{r.item}</td>
+            <td role="cell" className="num" data-label="Qty">{r.qty}</td>
+            <td role="cell" className="num" data-label="Estimate">{money(r.est)}</td>
+            <td role="cell" className="sub" data-label="Price status">{r.status === "checked" ? "Checked 9/2026" : "Estimate"}</td>
+            <td role="cell" className="num" data-label="Actual">{r.actual == null ? "—" : money(r.actual)}</td>
+            <td role="cell" className="num" data-label="Variance">
               {v == null ? "—" : `${v >= 0 ? "+" : "−"}${money(Math.abs(v))}`}
             </td>
           </tr>

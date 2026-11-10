@@ -89,11 +89,11 @@ export default function Research() {
               <h3 className="t-h3 border-b border-line-strong pb-3">{s.series}</h3>
               <ul className="divide-y divide-line">
                 {s.items.map((v) => (
-                  <li key={v.n + v.title} className="grid gap-1 py-4 sm:grid-cols-12 sm:gap-6">
-                    <span className="t-num t-meta sm:col-span-2">{v.n}</span>
-                    <span className="font-semibold sm:col-span-3">{v.title}</span>
-                    <span className="text-[17px] text-ink-muted sm:col-span-5">{v.sub}</span>
-                    <span className="t-meta sm:col-span-2 sm:text-right">
+                  <li key={v.n + v.title} className="volume-row">
+                    <span className="t-num t-meta md:col-span-2">{v.n}</span>
+                    <span className="font-semibold md:col-span-3">{v.title}</span>
+                    <span className="text-[17px] text-ink-muted md:col-span-5">{v.sub}</span>
+                    <span className="t-meta md:col-span-2 md:text-right">
                       {v.phase ? `Phase ${v.phase}` : "Companion"}
                     </span>
                   </li>

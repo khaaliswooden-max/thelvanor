@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <Nav items={navigation} name={site.name} />
-        <main id="main" className="flex-1">
+        <main id="main" tabIndex={-1} className="flex-1">
           <div className="page-grid wrap" aria-hidden="true">
             {Array.from({ length: 12 }, (_, i) => <span key={i} />)}
           </div>

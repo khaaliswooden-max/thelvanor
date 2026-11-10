@@ -57,7 +57,7 @@ export function Nav({ items, name }: { items: typeof navigation; name: string })
                     if (canExpand()) setActive({ href: item.href, pathname });
                   }}
                   onFocus={() => {
-                    if (canExpand()) setActive({ href: item.href, pathname });
+                    if (window.matchMedia("(min-width: 768px)").matches) setActive({ href: item.href, pathname });
                   }}
                   onClick={() => closePanel()}
                 >
