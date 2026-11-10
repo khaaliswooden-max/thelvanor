@@ -33,6 +33,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <Nav />
         <main id="main" className="flex-1">
+          <div className="page-grid wrap" aria-hidden="true">
+            {Array.from({ length: 12 }, (_, i) => <span key={i} />)}
+          </div>
           {children}
         </main>
         <Footer />

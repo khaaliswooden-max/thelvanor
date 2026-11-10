@@ -5,15 +5,15 @@
 
 :root {
   --ground: #000000;
-  --surface: #111214;
-  --surface-2: #17191c;
+  --surface: #000000;
+  --surface-2: #000000;
   --line: #2a2c30;
   --line-strong: #3b3e44;
-  --ink: #e8e8e6;
-  --ink-muted: #8b9099;
-  --ink-faint: #5a5f67;
+  --ink: #ededeb;
+  --ink-muted: #a3a6ad;
+  --ink-faint: #858991;
   --keg: #e8650a;
-  --keg-dim: #8a3c06;
+  --keg-dim: #e8650a;
 
   --font-sans: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -41,7 +41,6 @@
 html {
   color-scheme: dark;
   background: var(--ground);
-  scroll-behavior: smooth;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -61,6 +60,7 @@ body {
   background: var(--ground);
   color: var(--ink);
   font-family: var(--font-sans);
+  font-stretch: 90%;
   font-size: 17px;
   line-height: 1.55;
   font-feature-settings: "kern", "liga", "tnum";
@@ -69,58 +69,60 @@ body {
 }
 
 ::selection {
-  background: var(--keg);
+  background: var(--ink);
   color: #000;
 }
 
 :focus-visible {
-  outline: 2px solid var(--keg);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
 }
 
 /* Type scale. Display uses the width axis, not weight, to carry presence. */
 .t-display {
-  font-stretch: 78%;
-  font-weight: 600;
-  font-size: clamp(2.6rem, 8vw, 7rem);
-  line-height: 0.92;
+  font-stretch: 70%;
+  font-weight: 400;
+  font-size: clamp(3.75rem, 8.9vw, 8rem);
+  line-height: 0.9;
   letter-spacing: -0.02em;
 }
 .t-h1 {
-  font-stretch: 84%;
-  font-weight: 600;
-  font-size: clamp(2.2rem, 5.2vw, 4.25rem);
+  font-stretch: 75%;
+  font-weight: 400;
+  font-size: clamp(3.5rem, 8vw, 7rem);
   line-height: 0.98;
   letter-spacing: -0.02em;
 }
 .t-h2 {
-  font-stretch: 88%;
-  font-weight: 600;
-  font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+  font-stretch: 78%;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 4.4vw, 4rem);
   line-height: 1.05;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
 }
 .t-h3 {
   font-stretch: 92%;
-  font-weight: 600;
-  font-size: 1.25rem;
+  font-weight: 400;
+  font-size: 1.75rem;
   line-height: 1.2;
 }
 .t-lede {
-  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  font-size: 17px;
   line-height: 1.4;
   font-weight: 400;
-  max-width: 34em;
+  max-width: var(--measure);
   color: var(--ink);
 }
 .t-body {
   max-width: var(--measure);
 }
 .t-small {
-  font-size: 0.875rem;
+  font-size: 17px;
   line-height: 1.5;
 }
 .t-meta {
+  font-family: var(--font-mono);
+  font-stretch: normal;
   font-size: 0.8125rem;
   line-height: 1.4;
   color: var(--ink-muted);
@@ -131,9 +133,8 @@ body {
 }
 
 .wrap {
-  max-width: var(--maxw);
+  width: min(var(--maxw), calc(100% - 2 * var(--gutter)));
   margin-inline: auto;
-  padding-inline: var(--gutter);
 }
 
 .rule {
@@ -179,7 +180,7 @@ body {
 .grade {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.8125rem;
   line-height: 1;
   padding: 0.3em 0.45em;
   border: 1px solid var(--line-strong);
@@ -205,13 +206,13 @@ body {
 }
 .prose h2 {
   font-stretch: 90%;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 1.35rem;
   line-height: 1.2;
   margin: 2em 0 0.6em;
 }
 .prose h3 {
-  font-weight: 600;
+  font-weight: 400;
   margin: 1.6em 0 0.4em;
 }
 .prose ul,
@@ -247,7 +248,7 @@ body {
   text-underline-offset: 3px;
 }
 .prose a:hover {
-  text-decoration-color: var(--keg);
+  text-decoration-color: var(--ink);
 }
 
 a.link {
@@ -258,7 +259,7 @@ a.link {
   transition: text-decoration-color 120ms ease;
 }
 a.link:hover {
-  text-decoration-color: var(--keg);
+  text-decoration-color: var(--ink);
 }
 
 .btn {
@@ -273,7 +274,8 @@ a.link:hover {
   line-height: 1;
   transition:
     background 120ms ease,
-    color 120ms ease;
+    color 120ms ease,
+    border-color 120ms ease;
 }
 .btn:hover {
   background: var(--ink);
@@ -281,10 +283,12 @@ a.link:hover {
 }
 .btn-keg {
   border-color: var(--keg);
-  color: var(--keg);
+  background: var(--keg);
+  color: #000;
 }
 .btn-keg:hover {
-  background: var(--keg);
+  background: var(--ink);
+  border-color: var(--ink);
   color: #000;
 }
 
@@ -326,3 +330,31 @@ a.link:hover {
     animation: none;
   }
 }
+
+/* Twelve equal tracks. Rules share the same containing block as all content. */
+main {
+  position: relative;
+  isolation: isolate;
+}
+.page-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  pointer-events: none;
+  border-right: 1px solid var(--line);
+}
+.page-grid > span { border-left: 1px solid var(--line); }
+.section { border-bottom: 1px solid var(--line); }
+.section > .wrap { padding-block: clamp(64px, 7vw, 104px); }
+.section-head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: start;
+}
+.section-heading { grid-column: span 5; padding-right: 48px; }
+.section-copy { grid-column: span 7; padding-left: 32px; }
+.section-heading > *, .section-copy > * { background: var(--ground); }
+.section-copy > p { max-width: var(--measure); }
+section[id], li[id] { scroll-margin-top: 72px; }
