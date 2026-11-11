@@ -52,6 +52,29 @@ export default function Company() {
               </li>
             </ul>
           </SectionHead>
+
+          <figure className="mt-14 grid gap-4 md:grid-cols-12 md:gap-8">
+            <div className="md:col-span-3">
+              <p className="t-kicker md:pt-1">Film · 3:00</p>
+            </div>
+            <div className="md:col-span-9">
+              <video
+                className="block aspect-video w-full border border-line bg-[#121316]"
+                controls
+                playsInline
+                preload="metadata"
+                poster="/media/thelvanor-about-the-founder-poster.jpg"
+                aria-describedby="founder-film-caption"
+              >
+                <source src="/media/thelvanor-about-the-founder.mp4" type="video/mp4" />
+                <a className="link" href="/media/thelvanor-about-the-founder.mp4">Download the film (MP4)</a>
+              </video>
+              <figcaption id="founder-film-caption" className="mt-3 text-[15px] text-ink-muted">
+                About the founder. Thirty years inside complex systems, from Army medical supply to federal
+                capture, and why that leads to a data center in a keg. All narration is on screen.
+              </figcaption>
+            </div>
+          </figure>
         </div>
       </section>
 
