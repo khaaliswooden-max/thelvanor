@@ -6,7 +6,7 @@ import { researchQuestions, site, volumes } from "@/content/site";
 export const metadata: Metadata = {
   title: "Research",
   description:
-    "Thelvanor research: the Keg-1 pre-build preprint, three candidate research questions, and the learning-ladder series.",
+    "Thelvanor research: the Keg-1 pre-build preprint, the Keg-1 SOL digital twin, three candidate research questions, and the learning-ladder series.",
 };
 
 export default function Research() {
@@ -40,6 +40,24 @@ export default function Research() {
             </a>
             <Link href="/keg-1" className="btn">
               See the design
+            </Link>
+          </div>
+        </SectionHead>
+      </section>
+
+      {/* Simulation */}
+      <section className="wrap border-t border-line py-20">
+        <SectionHead kicker="Simulation" title="Keg-1 SOL digital twin.">
+          <p className="t-kicker">Version 0.2. Interactive. Pre-build: simulated, not measured.</p>
+          <p className="mt-4">
+            The preprint&rsquo;s energy model, made runnable. A deterministic simulation of the panel,
+            battery, three nodes, and the heat path to the keg wall, with a static-quota scheduler and a
+            state-of-charge-aware scheduler run against identical weather and jobs. Version 0.2 carries the
+            geometry from the CAD review: a narrow heat strip and a panel tilted 30° south.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/research/keg-1-sol" className="btn btn-keg">
+              Run the simulation
             </Link>
           </div>
         </SectionHead>
