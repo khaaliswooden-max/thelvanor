@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored third-party code (three.js) shipped with the Keg-1 SOL twin.
+    "public/sims/**/vendor/**",
   ]),
 ]);
 

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1c20">
+<meta name="robots" content="noindex">
+<title>Keg-1 SOL Digital Twin v0.2. Thelvanor</title>
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./styles.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+</head>
+<body>
+<header id="topbar">
+  <div class="brand">
+    <a class="back" href="/research/keg-1-sol">Thelvanor Research</a>
+    <span class="eyebrow">Keg-1 SOL · Digital twin v0.2</span>
+    <span class="pill g-simulated">Simulated · pre-build</span>
+  </div>
+  <div class="clockbox">
+    <div class="clock" id="sim-clock">—</div>
+    <div class="clock-sub" id="sim-day">scenario time</div>
+  </div>
+  <div class="leds">
+    <span class="led" id="led-protection" title="Reserve protection"><i></i>Reserve</span>
+    <span class="led" id="led-throttle" title="Thermal throttle"><i></i>Throttle</span>
+    <span class="led" id="led-brownout" title="BMS brownout"><i></i>Brownout</span>
+    <span class="led" id="led-fault" title="Sensor fault"><i></i>Fault</span>
+  </div>
+</header>
+
+<main id="layout">
+  <!-- LEFT: scenario + transport -->
+  <aside id="left">
+    <section class="panel">
+      <h2>Scenario</h2>
+      <div id="scenario-list" class="scenario-list"></div>
+      <p class="scenario-desc" id="scenario-desc"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Configuration</h2>
+      <label class="cfg">
+        <span>Initial charge <b id="cfg-soc-val">90%</b></span>
+        <input type="range" id="cfg-soc" min="20" max="100" value="90" step="5">
+      </label>
+      <label class="cfg" id="cfg-sched-row">
+        <span>Scheduler</span>
+        <select id="cfg-sched">
+          <option value="static">static quota</option>
+          <option value="soc-aware">SoC-aware</option>
+        </select>
+      </label>
+      <button class="btn primary" id="btn-rerun">Run simulation</button>
+      <p class="hint" id="rerun-note">Runs the full deterministic model in your browser.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Playback</h2>
+      <div class="transport">
+        <button class="btn icon" id="btn-play" title="Play / pause" aria-label="Play or pause">▶</button>
+        <button class="btn icon" id="btn-reset" title="Reset" aria-label="Reset to start">⟲</button>
+        <div class="speed" id="speed-group">
+          <button data-speed="60">60×</button>
+          <button data-speed="600" class="on">600×</button>
+          <button data-speed="3600">3600×</button>
+          <button data-speed="86400">1d×</button>
+        </div>
+      </div>
+      <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Scenario time">
+      <div class="scrub-labels"><span id="scrub-t">T+00:00</span><span id="scrub-end">—</span></div>
+    </section>
+
+    <section class="panel">
+      <h2>Evidence grades</h2>
+      <ul class="grades">
+        <li><span class="pill g-source">Source</span> stated in a design document</li>
+        <li><span class="pill g-estimate">Estimate</span> planning value, not measured</li>
+        <li><span class="pill g-assumption">Assumption</span> introduced for this model</li>
+        <li><span class="pill g-simulated">Simulated</span> model output, everything plotted</li>
+        <li><span class="pill g-measured">Measured</span> real hardware, none yet</li>
+      </ul>
+      <p class="hint">No value in this app is a measurement. The build log holds zero
+      recorded measurements as of 2026-11-11.</p>
+    </section>
+  </aside>
+
+  <!-- CENTER: 3D + charts -->
+  <section id="center">
+    <div class="panel view3d-wrap">
+      <div class="view3d-head">
+        <h2>Schematic 3D</h2>
+        <div class="view3d-actions">
+          <button class="btn sm" id="btn-cutaway">Cutaway</button>
+          <button class="btn sm" id="btn-labels">Labels</button>
+        </div>
+      </div>
+      <div id="view3d"></div>
+      <div class="legend3d" id="legend3d">
+        <span><i class="sw pv"></i>PV flow</span>
+        <span><i class="sw batt"></i>battery</span>
+        <span><i class="sw load"></i>compute load</span>
+        <span class="grow"></span>
+        <span id="legend-note">panel 30° south on its own stand · power plant outside keg · CAD rev E, schematic</span>
+      </div>
+    </div>
+
+    <div class="charts">
+      <div class="panel chart"><div class="chart-head"><h3>Battery</h3><span class="unit">Wh · reserve band</span></div><canvas id="ch-batt"></canvas></div>
+      <div class="panel chart"><div class="chart-head"><h3>Power</h3><span class="unit">W · <i class="k pv"></i>PV <i class="k bus"></i>bus <i class="k load"></i>device</span></div><canvas id="ch-power"></canvas></div>
+      <div class="panel chart"><div class="chart-head"><h3>Thermal</h3><span class="unit">°C · <i class="k node"></i>node <i class="k plate"></i>strip <i class="k wall"></i>wall <i class="k amb"></i>amb</span></div><canvas id="ch-temp"></canvas></div>
+      <div class="panel chart"><div class="chart-head"><h3>Work</h3><span class="unit">CU completed</span></div><canvas id="ch-work"></canvas></div>
+    </div>
+  </section>
+
+  <!-- RIGHT: metrics + compare + events + export -->
+  <aside id="right">
+    <section class="panel">
+      <h2>State <span class="pill g-simulated">Simulated</span></h2>
+      <div class="metrics" id="metrics"></div>
+    </section>
+
+    <section class="panel" id="compare-panel">
+      <h2>Scheduler comparison</h2>
+      <p class="hint">S4 pair, identical seeds and traces.</p>
+      <div class="compare" id="compare"></div>
+    </section>
+
+    <section class="panel events-panel">
+      <h2>Event log</h2>
+      <div id="events" class="events"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Export</h2>
+      <div class="exports">
+        <button class="btn sm" id="exp-tele">telemetry.csv</button>
+        <button class="btn sm" id="exp-events">events.csv</button>
+        <button class="btn sm" id="exp-summary">summary.json</button>
+        <button class="btn sm" id="exp-config">scenario.json</button>
+      </div>
+      <p class="hint">Simulated data. Kept separate from the build log.</p>
+    </section>
+  </aside>
+</main>
+
+<footer id="foot">
+  <span>Keg-1 SOL Digital Twin v0.2 · deterministic · seeded · parameters from CAD rev E</span>
+  <span class="warn">A simulation that succeeds is not evidence of safety. Validation needs one real dataset to calibrate and a second, held out, to test.</span>
+</footer>
+
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
