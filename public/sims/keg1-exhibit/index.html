@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ececef">
+<meta name="robots" content="noindex">
+<title>Keg-1 Solar Cluster. Interactive exhibit. Thelvanor</title>
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./styles.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js" } }
+</script>
+</head>
+<body>
+<div id="topleft" class="panel">
+  <div class="toprow"><a class="back" href="/" target="_top">Thelvanor</a><span class="pill">Illustrative · pre-build</span></div>
+  <div class="tick"></div>
+  <h1>KEG-1 Solar Cluster</h1>
+  <div class="sub">3 × RASPBERRY PI 5 · 100 W SOLAR · 12.8 V 20 Ah LiFePO4 · MPPT</div>
+  <div id="solarNum">0.0<small> W</small></div>
+  <div id="solarScale">
+    <div class="lbls"><span>0</span><span>100</span></div>
+    <div id="solarBar"><div id="solarFill"></div></div>
+    <div class="cap">PANEL OUTPUT · ILLUSTRATIVE</div>
+  </div>
+  <div id="dayLab">Day 00:00 · 24 hour energy cycle</div>
+</div>
+
+<div id="dcPanel" class="panel">
+  <div class="ph"><b>DC POWER PATH</b><span>12 V BUS</span></div>
+  <svg id="dcSvg" viewBox="0 0 190 154" role="img" aria-label="Solar panel to fuse, MPPT, battery and cluster power path"></svg>
+  <div class="formula">P<sub>bus</sub> = P<sub>PV</sub> + P<sub>battery</sub> − P<sub>loss</sub><br>
+    <small>Red = DC positive · black = return · fuse battery positive first</small></div>
+</div>
+
+<div id="thermalPanel" class="panel">
+  <div class="ph"><b>THERMAL PATH</b><span id="thermalDelta">Δ 0.0°C</span></div>
+  <svg id="thermalSvg" viewBox="0 0 190 132" role="img" aria-label="Three compute nodes conducting heat through pads, bosses and curved bridges, as drawn in rev C"></svg>
+  <div class="capNote">Rev C path, superseded · twin v0.2 · 25 °C air</div>
+</div>
+
+<div id="energyPanel" class="panel">
+  <div class="ph"><b>ENERGY / 24 HOURS</b><span>ILLUSTRATIVE</span></div>
+  <canvas id="energyCan"></canvas>
+  <div class="capNote">harvest vs. load · work follows the sun</div>
+</div>
+
+<div id="legend" class="panel">
+  <span><i style="background:var(--orange)"></i>ENERGY</span>
+  <span><i style="background:var(--green)"></i>COMPUTE</span>
+  <span><i style="background:var(--blue)"></i>NETWORK</span>
+  <span><i style="background:var(--red)"></i>THERMAL / DC+</span>
+</div>
+
+<div id="nodeCard" class="panel">
+  <div class="ph"><b id="ccTitle">NODE 1 · RASPBERRY PI 5</b><span id="ccDeg">00:00</span></div>
+  <div class="state" id="ccState">Standby</div>
+  <div class="ck on" data-s="0"><i></i>POWER DELIVERY</div>
+  <div class="ck" data-s="1"><i></i>COMPUTE LOAD</div>
+  <div class="ck" data-s="2"><i></i>NETWORK LINK</div>
+  <div class="ck" data-s="3"><i></i>THERMAL PATH</div>
+  <div style="margin-top:8px"><span id="metricNum">0.0<small> W</small></span>
+    <span id="metricLabel">NODE POWER · ILLUSTRATIVE</span></div>
+  <div id="metricBar"><div id="metricFill"></div></div>
+</div>
+
+<div id="flowPanel" class="panel">
+  <div class="ph"><b>ENERGY ROUTING · ILLUSTRATIVE</b><span id="flowNow">—</span></div>
+  <svg id="flowSvg" viewBox="0 0 304 178" role="img" aria-label="Illustrative energy routing between solar, MPPT, battery, DC bus and compute cluster"></svg>
+  <div class="capNote">line weight = relative power · battery reverses direction by charge state</div>
+</div>
+
+<div id="tachPanel" class="panel">
+  <div class="ph"><b>FOUR SYSTEM CHANNELS</b><span>ILLUSTRATIVE</span></div>
+  <div id="tachRows"></div>
+</div>
+
+<div id="cyclePanel" class="panel">
+  <div class="ph"><b>STORAGE + THERMAL · <span id="vtNode">N1</span></b><span>DRAG TO SCRUB</span></div>
+  <div class="ph" style="margin-bottom:2px">
+    <span style="color:var(--red)">— SOC <b id="vtSoc">0</b> %</span>
+    <span style="color:var(--blue)">— LOAD <b id="vtLoad">0.0</b> W</span>
+    <span style="color:var(--orange)">— <b id="vtTemp">0.0</b> °C</span>
+  </div>
+  <canvas id="cycleCan"></canvas>
+</div>
+
+<div id="transport" class="panel">
+  <div class="row">
+    <button class="btn red" id="btnPause" type="button">❚❚ PAUSE</button>
+    <button class="btn" id="btnBack" type="button">−1 H</button>
+    <button class="btn" id="btnFwd" type="button">+1 H</button>
+  </div>
+  <div class="row"><span class="tlab">DAY LENGTH</span>
+    <input class="sld" id="daySld" aria-label="Day length in seconds" type="range" min="30" max="300" step="10" value="120">
+    <span class="tval" id="dayVal">120 S / DAY</span></div>
+  <div class="row"><span class="tlab">PLAYBACK</span>
+    <input class="sld" id="spdSld" aria-label="Playback slow motion" type="range" min="1" max="50" step="1" value="10">
+    <span class="tval" id="spdVal">1 / 10 SPEED</span></div>
+  <div class="row"><span class="tlab">DAY SCRUB</span>
+    <input class="sld" id="crkSld" aria-label="Scrub time of day" type="range" min="0" max="1440" step="1" value="600">
+    <span class="tval" id="crkVal">10:00</span></div>
+</div>
+
+<!-- Hero mode only: the three numbers that tell the day's story. -->
+<div id="heroRead" class="panel" aria-live="off">
+  <span><b id="hrSolar">0.0 W</b>HARVEST</span>
+  <span><b id="hrSoc">0 %</b>BATTERY</span>
+  <span><b id="hrLoad">0.0 W</b>LOAD</span>
+</div>
+<div id="heroTag" class="pill">Illustrative · pre-build</div>
+
+<div id="channelTrack" class="panel">
+  <div class="cap">SYSTEM CHANNEL TRACK — CLICK TO TRACK</div>
+  <div class="dots" id="fdots"></div>
+  <div class="note">ONE SYNCHRONIZED CLOCK · ENERGY, COMPUTE, NETWORK + THERMAL</div>
+</div>
+<div id="hint" aria-live="polite">CLICK COMPONENT TO FOCUS · DRAG TO ORBIT · H HIDES HUD</div>
+
+<div id="modes" class="panel">
+  <div class="row"><span class="glab">CAMERA</span>
+    <button class="btn on" data-cam="HERO" type="button">HERO</button><button class="btn" data-cam="TOP" type="button">TOP</button>
+    <button class="btn" data-cam="SIDE" type="button">SIDE</button><button class="btn" data-cam="CORE" type="button">CORE CLOSE-UP</button></div>
+  <div class="row"><span class="glab">CUTAWAY</span>
+    <button class="btn on" data-cut="GLASS" type="button">GLASS</button><button class="btn" data-cut="SECTION" type="button">SECTION</button>
+    <button class="btn" data-cut="SOLID" type="button">SOLID</button></div>
+  <div class="row"><span class="glab">OVERLAYS</span>
+    <button class="btn onR" data-ov="CALLOUTS" type="button">CALLOUTS</button><button class="btn onR" data-ov="ENERGY" type="button">ENERGY</button>
+    <button class="btn onR" data-ov="FLOW" type="button">FLOW</button><button class="btn" data-ov="EXPLODE" type="button">EXPLODE</button>
+    <button class="btn" data-ov="ISOLATE" type="button">ISOLATE</button>
+    <button class="btn onR" data-ov="CHARTS" type="button">CHARTS</button></div>
+</div>
+
+<svg id="leaders" aria-hidden="true"></svg>
+<div id="fallback" hidden><div><h2>WebGL is unavailable</h2><p>This exhibit needs a browser with WebGL enabled. The drawings and the CAD model are on the <a href="/keg-1#model" target="_top">Keg-1 page</a>.</p></div></div>
+<script type="module" src="./src/scene.js"></script>
+</body>
+</html>

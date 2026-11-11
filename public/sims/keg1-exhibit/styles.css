@@ -1,0 +1,200 @@
+/* Keg-1 Solar Cluster exhibit. Styled to the Thelvanor site's light ground:
+   same hairlines, Archivo + IBM Plex Mono, keg-orange accent. */
+@font-face{font-family:"Archivo Variable";font-style:normal;font-display:swap;font-weight:100 900;
+  font-stretch:62% 125%;src:url(./fonts/archivo-latin-wdth-normal.woff2) format("woff2-variations")}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-display:swap;font-weight:400;
+  src:url(./fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-display:swap;font-weight:500;
+  src:url(./fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2")}
+
+:root{
+  /* site tokens (src/app/globals.css) */
+  --ground:#ffffff; --stage:#ececef; --line:#e4e5e8; --line2:#c9cbd0;
+  --ink:#111214; --mut:#5c6168; --faint:#9a9ea6; --keg:#e8650a;
+  /* channels: energy, compute, network, thermal / DC positive */
+  --ui:var(--keg); --orange:var(--keg); --green:#2f6f5e; --blue:#3b82f6; --red:#d92430; --gray:#8a8f96;
+  --panel:rgba(255,255,255,.94); --edge:clamp(12px,1.2vw,24px);
+  /* Columns and type scale with the window, and with its height too: on a wide,
+     short screen the panels must not outgrow the space under them. */
+  --colL:clamp(210px,min(15.5vw,25vh),340px); --colR:clamp(280px,min(23vw,37vh),500px);
+  --fs:clamp(10px,min(.7vw,1.12vh),13px);
+  --sans:"Archivo Variable","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--stage);
+  font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;
+  font-feature-settings:"kern","liga","tnum"}
+canvas{display:block}
+button,input{font:inherit}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--keg);outline-offset:3px}
+::selection{background:var(--keg);color:#fff}
+.panel{position:absolute;background:var(--panel);border:1px solid var(--line);
+  padding:.75em .9em;z-index:5;font-size:var(--fs)}
+.ph{font-size:.82em;letter-spacing:.14em;color:var(--mut);display:flex;justify-content:space-between;
+  gap:1em;margin-bottom:.55em;white-space:nowrap}
+.ph b{color:var(--ink);font-weight:500}
+.pill{display:inline-block;font-family:var(--mono);font-size:.72em;letter-spacing:.12em;text-transform:uppercase;
+  line-height:1;padding:.42em .75em;border:1px solid currentColor;border-radius:999px;white-space:nowrap;
+  color:var(--keg);background:rgba(255,255,255,.8)}
+#topleft{top:var(--edge);left:var(--edge);width:var(--colL);border:none;background:none;padding:0}
+#topleft .toprow{display:flex;align-items:center;gap:1em;margin-bottom:.9em}
+#topleft .back{display:none;font-family:var(--mono);font-size:.78em;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink);text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+#topleft .back:hover{text-decoration-color:var(--keg)}
+.standalone #topleft .back{display:inline-block}
+#topleft .tick{width:2.6em;height:3px;background:var(--ui);margin-bottom:.5em}
+#topleft h1{margin:0;font-size:clamp(18px,1.55vw,32px);font-weight:600;letter-spacing:-.01em}
+#topleft .sub{font-size:.75em;line-height:1.55;letter-spacing:.1em;color:var(--mut);margin-top:.35em}
+#solarNum{font-size:clamp(36px,3vw,76px);font-weight:500;color:var(--ui);line-height:1;margin-top:.16em;
+  font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.05em}
+#solarNum small{font-size:.32em;letter-spacing:.04em}
+#solarScale{width:100%;margin-top:2px}
+#solarScale .lbls{display:flex;justify-content:space-between;font-size:.72em;color:var(--mut)}
+#solarBar{height:3px;background:var(--line2);position:relative;margin:2px 0}
+#solarFill{position:absolute;left:0;top:0;bottom:0;background:var(--ui);width:0}
+#solarScale .cap{font-size:.72em;letter-spacing:.14em;color:var(--mut);text-align:right}
+#dayLab{font-size:.8em;color:var(--mut);margin-top:.45em;letter-spacing:.05em}
+#dcPanel{top:222px;left:var(--edge);width:var(--colL)}
+#thermalPanel{top:486px;left:var(--edge);width:var(--colL)}
+#energyPanel{top:700px;left:var(--edge);width:var(--colL)}
+.formula{font-size:.83em;line-height:1.5;color:var(--ink);margin-top:.5em;border-top:1px solid var(--line);padding-top:.5em}
+.formula small,.capNote{color:var(--mut);font-size:.78em;line-height:1.45}
+.capNote{margin-top:.4em;letter-spacing:.02em}
+svg text{font-family:inherit}
+#dcSvg,#thermalSvg,#flowSvg{width:100%;height:auto;display:block;margin:0 auto}
+#legend{top:calc(var(--edge) - 2px);left:50%;transform:translateX(-50%);border:none;background:none;
+  display:flex;gap:1.5em;font-size:.8em;letter-spacing:.12em;color:var(--mut);padding:0;white-space:nowrap}
+#legend i{display:inline-block;width:1.2em;height:3px;vertical-align:middle;margin-right:.5em}
+#nodeCard{top:var(--edge);right:var(--edge);width:var(--colR)}
+#nodeCard .state{font-size:2em;font-weight:600;letter-spacing:-.01em;margin:.1em 0 .3em;color:var(--green)}
+#nodeCard .ck{display:flex;align-items:center;gap:.6em;font-size:.78em;letter-spacing:.12em;color:var(--faint);margin:.25em 0}
+#nodeCard .ck i{width:1.2em;height:3px;background:var(--line)}
+#nodeCard .ck.on{color:var(--ink)} #nodeCard .ck.on i{background:var(--ui)}
+#metricNum{font-size:2.1em;font-weight:500;color:var(--ui);font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+#metricNum small{font-size:.4em;color:var(--mut);font-weight:400;letter-spacing:.1em}
+#metricLabel{float:right;font-size:.7em;letter-spacing:.1em;color:var(--mut);margin-top:1.4em}
+#metricBar{height:3px;background:var(--line);margin-top:3px}
+#metricFill{height:100%;background:var(--ui);width:0}
+#flowPanel{top:196px;right:var(--edge);width:var(--colR)}
+#tachPanel{top:436px;right:var(--edge);width:var(--colR)}
+#cyclePanel{top:586px;right:var(--edge);width:var(--colR)}
+#energyCan,#cycleCan{width:100%;display:block}
+#cycleCan{cursor:crosshair;touch-action:none}
+.tachRow{display:flex;align-items:center;gap:.7em;margin:.15em 0}
+.tachRow svg{width:2.2em;height:2.2em;flex:none}
+.tachRow .nm{font-size:.72em;letter-spacing:.09em;color:var(--mut);width:7.7em}
+.tachRow .rt{font-size:.86em;font-weight:600;width:3.9em;font-variant-numeric:tabular-nums}
+.tachRow .vl{font-size:.8em;color:var(--ink);font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;flex:1}
+#transport{bottom:var(--edge);left:var(--edge);display:flex;flex-direction:column;gap:.55em}
+#transport .row{display:flex;gap:.5em;align-items:center}
+.btn{border:1px solid var(--line2);background:var(--ground);font-size:.76em;letter-spacing:.08em;min-height:32px;
+  padding:.45em .9em;cursor:pointer;color:var(--ink);transition:background .16s,border-color .16s,color .16s}
+.btn:hover{border-color:var(--ink);background:#f5f5f7}.btn:active{transform:translateY(1px)}
+.btn.red{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:500}
+.btn.red:hover{background:var(--keg);border-color:var(--keg)}
+.btn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.onR{background:var(--ui);border-color:var(--ui);color:#fff}
+.sld{-webkit-appearance:none;appearance:none;width:clamp(104px,9vw,200px);height:3px;background:var(--line2);outline:none;cursor:pointer}
+.sld::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--ui);cursor:pointer}
+.sld::-moz-range-thumb{width:12px;height:12px;border:0;border-radius:50%;background:var(--ui);cursor:pointer}
+.tlab{font-size:.72em;letter-spacing:.12em;color:var(--mut);width:9.3em;white-space:nowrap}
+.tval{font-size:.8em;color:var(--ink);width:7.6em;font-variant-numeric:tabular-nums;white-space:nowrap}
+#channelTrack{bottom:64px;left:50%;transform:translateX(-50%);width:max-content;max-width:84vw;
+  border:none;background:none;text-align:center;padding:0}
+#channelTrack .cap{font-size:.74em;letter-spacing:.16em;color:var(--mut);margin-bottom:.55em}
+#channelTrack .dots{display:flex;gap:clamp(3px,.3vw,6px);justify-content:center}
+.fdot{width:clamp(30px,2.6vw,48px);height:clamp(26px,2.1vw,38px);border:1.5px solid var(--faint);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:clamp(8px,.58vw,11px);font-weight:500;cursor:pointer;
+  background:rgba(255,255,255,.9);color:var(--ink);transition:background .16s,color .16s,box-shadow .16s}
+.fdot:hover{border-color:var(--ui)} .fdot.active{background:var(--orange);border-color:var(--orange);color:#fff}
+.fdot.trk{box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--ink)}
+#channelTrack .note{font-size:.7em;letter-spacing:.12em;color:var(--mut);margin-top:.55em}
+#hint{bottom:calc(var(--edge) - 4px);left:50%;transform:translateX(-50%);position:absolute;
+  font-size:.72em;letter-spacing:.14em;color:var(--mut);z-index:5;white-space:nowrap}
+#modes{bottom:var(--edge);right:var(--edge);display:flex;flex-direction:column;gap:.5em;align-items:flex-end;
+  border:none;background:none}
+#modes .row{display:flex;gap:.35em;align-items:center}
+#modes .glab{font-size:.72em;letter-spacing:.12em;color:var(--mut);width:5.6em;text-align:right}
+#leaders{position:absolute;inset:0;pointer-events:none;z-index:4}
+.co{position:absolute;z-index:4;pointer-events:none;font-size:clamp(10px,.8vw,15px);font-weight:600;
+  color:var(--ink);line-height:1.25;white-space:nowrap;text-shadow:0 1px 0 rgba(255,255,255,.75)}
+.co small{display:block;font-size:.7em;font-weight:400;letter-spacing:.1em;color:var(--mut)}
+
+/* Tracked uppercase labels in the mono face, as the site sets its kickers. */
+.ph,#topleft .sub,#solarScale .lbls,#solarScale .cap,#dayLab,#legend,#nodeCard .ck,#metricLabel,
+.tachRow .nm,.tlab,.tval,.btn,#channelTrack .cap,#channelTrack .note,.fdot,#hint,#modes .glab,.co small{
+  font-family:var(--mono)}
+.ph,#solarScale .cap,#legend,#nodeCard .ck,#channelTrack .cap,#channelTrack .note,#hint,.tlab,#modes .glab{letter-spacing:.08em}
+#topleft .sub{letter-spacing:.04em}
+
+/* H hides the HUD. Callout opacity is set inline by the layout pass, so this needs the override. */
+body.hudOff .panel,body.hudOff #leaders,body.hudOff .co,body.hudOff #hint{opacity:0!important;pointer-events:none}
+.panel,.co{transition:opacity .25s}
+#fallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:var(--ink);z-index:20;background:var(--stage)}
+#fallback[hidden]{display:none}
+#fallback h2{font-weight:500;letter-spacing:-.01em}
+#fallback a{color:var(--ink);text-decoration-color:var(--keg);text-underline-offset:3px}
+#heroRead,#heroTag{display:none}
+/* Set by the layout pass on a panel its column has no room for. */
+.panel.nofit{display:none!important}
+
+@media(max-width:1050px){
+  :root{--colL:190px;--colR:250px;--fs:10px}
+  #thermalPanel{display:none} #legend{gap:.7em;font-size:.7em}
+  #hint{display:none}.fdot{width:30px;height:28px}
+}
+@media(max-width:720px){
+  :root{--edge:10px;--colL:52vw;--colR:41vw;--fs:9px}
+  #dcPanel,#thermalPanel,#energyPanel,#flowPanel,#tachPanel,#cyclePanel,#legend{display:none!important}
+  #topleft .sub{font-size:.7em;max-width:48vw} #nodeCard{top:150px;bottom:auto}
+  #nodeCard .ck{display:none} #nodeCard .state{font-size:1.5em}
+  #transport{gap:.35em} #transport .row{gap:.3em}.tlab{width:8em}.tval{width:6.5em}
+  .sld{width:25vw}.btn{padding:.45em .65em;min-height:36px}
+  #modes{gap:.3em}#modes .glab{display:none}#modes .row{gap:.25em}
+  #channelTrack{bottom:194px;max-width:96vw}#channelTrack .note{display:none}
+  #channelTrack .dots{gap:3px}.fdot{width:29px;height:27px;font-size:8px}
+  #modes .row:nth-child(3){max-width:52vw;flex-wrap:wrap;justify-content:flex-end}
+}
+@media(max-width:720px) and (max-height:600px){
+  #nodeCard,#channelTrack{display:none!important}
+  #topleft{width:46vw}#topleft h1{font-size:16px}#topleft .sub{display:none}
+  #solarNum{font-size:30px}#dayLab{font-size:8px;margin-top:.2em}
+  #transport .row:not(:first-child){display:none}
+  #modes .row:first-child,#modes .row:nth-child(2){display:none}
+  #modes .row:nth-child(3){max-width:58vw}
+  .co{font-size:9px}.co small{font-size:7px}
+}
+
+/* ---------- Hero mode (?mode=hero): the model inside the home page hero ----------
+   Only the model, its callouts, a scrub bar and three numbers. The wheel and
+   vertical swipes are left to the page; see scene.js. */
+body.hero{--fs:12px;--gx:var(--edge);--gy:16px}
+/* Embedded, the frame is full bleed: line the overlays up with the page's own column
+   (.wrap in globals.css: 1280px max, gutter clamp(16px,4vw,40px)). */
+body.hero.embedded{--gx:max(clamp(16px,4vw,40px),calc((100vw - 1280px)/2 + clamp(16px,4vw,40px)))}
+body.hero .panel{display:none!important}
+body.hero #transport{display:flex!important;flex-direction:row;align-items:center;gap:.9em;padding:.5em .7em;
+  left:var(--gx);bottom:var(--gy)}
+body.hero #transport .row{display:flex!important}
+body.hero #transport .row:nth-child(2),body.hero #transport .row:nth-child(3),
+body.hero #btnBack,body.hero #btnFwd,body.hero #transport .tlab{display:none!important}
+body.hero #transport .sld{width:clamp(120px,14vw,220px)}
+body.hero #transport .tval{width:auto;min-width:3.3em;font-family:var(--mono)}
+body.hero #heroRead{display:flex!important;bottom:var(--gy);right:var(--gx);gap:1.5em;align-items:baseline;padding:.62em .9em}
+#heroRead span{font-family:var(--mono);font-size:.78em;letter-spacing:.1em;color:var(--mut);white-space:nowrap}
+#heroRead b{font-weight:500;color:var(--ink);font-size:1.3em;letter-spacing:0;margin-right:.5em;font-variant-numeric:tabular-nums}
+body.hero #heroTag{display:inline-block;position:absolute;top:var(--gy);left:var(--gx);z-index:5;font-size:10px}
+body.hero #hint{bottom:calc(var(--gy) + .9em)}
+@media(max-width:720px){
+  body.hero #transport{right:var(--gx)}
+  body.hero #transport .row:last-child{flex:1}
+  body.hero #transport .sld{flex:1;width:auto}
+  body.hero #heroRead{right:auto;left:var(--gx);bottom:calc(var(--gy) + 54px);gap:1.1em;padding:.5em .7em}
+}
+/* Poster capture (?poster=1): the bare model, for the image the page shows before the model loads.
+   Hidden, not removed, so the camera frames the model exactly as the live hero does. */
+body.poster .panel,body.poster .co,body.poster #leaders,body.poster #hint,body.poster #heroTag{visibility:hidden!important}
+
+@media(prefers-reduced-motion:reduce){.panel,.co,.btn,.fdot{transition:none}}

@@ -10,6 +10,7 @@ Next.js (App Router, TypeScript), Tailwind v4, self-hosted fonts (Archivo variab
 
 - `src/content/site.ts` — structured content: build status, phases, bill of materials, claims under test, research questions, volume list. Edit this to change numbers anywhere on the site.
 - `content/log/*.md` — build-log entries. Front matter: `title`, `date`, `phase`, optional `step`, `summary`. Newest first on `/keg-1/log`.
+- `public/sims/keg1-exhibit/` — the interactive Keg-1 exhibit: a static app, no build step, three.js vendored. `index.html` is the full exhibit; `index.html?mode=hero` is the model alone, which the home page hero frames through `src/components/HeroExhibit.tsx`. The home page passes it `energyModel` from `site.ts`. Everything it shows is illustrative until the build log has measurements.
 
 ### Logging a measurement
 

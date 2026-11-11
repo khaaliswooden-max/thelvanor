@@ -1,8 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { HeroExhibit } from "@/components/HeroExhibit";
 import { NightChart } from "@/components/NightChart";
 import { GradeTag, SectionHead, StatusStrip } from "@/components/ui";
 import { energyModel as m, phases, safetyRules, site, status } from "@/content/site";
+
+// The Keg-1 exhibit is a static app under /public/sims. It draws its day from the same
+// planning numbers this page prints, passed in here, so the two cannot drift apart.
+const EXHIBIT = "/sims/keg1-exhibit/index.html";
+const exhibitModel = new URLSearchParams({
+  wh: String(m.nominalWh),
+  reserve: String(m.reserveWh),
+  idle: String(m.idleW),
+  full: String(m.fullW),
+}).toString();
 
 const domains = [
   {
@@ -47,18 +58,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Hero image */}
-      <figure className="relative aspect-[2/1] w-full overflow-hidden bg-surface-2">
-        <Image
-          src="/images/keg1-cad-exterior.jpg"
-          alt="CAD rendering of Keg-1: an orange stainless keg under a 100 W solar panel on four legs, with the MPPT controller, main fuse, and battery on a stand beside it."
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-[50%_60%]"
+      {/* Hero exhibit: a still frame first, then the interactive model once the page is idle */}
+      <figure>
+        <HeroExhibit
+          src={`${EXHIBIT}?mode=hero&${exhibitModel}`}
+          poster="/images/keg1-exhibit-poster.jpg"
+          title="Interactive 3D model of Keg-1. Drag to orbit, select a part to inspect it."
+          alt="Illustrative 3D model of Keg-1: three Raspberry Pi 5 boards stacked inside a translucent orange keg under a 100 W solar panel on four legs, with the MPPT controller, main fuse, and battery beside it."
         />
-        <figcaption className="t-kicker absolute bottom-3 right-4 bg-ground/85 px-2 py-1 text-ink-muted">
-          CAD rendering, rev C. Not yet built.
+        <figcaption className="wrap flex flex-col gap-4 py-5 sm:flex-row sm:items-center sm:justify-between">
+          <span className="t-kicker text-ink-muted">
+            Illustrative model · drawing rev C geometry · not yet built · nothing shown is measured
+          </span>
+          <a href={`${EXHIBIT}?${exhibitModel}`} className="btn shrink-0 self-start sm:self-auto">
+            Open the full exhibit
+          </a>
         </figcaption>
       </figure>
 
