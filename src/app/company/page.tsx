@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SectionHead } from "@/components/ui";
 import { site } from "@/content/site";
+import { WordmarkConstruction } from "@/components/WordmarkConstruction";
 
 export const metadata: Metadata = {
   title: "Company",
@@ -28,6 +29,23 @@ export default function Company() {
             charter rather than into a marketing page. Formation budget: $500. Status: forming.
           </p>
         </SectionHead>
+      </section>
+
+      <section className="band-dark">
+        <div className="wrap py-20">
+          <SectionHead kicker="Identity" title="The mark.">
+            <p>
+              Every letter is drawn, not typeset: a 100-unit cap height and one 14-unit stroke, diagonals
+              measured square to the stroke. V and A share a single slope and sit 12 units apart, so the
+              middle of the name reads as a waveform. VA is also the volt-ampere, the unit of apparent power.
+              Energy comes first in the build, so it sits at the center of the name.
+            </p>
+          </SectionHead>
+          <figure className="mt-14">
+            <WordmarkConstruction />
+            <figcaption className="t-kicker mt-6">Construction · 1 unit = 1/100 cap height · Rev A</figcaption>
+          </figure>
+        </div>
       </section>
 
       <section className="band-grey border-y border-line">

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { site, status } from "@/content/site";
+import { Wordmark } from "@/components/Wordmark";
 
 export function Footer() {
   return (
     <footer className="border-t border-line">
       <div className="wrap grid gap-10 py-14 md:grid-cols-12">
         <div className="md:col-span-4">
-          <p className="text-[15px] font-medium">Thelvanor</p>
+          <Wordmark className="block h-[15px] w-auto" />
           <p className="t-small mt-3 max-w-xs text-ink-muted">
             A sub-$1,000 solar data center in a stainless keg, built as an instrument and published as it
             is measured.
