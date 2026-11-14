@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/content/site";
+import { Wordmark } from "@/components/Wordmark";
 
 const links = [
   { href: "/thesis", label: "Thesis" },
@@ -15,15 +16,15 @@ export function Nav() {
       style={{ borderBottom: "2px solid var(--rule)" }}
     >
       <div className="wrap flex h-16 items-center justify-between">
-        <div className="flex items-center gap-8 sm:gap-10">
-          <Link href="/" className="text-[15px] font-medium tracking-tight" aria-label="Thelvanor home">
-            Thelvanor
+        <div className="flex items-center gap-5 sm:gap-10">
+          <Link href="/" className="block py-2" aria-label="Thelvanor home">
+            <Wordmark className="block h-[10px] w-auto sm:h-[13px]" title="Thelvanor" />
           </Link>
           <nav aria-label="Primary">
-            <ul className="flex items-center gap-4 sm:gap-6">
+            <ul className="flex items-center gap-2 min-[380px]:gap-3 sm:gap-6">
               {links.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="t-kicker transition-colors duration-150 hover:text-ink">
+                  <Link href={l.href} className="t-kicker whitespace-nowrap transition-colors duration-150 hover:text-ink">
                     {l.label}
                   </Link>
                 </li>
