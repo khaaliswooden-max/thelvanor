@@ -12,7 +12,7 @@ export const site = {
   founder: "Aldrich K. Wooden, Sr.",
   founderShort: "Khaalis Wooden",
   orcid: "0009-0004-7679-5142",
-  email: "khaaliswooden@gmail.com",
+  email: "thelvanor@gmail.com",
   github: "https://github.com/khaaliswooden-max/thelvanor",
   preprint: {
     title:
