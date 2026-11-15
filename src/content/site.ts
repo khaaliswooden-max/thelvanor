@@ -25,6 +25,17 @@ export const site = {
   },
 };
 
+// Official Thelvanor accounts, opened 2026-11-14. Order: where the build is posted first.
+export const socials = [
+  { name: "LinkedIn", handle: "Thelvanor", url: "https://www.linkedin.com/company/thelvanor" },
+  { name: "X", handle: "@Thelvanor", url: "https://x.com/Thelvanor" },
+  { name: "YouTube", handle: "@Thelvanor", url: "https://www.youtube.com/@Thelvanor" },
+  { name: "Substack", handle: "thelvanor.substack.com", url: "https://thelvanor.substack.com" },
+  { name: "Bluesky", handle: "@thelvanor.bsky.social", url: "https://bsky.app/profile/thelvanor.bsky.social" },
+  { name: "GitHub", handle: "thelvanor", url: "https://github.com/thelvanor" },
+  { name: "Hugging Face", handle: "thelvanor", url: "https://huggingface.co/thelvanor" },
+] as const;
+
 // Live state of the build. Update this when the state changes; the home page reads it.
 export const status = {
   phase: 0,

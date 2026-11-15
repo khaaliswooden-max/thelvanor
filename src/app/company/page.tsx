@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { SectionHead } from "@/components/ui";
-import { site } from "@/content/site";
+import { site, socials } from "@/content/site";
 import { WordmarkConstruction } from "@/components/WordmarkConstruction";
 
 export const metadata: Metadata = {
@@ -102,6 +102,17 @@ export default function Company() {
             For research correspondence, replication, or partnership on the measurement phases:{" "}
             <a className="link" href={`mailto:${site.email}`}>{site.email}</a>. For code, issues, and the
             site itself: <a className="link" href={site.github}>the repository</a>.
+          </p>
+          <p className="mt-4">
+            Follow the build:{" "}
+            {socials.map((s, i) => (
+              <span key={s.name}>
+                <a className="link whitespace-nowrap" href={s.url} rel="me noopener" target="_blank">
+                  {s.name}
+                </a>
+                {i < socials.length - 1 ? " · " : "."}{" "}
+              </span>
+            ))}
           </p>
         </SectionHead>
       </section>
