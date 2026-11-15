@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { site, status } from "@/content/site";
+import { site, socials, status } from "@/content/site";
 import { Wordmark } from "@/components/Wordmark";
 
 export function Footer() {
   return (
     <footer className="border-t border-line">
       <div className="wrap grid gap-10 py-14 md:grid-cols-12">
-        <div className="md:col-span-4">
+        <div className="md:col-span-3">
           <Wordmark className="block h-[15px] w-auto" />
           <p className="t-small mt-3 max-w-xs text-ink-muted">
             A sub-$1,000 solar data center in a stainless keg, built as an instrument and published as it
@@ -23,13 +23,29 @@ export function Footer() {
             <li><Link className="link" href="/company">Company</Link></li>
           </ul>
         </div>
-        <div className="md:col-span-3">
+        <div className="md:col-span-2">
+          <p className="t-kicker mb-4">Follow</p>
+          <ul className="space-y-2 text-[14px]">
+            {socials.map((s) => (
+              <li key={s.name}>
+                <a className="link" href={s.url} rel="me noopener" target="_blank">
+                  {s.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="md:col-span-2">
           <p className="t-kicker mb-4">Elsewhere</p>
           <ul className="space-y-2 text-[14px]">
             <li><a className="link" href={site.preprint.url}>Preprint on SSRN</a></li>
             <li><a className="link" href={site.github}>Source on GitHub</a></li>
             <li><a className="link" href={`https://orcid.org/${site.orcid}`}>ORCID {site.orcid}</a></li>
-            <li><a className="link" href={`mailto:${site.email}`}>{site.email}</a></li>
+            <li>
+              <a className="link" href={`mailto:${site.email}`}>
+                {site.email.split("@")[0]}@<wbr />{site.email.split("@")[1]}
+              </a>
+            </li>
           </ul>
         </div>
         <div className="md:col-span-3">
